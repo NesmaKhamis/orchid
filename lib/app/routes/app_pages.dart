@@ -1,48 +1,59 @@
 import 'package:get/get.dart';
+import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/login_view.dart';
 import '../modules/auth/views/register_view.dart';
-import '../modules/onboarding/views/onboarding_view.dart';
-import '../modules/splash/views/splash_view.dart';
-import '../modules/home/views/home_view.dart';
-import '../modules/home/controllers/home_controller.dart';
+import '../modules/child_details/bindings/child_details_binding.dart';
 import '../modules/child_details/views/child_details_view.dart';
-import '../modules/child_details/controllers/child_details_controller.dart';
+import '../modules/link_identity/bindings/link_identity_binding.dart';
+import '../modules/link_identity/views/link_identity_view.dart';
+import '../modules/onboarding/bindings/onboarding_binding.dart';
+import '../modules/onboarding/views/onboarding_view.dart';
+import '../modules/select_children/bindings/select_children_binding.dart';
+import '../modules/select_children/views/select_children_view.dart';
+import '../modules/splash/bindings/splash_binding.dart';
+import '../modules/splash/views/splash_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-static const INITIAL = Routes.HOME;
+  static const initial = Routes.splash;
+
   static final routes = [
     GetPage(
-      name: Routes.SPLASH,
+      name: Routes.splash,
       page: () => const SplashView(),
+      binding: SplashBinding(),
     ),
     GetPage(
-      name: Routes.ONBOARDING,
+      name: Routes.onboarding,
       page: () => const OnboardingView(),
+      binding: OnboardingBinding(),
     ),
     GetPage(
-      name: Routes.LOGIN,
+      name: Routes.login,
       page: () => const LoginView(),
+      binding: AuthBinding(),
     ),
     GetPage(
-      name: Routes.REGISTER,
+      name: Routes.register,
       page: () => const RegisterView(),
+      binding: AuthBinding(),
     ),
     GetPage(
-      name: '/child-details',
+      name: Routes.linkIdentity,
+      page: () => const LinkIdentityView(),
+      binding: LinkIdentityBinding(),
+    ),
+    GetPage(
+      name: Routes.selectChildren,
+      page: () => const SelectChildrenView(),
+      binding: SelectChildrenBinding(),
+    ),
+    GetPage(
+      name: Routes.childDetails,
       page: () => const ChildDetailsView(),
-      binding: BindingsBuilder(() {
-        Get.put(ChildDetailsController());
-      }),
-    ),
-    GetPage(
-      name: '/home',
-      page: () => const HomeView(),
-      binding: BindingsBuilder(() {
-        Get.put(HomeController());
-      }),
+      binding: ChildDetailsBinding(),
     ),
   ];
 }

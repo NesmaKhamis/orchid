@@ -1,46 +1,37 @@
 import 'package:get/get.dart';
-import 'package:orchid_app/app/modules/select_children/controllers/select_children_controller.dart';
-import 'package:orchid_app/app/routes/app_routes.dart';
+import '../../../core/utils/app_snackbar.dart';
+import '../../../core/utils/date_utils.dart';
+import '../../../data/models/child_model.dart';
 
 class ChildDetailsController extends GetxController {
-  // استخدام قيمة افتراضية مباشرة لمنع أي خطأ null نهائياً
-  late ChildModel selectedChild;
-  
-  final String childNationalId = '4028392011';
-  final String birthDate = '2018-05-14';
-  
+  late final ChildModel selectedChild;
+
+  String get childNationalId => selectedChild.nationalId;
+
+  String get birthDate => AppDateUtils.format(selectedChild.birthDate);
+
   String get calculatedAge {
-    try {
-      DateTime birth = DateTime.parse(birthDate);
-      DateTime today = DateTime.now();
-      int age = today.year - birth.year;
-      if (today.month < birth.month || (today.month == birth.month && today.day < birth.day)) {
-        age--;
-      }
-      return '$age سنوات';
-    } catch (e) {
-      return '6 سنوات';
-    }
+    return '${AppDateUtils.ageFrom(selectedChild.birthDate)} سنوات';
   }
 
   @override
   void onInit() {
     super.onInit();
-    // التحقق الآمن جداً من الـ arguments
-    if (Get.arguments != null && Get.arguments is ChildModel) {
-      selectedChild = Get.arguments;
-    } else {
-      selectedChild = ChildModel(
-        id: '1',
-        name: 'محمد أحمد دياب',
-        grade: 'الصف الأول الابتدائي',
-        avatarAsset: 'assets/images/orchid_single.png',
-      );
+    final arguments = Get.arguments;
+    if (arguments is ChildModel) {
+      selectedChild = arguments;
+      return;
     }
+
+    AppSnackbar.info('تعذر العثور على بيانات الطفل');
+    Get.back();
   }
 
- void proceedToDashboard() {
-  // الانتقال للرئيسية مع تمرير بيانات الطفل الحالي كـ arguments
-  Get.offAllNamed(Routes.HOME, arguments: selectedChild);
-}
+  void proceedToDashboard() {
+    Get.snackbar(
+      'أهلاً بك',
+      'جاري الانتقال للوحة التحكم الخاصة بـ ${selectedChild.name}',
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
 }

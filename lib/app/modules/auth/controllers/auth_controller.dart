@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../routes/app_routes.dart';
 
 class AuthController extends GetxController {
   // --- حقول تسجيل الدخول ---
@@ -32,9 +33,9 @@ class AuthController extends GetxController {
     isLoading.value = true;
     await Future.delayed(const Duration(seconds: 2));
     isLoading.value = false;
-    
+
     // الانتقال لشاشة ربط الهوية بعد الدخول
-    Get.offAllNamed('/link-identity');
+    Get.offAllNamed(Routes.linkIdentity);
   }
 
   // دالة إنشاء الحساب
@@ -44,12 +45,12 @@ class AuthController extends GetxController {
     isLoading.value = false;
 
     // الانتقال لشاشة ربط الهوية بعد إنشاء الحساب
-    Get.offAllNamed('/link-identity');
+    Get.offAllNamed(Routes.linkIdentity);
   }
 
   // الانتقال إلى صفحة إنشاء الحساب
   void goToRegister() {
-    Get.toNamed('/register');
+    Get.toNamed(Routes.register);
   }
 
   // العودة إلى صفحة تسجيل الدخول
