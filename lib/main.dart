@@ -13,6 +13,8 @@ import 'app/modules/link_identity/controllers/link_identity_controller.dart';
 import 'app/modules/select_children/views/select_children_view.dart';
 import 'app/modules/select_children/controllers/select_children_controller.dart';
 
+import 'app/core/theme/app_theme.dart';
+
 void main() {
   runApp(const OrchidApp());
 }
@@ -31,14 +33,7 @@ class OrchidApp extends StatelessWidget {
       fallbackLocale: const Locale('ar', 'SA'),
 
       // الثيم العام للتطبيق
-      theme: ThemeData(
-        fontFamily: 'Cairo', // أو الخط المعتمد لديكِ
-        scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF8B53A8),
-          primary: const Color(0xFF8B53A8),
-        ),
-      ),
+      theme: AppTheme.light,
 
       // الشاشة الأولى التي يبدأ منها التطبيق (يمكنكِ تغييرها إلى '/register' أو '/link-identity' للاختبار المباشر)
       initialRoute: '/login',
