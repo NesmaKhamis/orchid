@@ -145,6 +145,8 @@ padding `24`; radius `field 16`, `card 20`, `button 26`, `chip 12`; button heigh
 `leaf_corner.png, orchid_mascot.png, orchid_open.png, orchid_single.png, orchid_wink.png, q.png, welcome.png`.
 `leaf_top.png` does NOT exist — use `leaf_corner.png` instead.
 
+**Orchid face images are not available yet** (sad / happy / worried / shy and others). Until the designer's final files are added, `AppAssets` must define `orchidFaceHappy`, `orchidFaceSad`, `orchidFaceWorried`, `orchidFaceShy` (and more if needed), all temporarily pointing to an existing image (e.g. `orchid_single.png`) with a `// TODO: replace with final asset` comment. Screens use ONLY these constants, so swapping the real images later means editing `app_assets.dart` only. Never reference an asset file that does not exist.
+
 ## 6. Shared widgets catalog (`core/widgets/`)
 
 Build each once, reuse everywhere. Widgets are stateless/GetX-agnostic: they take values and
@@ -163,6 +165,7 @@ callbacks, never a controller.
 | `SelectableCard` | Card with selected/unselected look + tap; used by child selection and feelings. |
 | `OtpInput` | N separate digit boxes, `onCompleted`, `length` (default 6). |
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
+| `StepHeader` | Registration header: small step label ("02 / تأكيد الهاتف • 4 من 4"), bold title, lock icon in a white circle, back chevron (created in prompt C3, reused by C2 and C4). |
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
 | `AppCheckboxTile` | Labelled checkbox with optional "required" marker (created in prompt C3). |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
@@ -225,7 +228,7 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
 | Login (not in current Figma set) | `auth` | `Routes.login` | 🔒 |
 | Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
 | التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
-| التحقق — قبول (verified, "welcome Salem and family") | `verification` | `Routes.verificationSuccess` | ⬜ |
+| التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
 | التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | ⬜ |
 | التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ⬜ |
 | التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
@@ -239,8 +242,8 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
 Update this table in the same commit whenever a screen's status changes.
 
 Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → verificationSuccess | verificationRejected → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter`.
-The current `selectChildren` / `childDetails` screens are not in the Figma set; keep them untouched until the team decides where they fit.
+`splash → onboarding → login/register → linkIdentity → selectChildren → (child age 5–12) childDetails | (otherwise) verificationRejected → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter`.
+`childDetails` is the Figma "verification accepted" screen; its continue button will navigate to `Routes.privacy`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
 
