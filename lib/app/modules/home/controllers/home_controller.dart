@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:orchid_app/app/modules/select_children/controllers/select_children_controller.dart';
+import 'package:orchid_app/app/data/models/child_model.dart';
 
 class HomeController extends GetxController {
   // استقبال بيانات الطفل المُمررة بأمان تام مع قيمة افتراضية احتياطية
@@ -20,7 +20,7 @@ class HomeController extends GetxController {
         id: '1',
         name: 'محمد أحمد دياب',
         grade: 'الصف الأول الابتدائي',
-        avatarAsset: 'assets/images/orchid_single.png',
+        avatarAsset: 'assets/images/orchid_single.png', nationalId: '', birthDate: DateTime(2017, 9, 7, 17, 30)
       );
     }
   }
