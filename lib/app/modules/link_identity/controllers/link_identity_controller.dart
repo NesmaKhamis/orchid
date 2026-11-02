@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../routes/app_routes.dart';
 
 class LinkIdentityController extends GetxController {
   final identityController = TextEditingController();
@@ -7,10 +8,6 @@ class LinkIdentityController extends GetxController {
 
   var isLoading = false.obs;
   var selectedDate = Rxn<DateTime>();
-
-  TextEditingController? get idController => null;
-
-  get verifyIdentity => null;
 
   // دالة فتح التقويم لاختيار تاريخ الميلاد
   Future<void> pickBirthDate(BuildContext context) async {
@@ -72,7 +69,7 @@ class LinkIdentityController extends GetxController {
     isLoading.value = false;
 
     // الانتقال لشاشة اختيار الأبناء (سننشئها في الخطوة القادمة)
-    Get.toNamed('/select-children');
+    Get.toNamed(Routes.selectChildren);
   }
 
   @override
