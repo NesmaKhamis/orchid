@@ -1,14 +1,20 @@
 abstract class _Paths {
-  static const SPLASH = '/splash';
-  static const ONBOARDING = '/onboarding';
-  static const LOGIN = '/login';
-  static const REGISTER = '/register';
+  static const splash = '/splash';
+  static const onboarding = '/onboarding';
+  static const login = '/login';
+  static const register = '/register';
+  static const linkIdentity = '/link-identity';
+  static const selectChildren = '/select-children';
+  static const childDetails = '/child-details';
 }
 
 abstract class Routes {
   Routes._();
-  static const SPLASH = _Paths.SPLASH;
-  static const ONBOARDING = _Paths.ONBOARDING;
-  static const LOGIN = _Paths.LOGIN;
-  static const REGISTER = _Paths.REGISTER;
+  static const splash = _Paths.splash;
+  static const onboarding = _Paths.onboarding;
+  static const login = _Paths.login;
+  static const register = _Paths.register;
+  static const linkIdentity = _Paths.linkIdentity;
+  static const selectChildren = _Paths.selectChildren;
+  static const childDetails = _Paths.childDetails;
 }
