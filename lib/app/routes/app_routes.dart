@@ -6,6 +6,8 @@ abstract class _Paths {
   static const linkIdentity = '/link-identity';
   static const selectChildren = '/select-children';
   static const childDetails = '/child-details';
+  static const verificationRejected = '/verification-rejected';
+  static const privacy = '/privacy';
 }
 
 abstract class Routes {
@@ -17,4 +19,6 @@ abstract class Routes {
   static const linkIdentity = _Paths.linkIdentity;
   static const selectChildren = _Paths.selectChildren;
   static const childDetails = _Paths.childDetails;
+  static const verificationRejected = _Paths.verificationRejected;
+  static const privacy = _Paths.privacy;
 }

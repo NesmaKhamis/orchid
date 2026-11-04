@@ -8,10 +8,14 @@ import '../modules/link_identity/bindings/link_identity_binding.dart';
 import '../modules/link_identity/views/link_identity_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
+import '../modules/privacy/bindings/privacy_binding.dart';
+import '../modules/privacy/views/privacy_view.dart';
 import '../modules/select_children/bindings/select_children_binding.dart';
 import '../modules/select_children/views/select_children_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/verification_rejected/bindings/verification_rejected_binding.dart';
+import '../modules/verification_rejected/views/verification_rejected_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -54,6 +58,16 @@ class AppPages {
       name: Routes.childDetails,
       page: () => const ChildDetailsView(),
       binding: ChildDetailsBinding(),
+    ),
+    GetPage(
+      name: Routes.verificationRejected,
+      page: () => const VerificationRejectedView(),
+      binding: VerificationRejectedBinding(),
+    ),
+    GetPage(
+      name: Routes.privacy,
+      page: () => const PrivacyView(),
+      binding: PrivacyBinding(),
     ),
   ];
 }

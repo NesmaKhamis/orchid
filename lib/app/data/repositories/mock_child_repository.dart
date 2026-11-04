@@ -24,6 +24,18 @@ class MockChildRepository implements ChildRepository {
         nationalId: '4028392029',
         birthDate: DateTime(2020, 9, 3),
       ),
+      ChildModel(
+        id: '3',
+        name: 'يوسف أحمد دياب',
+        grade: 'الصف السابع',
+        avatarAsset: AppAssets.orchidSingle,
+        nationalId: '4028392037',
+        birthDate: DateTime(
+          DateTime.now().year - 13,
+          DateTime.now().month,
+          DateTime.now().day,
+        ),
+      ),
     ];
   }
 }

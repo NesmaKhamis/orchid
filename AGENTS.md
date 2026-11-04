@@ -219,7 +219,7 @@ Data:
 
 ## 9. Screen map (Figma frame → module → route)
 
-Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
+Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder route wired, real screen pending · ⬜ not built.
 
 | Figma frame | Module | Route | Status |
 |---|---|---|---|
@@ -229,8 +229,8 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
 | Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
 | التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
 | التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
-| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | ⬜ |
-| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ⬜ |
+| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | 🔶 |
+| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔶 |
 | التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
 | المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.mainShell` | ⬜ |
@@ -242,8 +242,9 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
 Update this table in the same commit whenever a screen's status changes.
 
 Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → selectChildren → (child age 5–12) childDetails | (otherwise) verificationRejected → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter`.
-`childDetails` is the Figma "verification accepted" screen; its continue button will navigate to `Routes.privacy`.
+`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
+`SelectChildrenController` checks the age with `AppDateUtils.ageFrom` against `AppConstants.minChildAge` / `maxChildAge` and routes accordingly.
+`childDetails` is the Figma "verification accepted" screen; its continue button now navigates to `Routes.privacy`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
 

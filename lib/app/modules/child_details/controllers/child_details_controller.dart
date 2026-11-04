@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/app_snackbar.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../data/models/child_model.dart';
+import '../../../routes/app_routes.dart';
 
 class ChildDetailsController extends GetxController {
   late final ChildModel selectedChild;
@@ -28,10 +29,6 @@ class ChildDetailsController extends GetxController {
   }
 
   void proceedToDashboard() {
-    Get.snackbar(
-      'أهلاً بك',
-      'جاري الانتقال للوحة التحكم الخاصة بـ ${selectedChild.name}',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    Get.toNamed(Routes.privacy);
   }
 }
