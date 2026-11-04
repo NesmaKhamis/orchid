@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:orchid_app/app/data/models/child_model.dart';
+import '../../../routes/app_routes.dart';
 
 class HomeController extends GetxController {
   // استقبال بيانات الطفل المُمررة بأمان تام مع قيمة افتراضية احتياطية
@@ -38,5 +39,10 @@ class HomeController extends GetxController {
   // دالة عند الضغط على أحد الكاردات أو زر الإشعارات
   void onNotificationPressed() {
     // منطق الإشعارات هنا
+  }
+
+  // الانتقال إلى شاشة "عَبِّر عن نفسك"
+  void onExpressYourselfPressed() {
+    Get.toNamed(Routes.expressYourself);
   }
 }

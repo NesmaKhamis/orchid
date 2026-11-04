@@ -6,6 +6,10 @@ abstract class _Paths {
   static const linkIdentity = '/link-identity';
   static const selectChildren = '/select-children';
   static const childDetails = '/child-details';
+  static const home = '/home';
+  static const expressYourself = '/express-yourself';
+  static const drawing = '/drawing';
+  static const guidedColoring = '/guided-coloring';
 }
 
 abstract class Routes {
@@ -17,4 +21,8 @@ abstract class Routes {
   static const linkIdentity = _Paths.linkIdentity;
   static const selectChildren = _Paths.selectChildren;
   static const childDetails = _Paths.childDetails;
+  static const home = _Paths.home;
+  static const expressYourself = _Paths.expressYourself;
+  static const drawing = _Paths.drawing;
+  static const guidedColoring = _Paths.guidedColoring;
 }
