@@ -165,7 +165,7 @@ callbacks, never a controller.
 | `SelectableCard` | Card with selected/unselected look + tap; used by child selection and feelings. |
 | `OtpInput` | N separate digit boxes, `onCompleted`, `length` (default 6). |
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
-| `StepHeader` | Registration header: small step label ("02 / تأكيد الهاتف • 4 من 4"), bold title, lock icon in a white circle, back chevron (created in prompt C3, reused by C2 and C4). |
+| `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by privacy and phone screens. |
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
 | `AppCheckboxTile` | Labelled checkbox with optional "required" marker (created in prompt C3). |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
@@ -229,7 +229,7 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder 
 | Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
 | التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
 | التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
-| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | 🔶 |
+| التحقق — رفض (age out of range 5–12) | `verification_rejected` | `Routes.verificationRejected` | ✅ |
 | التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔶 |
 | التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
 | المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ⬜ |
