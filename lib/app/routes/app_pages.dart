@@ -8,6 +8,8 @@ import '../modules/link_identity/bindings/link_identity_binding.dart';
 import '../modules/link_identity/views/link_identity_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
+import '../modules/phone_verification/bindings/phone_verification_binding.dart';
+import '../modules/phone_verification/views/phone_verification_view.dart';
 import '../modules/privacy/bindings/privacy_binding.dart';
 import '../modules/privacy/views/privacy_view.dart';
 import '../modules/select_children/bindings/select_children_binding.dart';
@@ -68,6 +70,11 @@ class AppPages {
       name: Routes.privacy,
       page: () => const PrivacyView(),
       binding: PrivacyBinding(),
+    ),
+    GetPage(
+      name: Routes.phoneVerification,
+      page: () => const PhoneVerificationView(),
+      binding: PhoneVerificationBinding(),
     ),
   ];
 }

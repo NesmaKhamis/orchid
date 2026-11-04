@@ -118,6 +118,7 @@ and update this table).
 | Token | Value | Use |
 |---|---|---|
 | `primary` | `0xFF8B53A8` | buttons, links, icons, selected borders |
+| `white` | `0xFFFFFFFF` | cards on cream backgrounds |
 | `textDark` | `0xFF2D2D2D` | titles, labels |
 | `textSubtitle` | `0xFF6B588C` | subtitles on onboarding-style screens |
 | `textMuted` | `0xFF757575` | hints, captions |
@@ -129,6 +130,7 @@ and update this table).
 | `softMint` | `0xFFE0F0E0` | success banners, positive chips |
 | `softPink` | `0xFFF0D8E8` | feelings cards, accents |
 | `softBlue` | `0xFFE0E8F0` | feelings cards, accents |
+| `success` | `0xFF2E7D32` | success text and icons |
 | `splashGradient` | `D8F3DC → E8E8F4 → FFF0F5` | splash background only |
 | `error` | `0xFFD32F2F` | validation errors |
 
@@ -167,7 +169,7 @@ callbacks, never a controller.
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
 | `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by privacy and phone screens. |
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
-| `AppCheckboxTile` | Labelled checkbox with optional "required" marker (created in prompt C3). |
+| `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
 
@@ -230,8 +232,8 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder 
 | التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
 | التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
 | التحقق — رفض (age out of range 5–12) | `verification_rejected` | `Routes.verificationRejected` | ✅ |
-| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔶 |
-| التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
+| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ✅ |
+| التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | 🔶 |
 | المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.mainShell` | ⬜ |
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ⬜ |

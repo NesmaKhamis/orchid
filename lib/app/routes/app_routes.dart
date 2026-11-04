@@ -8,6 +8,7 @@ abstract class _Paths {
   static const childDetails = '/child-details';
   static const verificationRejected = '/verification-rejected';
   static const privacy = '/privacy';
+  static const phoneVerification = '/phone-verification';
 }
 
 abstract class Routes {
@@ -21,4 +22,5 @@ abstract class Routes {
   static const childDetails = _Paths.childDetails;
   static const verificationRejected = _Paths.verificationRejected;
   static const privacy = _Paths.privacy;
+  static const phoneVerification = _Paths.phoneVerification;
 }
