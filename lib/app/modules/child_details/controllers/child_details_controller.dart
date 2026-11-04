@@ -29,6 +29,6 @@ class ChildDetailsController extends GetxController {
   }
 
   void proceedToDashboard() {
-    Get.offNamed(Routes.home, arguments: selectedChild);
+    Get.toNamed(Routes.privacy);
   }
 }

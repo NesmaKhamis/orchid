@@ -19,6 +19,7 @@ class AppTextField extends StatelessWidget {
     this.maxLength,
     this.obscureText = false,
     this.textDirection,
+    this.fillColor,
   });
 
   final TextEditingController? controller;
@@ -33,6 +34,7 @@ class AppTextField extends StatelessWidget {
   final int? maxLength;
   final bool obscureText;
   final TextDirection? textDirection;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class AppTextField extends StatelessWidget {
             hintText: hint,
             prefixIcon: prefixIcon,
             suffixIcon: suffix,
+            fillColor: fillColor,
           ),
         ),
       ],

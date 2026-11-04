@@ -5,6 +5,7 @@ class AppColors {
   AppColors._();
 
   static const Color primary = Color(0xFF8B53A8);
+  static const Color white = Color(0xFFFFFFFF);
   static const Color textDark = Color(0xFF2D2D2D);
   static const Color textSubtitle = Color(0xFF6B588C);
   static const Color textMuted = Color(0xFF757575);
@@ -16,6 +17,7 @@ class AppColors {
   static const Color softMint = Color(0xFFE0F0E0);
   static const Color softPink = Color(0xFFF0D8E8);
   static const Color softBlue = Color(0xFFE0E8F0);
+  static const Color success = Color(0xFF2E7D32);
   static const Color error = Color(0xFFD32F2F);
 
   // Drawing palette (kid marker colors for the free-drawing canvas).

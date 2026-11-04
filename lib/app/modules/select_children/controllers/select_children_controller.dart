@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/utils/date_utils.dart';
 import '../../../data/models/child_model.dart';
 import '../../../data/repositories/child_repository.dart';
 import '../../../routes/app_routes.dart';
@@ -32,6 +34,14 @@ class SelectChildrenController extends GetxController {
     final selectedChild =
         childrenList.firstWhere((c) => c.id == selectedChildId.value);
 
-    Get.toNamed(Routes.childDetails, arguments: selectedChild);
+    final age = AppDateUtils.ageFrom(selectedChild.birthDate);
+    final isEligible =
+        age >= AppConstants.minChildAge && age <= AppConstants.maxChildAge;
+
+    if (isEligible) {
+      Get.toNamed(Routes.childDetails, arguments: selectedChild);
+    } else {
+      Get.toNamed(Routes.verificationRejected, arguments: selectedChild);
+    }
   }
 }

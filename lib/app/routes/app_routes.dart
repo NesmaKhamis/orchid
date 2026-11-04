@@ -10,6 +10,10 @@ abstract class _Paths {
   static const expressYourself = '/express-yourself';
   static const drawing = '/drawing';
   static const guidedColoring = '/guided-coloring';
+  static const verificationRejected = '/verification-rejected';
+  static const privacy = '/privacy';
+  static const phoneVerification = '/phone-verification';
+  static const feelingsBefore = '/feelings-before';
 }
 
 abstract class Routes {
@@ -25,4 +29,8 @@ abstract class Routes {
   static const expressYourself = _Paths.expressYourself;
   static const drawing = _Paths.drawing;
   static const guidedColoring = _Paths.guidedColoring;
+  static const verificationRejected = _Paths.verificationRejected;
+  static const privacy = _Paths.privacy;
+  static const phoneVerification = _Paths.phoneVerification;
+  static const feelingsBefore = _Paths.feelingsBefore;
 }

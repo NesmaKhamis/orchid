@@ -17,9 +17,11 @@ class StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color backgroundColor = tone == StatusChipTone.success
-        ? AppColors.softMint
-        : AppColors.lavender;
+    final Color backgroundColor = switch (tone) {
+      StatusChipTone.success => AppColors.softMint,
+      StatusChipTone.info => AppColors.lavender,
+      StatusChipTone.danger => AppColors.softPink,
+    };
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -38,4 +40,4 @@ class StatusChip extends StatelessWidget {
   }
 }
 
-enum StatusChipTone { success, info }
+enum StatusChipTone { success, info, danger }

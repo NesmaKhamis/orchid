@@ -118,6 +118,7 @@ and update this table).
 | Token | Value | Use |
 |---|---|---|
 | `primary` | `0xFF8B53A8` | buttons, links, icons, selected borders |
+| `white` | `0xFFFFFFFF` | cards on cream backgrounds |
 | `textDark` | `0xFF2D2D2D` | titles, labels |
 | `textSubtitle` | `0xFF6B588C` | subtitles on onboarding-style screens |
 | `textMuted` | `0xFF757575` | hints, captions |
@@ -129,6 +130,7 @@ and update this table).
 | `softMint` | `0xFFE0F0E0` | success banners, positive chips |
 | `softPink` | `0xFFF0D8E8` | feelings cards, accents |
 | `softBlue` | `0xFFE0E8F0` | feelings cards, accents |
+| `success` | `0xFF2E7D32` | success text and icons |
 | `splashGradient` | `D8F3DC → E8E8F4 → FFF0F5` | splash background only |
 | `error` | `0xFFD32F2F` | validation errors |
 | `palettePink` | `0xFFE86A92` | drawing color swatch (placeholder hex, confirm with Figma) |
@@ -161,18 +163,18 @@ callbacks, never a controller.
 |---|---|
 | `AppScaffold` | Screen shell: background (`plain`, `cream`, `gradient`), optional corner leaf decoration, `SafeArea`, optional scroll, standard horizontal padding, optional `title` + back button app bar. |
 | `AppButton` | `label`, `onPressed`, `variant` (`primary` / `soft` / `text`), `isLoading`, `icon`, `fullWidth`. Handles disabled + loading state. |
-| `AppTextField` | Label above the field, `controller`, `hint`, `prefixIcon`, `suffix`, `keyboardType`, `validator`, `readOnly`, `onTap`, `maxLength`, `obscureText`. |
+| `AppTextField` | Label above the field, `controller`, `hint`, `prefixIcon`, `suffix`, `keyboardType`, `validator`, `readOnly`, `onTap`, `maxLength`, `obscureText`, `textDirection`, `fillColor`. |
 | `PasswordField` | Wraps `AppTextField` with its own show/hide toggle (local state, no controller flag). |
 | `SectionTitle` | Centered title + optional emoji + optional subtitle. |
 | `NoticeBanner` | `tone` (`info` lavender / `warning` yellow / `success` mint / `danger` soft pink), icon, text. Used in many frames. |
 | `StatusChip` | Small pill label (e.g. green "verified" tag), `tone`. |
 | `OrchidImage` | `Image.asset` with a built-in fallback icon. Replaces every `errorBuilder` copy. |
 | `SelectableCard` | Card with selected/unselected look + tap; used by child selection and feelings. |
-| `OtpInput` | N separate digit boxes, `onCompleted`, `length` (default 6). |
+| `OtpInput` | N separate digit boxes, `length` (default 6), `onChanged`, `onCompleted`, optional `OtpInputController.clear()`, autofocus first box, auto-advance, backspace to previous, paste fills all boxes. |
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
-| `StepHeader` | Registration header: small step label ("02 / تأكيد الهاتف • 4 من 4"), bold title, lock icon in a white circle, back chevron (created in prompt C3, reused by C2 and C4). |
+| `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by privacy and phone screens. |
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
-| `AppCheckboxTile` | Labelled checkbox with optional "required" marker (created in prompt C3). |
+| `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
@@ -225,7 +227,7 @@ Data:
 
 ## 9. Screen map (Figma frame → module → route)
 
-Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
+Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder route wired, real screen pending · ⬜ not built.
 
 | Figma frame | Module | Route | Status |
 |---|---|---|---|
@@ -251,8 +253,9 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
 Update this table in the same commit whenever a screen's status changes.
 
 Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → selectChildren → (child age 5–12) childDetails | (otherwise) verificationRejected → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter`.
-`childDetails` is the Figma "verification accepted" screen; its continue button will navigate to `Routes.privacy`.
+`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
+`SelectChildrenController` checks the age with `AppDateUtils.ageFrom` against `AppConstants.minChildAge` / `maxChildAge` and routes accordingly.
+`childDetails` is the Figma "verification accepted" screen; its continue button now navigates to `Routes.privacy`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
 
