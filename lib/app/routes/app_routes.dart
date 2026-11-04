@@ -10,6 +10,8 @@ abstract class _Paths {
   static const expressYourself = '/express-yourself';
   static const drawing = '/drawing';
   static const guidedColoring = '/guided-coloring';
+  static const singing = '/singing';
+  static const songRecording = '/song-recording';
 }
 
 abstract class Routes {
@@ -25,4 +27,6 @@ abstract class Routes {
   static const expressYourself = _Paths.expressYourself;
   static const drawing = _Paths.drawing;
   static const guidedColoring = _Paths.guidedColoring;
+  static const singing = _Paths.singing;
+  static const songRecording = _Paths.songRecording;
 }
