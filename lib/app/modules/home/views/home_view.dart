@@ -194,7 +194,7 @@ class HomeView extends GetView<HomeController> {
                       icon: Icons.palette_rounded,
                       bgColor: const Color(0xFFFFE8EF),
                       iconColor: const Color(0xFFAD1457),
-                      onTap: () {},
+                      onTap: controller.onExpressYourselfPressed,
                     ),
                   ],
                 ),

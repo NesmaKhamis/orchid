@@ -133,6 +133,11 @@ and update this table).
 | `success` | `0xFF2E7D32` | success text and icons |
 | `splashGradient` | `D8F3DC → E8E8F4 → FFF0F5` | splash background only |
 | `error` | `0xFFD32F2F` | validation errors |
+| `palettePink` | `0xFFE86A92` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteYellow` | `0xFFF5C542` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteGreen` | `0xFF58B368` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteBlue` | `0xFF4E7AC7` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteNavy` | `0xFF2D3A5E` | drawing color swatch (placeholder hex, confirm with Figma) |
 
 Use `color.withValues(alpha: x)` — never `withOpacity` (deprecated).
 
@@ -172,6 +177,7 @@ callbacks, never a controller.
 | `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
+| `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
 
 Helpers: `AppSnackbar.info/success/warning/error(message)`, `Validators.required/email/password/match/nationalId/phone`,
 `AppDateUtils.ageFrom(DateTime)`, `AppDateUtils.format(DateTime)`.
@@ -231,11 +237,14 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder 
 | Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
 | التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
 | التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
-| التحقق — رفض (age out of range 5–12) | `verification_rejected` | `Routes.verificationRejected` | ✅ |
-| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ✅ |
-| التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ✅ |
-| المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | 🔶 |
-| الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.mainShell` | ⬜ |
+| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | ⬜ |
+| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ⬜ |
+| التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
+| المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ⬜ |
+| الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` (temporary direct route from `childDetails`; shell not built yet) | ✅ |
+| حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
+| الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
+| التلوين الموجه (guided coloring) | `guided_coloring` | `Routes.guidedColoring` (from express_yourself card "التلوين الموجه") | ✅ |
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ⬜ |
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ⬜ |
 | المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |
