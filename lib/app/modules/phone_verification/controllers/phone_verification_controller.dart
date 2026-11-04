@@ -73,7 +73,7 @@ class PhoneVerificationController extends GetxController {
     isLoading.value = false;
 
     if (isValid) {
-      Get.offAllNamed(Routes.feelingsBefore);
+      Get.offAllNamed(Routes.home);
       return;
     }
 
