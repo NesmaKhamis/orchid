@@ -94,6 +94,8 @@ class AppPages {
       name: Routes.guidedColoring,
       page: () => const GuidedColoringView(),
       binding: GuidedColoringBinding(),
+    ),
+    GetPage(
       name: Routes.verificationRejected,
       page: () => const VerificationRejectedView(),
       binding: VerificationRejectedBinding(),
