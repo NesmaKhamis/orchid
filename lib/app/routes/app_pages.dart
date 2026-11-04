@@ -16,14 +16,22 @@ import '../modules/song_recording/bindings/song_recording_binding.dart';
 import '../modules/song_recording/views/song_recording_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/feelings/bindings/feelings_before_binding.dart';
+import '../modules/feelings/views/feelings_before_view.dart';
 import '../modules/link_identity/bindings/link_identity_binding.dart';
 import '../modules/link_identity/views/link_identity_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
+import '../modules/phone_verification/bindings/phone_verification_binding.dart';
+import '../modules/phone_verification/views/phone_verification_view.dart';
+import '../modules/privacy/bindings/privacy_binding.dart';
+import '../modules/privacy/views/privacy_view.dart';
 import '../modules/select_children/bindings/select_children_binding.dart';
 import '../modules/select_children/views/select_children_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/verification_rejected/bindings/verification_rejected_binding.dart';
+import '../modules/verification_rejected/views/verification_rejected_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -86,6 +94,24 @@ class AppPages {
       name: Routes.guidedColoring,
       page: () => const GuidedColoringView(),
       binding: GuidedColoringBinding(),
+      name: Routes.verificationRejected,
+      page: () => const VerificationRejectedView(),
+      binding: VerificationRejectedBinding(),
+    ),
+    GetPage(
+      name: Routes.privacy,
+      page: () => const PrivacyView(),
+      binding: PrivacyBinding(),
+    ),
+    GetPage(
+      name: Routes.phoneVerification,
+      page: () => const PhoneVerificationView(),
+      binding: PhoneVerificationBinding(),
+    ),
+    GetPage(
+      name: Routes.feelingsBefore,
+      page: () => const FeelingsBeforeView(),
+      binding: FeelingsBeforeBinding(),
     ),
     GetPage(
       name: Routes.singing,
