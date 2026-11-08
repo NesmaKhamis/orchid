@@ -1,6 +1,6 @@
 name: orchid_app
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -17,7 +17,7 @@ dependencies:
   cloud_firestore: ^7.0.0
   firebase_auth: ^7.0.0
   flutter_animate: ^4.5.0
-  audioplayers: ^6.0.0  
+  audioplayers: ^6.0.0
   shared_preferences: ^2.5.6
 
 dev_dependencies:
@@ -30,3 +30,12 @@ flutter:
 
   assets:
     - assets/images/
+
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/font/Cairo-Regular.ttf
+        - asset: assets/font/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/font/Cairo-Bold.ttf
+          weight: 700
