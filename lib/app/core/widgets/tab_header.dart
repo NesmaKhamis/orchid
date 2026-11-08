@@ -25,11 +25,11 @@ class TabHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsetsDirectional.only(
-        top: AppDimens.space24,
+        top: AppDimens.space40,
         bottom: AppDimens.space20,
       ),
       child: SizedBox(
-        height: 68,
+        height: 100,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -39,14 +39,14 @@ class TabHeader extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     title,
-                    style: AppTextStyles.title,
+                    style: AppTextStyles.display,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: AppDimens.space4),
                   Text(
                     subtitle,
-                    style: AppTextStyles.body.copyWith(
+                    style: AppTextStyles.subtitle.copyWith(
                       color: AppColors.textSubtitle,
                     ),
                     maxLines: 2,

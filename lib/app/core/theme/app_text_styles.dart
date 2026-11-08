@@ -6,6 +6,18 @@ import 'app_colors.dart';
 class AppTextStyles {
   AppTextStyles._();
 
+  static const TextStyle display = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textDark,
+  );
+
+  static const TextStyle h1Large = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textDark,
+  );
+
   static const TextStyle h1 = TextStyle(
     fontSize: 27,
     fontWeight: FontWeight.bold,
@@ -27,6 +39,16 @@ class AppTextStyles {
   static const TextStyle title = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
+    color: AppColors.textDark,
+  );
+
+  static const TextStyle subtitle = TextStyle(
+    fontSize: 16,
+    color: AppColors.textDark,
+  );
+
+  static const TextStyle bodyLarge = TextStyle(
+    fontSize: 16,
     color: AppColors.textDark,
   );
 
