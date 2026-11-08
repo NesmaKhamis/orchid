@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/session_service.dart';
 import '../../../core/utils/app_snackbar.dart';
 import '../../../core/widgets/otp_input.dart';
 import '../../../data/repositories/auth_repository.dart';
@@ -42,6 +43,12 @@ class PhoneVerificationController extends GetxController {
     _startCountdown();
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    Get.find<SessionService>().saveStep(Routes.phoneVerification);
+  }
+
   Future<void> _loadParentPhone() async {
     final String maskedPhone = await _repository.getParentPhoneMasked();
     if (_closed) return;
@@ -73,6 +80,8 @@ class PhoneVerificationController extends GetxController {
     isLoading.value = false;
 
     if (isValid) {
+      await Get.find<SessionService>().markRegistrationComplete();
+      if (_closed) return;
       Get.offAllNamed(Routes.home);
       return;
     }

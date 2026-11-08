@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/services/session_service.dart';
 import '../../../routes/app_routes.dart';
 
 class LinkIdentityController extends GetxController {
@@ -70,6 +71,12 @@ class LinkIdentityController extends GetxController {
 
     // الانتقال لشاشة اختيار الأبناء (سننشئها في الخطوة القادمة)
     Get.toNamed(Routes.selectChildren);
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    Get.find<SessionService>().saveStep(Routes.linkIdentity);
   }
 
   @override

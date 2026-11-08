@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import '../../../routes/app_routes.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/services/session_service.dart';
 
 class SplashController extends GetxController {
   final isWinking = false.obs;
@@ -12,9 +13,9 @@ class SplashController extends GetxController {
   void onReady() {
     super.onReady();
     _startWinkAnimation();
-    _navigationTimer = Timer(const Duration(seconds: 3), () {
+    _navigationTimer = Timer(AppConstants.splashMinDuration, () {
       if (!isClosed) {
-        Get.offNamed(Routes.onboarding);
+        Get.offNamed(Get.find<SessionService>().resolveStartRoute());
       }
     });
   }
