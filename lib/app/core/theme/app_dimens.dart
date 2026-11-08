@@ -20,4 +20,5 @@ class AppDimens {
   static const double radiusChip = 12;
 
   static const double buttonHeight = 52;
+  static const double profileAvatarEditInset = 2;
 }

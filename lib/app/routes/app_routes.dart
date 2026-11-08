@@ -6,8 +6,6 @@ abstract class _Paths {
   static const linkIdentity = '/link-identity';
   static const selectChildren = '/select-children';
   static const childDetails = '/child-details';
-<<<<<<< HEAD
-=======
   static const home = '/home';
   static const expressYourself = '/express-yourself';
   static const drawing = '/drawing';
@@ -21,7 +19,6 @@ abstract class _Paths {
   static const workshopDetails = '/workshop-details';
   static const myWorkshops = '/my-workshops';
   static const rewards = '/rewards';
->>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
   static const profile = '/profile';
 }
 
@@ -34,8 +31,6 @@ abstract class Routes {
   static const linkIdentity = _Paths.linkIdentity;
   static const selectChildren = _Paths.selectChildren;
   static const childDetails = _Paths.childDetails;
-<<<<<<< HEAD
-=======
   static const home = _Paths.home;
   static const expressYourself = _Paths.expressYourself;
   static const drawing = _Paths.drawing;
@@ -49,6 +44,5 @@ abstract class Routes {
   static const workshopDetails = _Paths.workshopDetails;
   static const myWorkshops = _Paths.myWorkshops;
   static const rewards = _Paths.rewards;
->>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
   static const profile = _Paths.profile;
 }

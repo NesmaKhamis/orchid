@@ -20,15 +20,12 @@ import '../modules/link_identity/bindings/link_identity_binding.dart';
 import '../modules/link_identity/views/link_identity_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
-<<<<<<< HEAD
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
-=======
 import '../modules/email_verification/bindings/email_verification_binding.dart';
 import '../modules/email_verification/views/email_verification_view.dart';
 import '../modules/privacy/bindings/privacy_binding.dart';
 import '../modules/privacy/views/privacy_view.dart';
->>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
 import '../modules/select_children/bindings/select_children_binding.dart';
 import '../modules/select_children/views/select_children_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -41,8 +38,6 @@ import '../modules/workshops/bindings/workshops_binding.dart';
 import '../modules/workshops/views/workshop_details_view.dart';
 import '../modules/workshops/views/workshop_list_view.dart';
 import '../modules/workshops/views/my_workshops_view.dart';
-import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/views/profile_view.dart';
 import '../modules/rewards/bindings/rewards_binding.dart';
 import '../modules/rewards/views/rewards_view.dart';
 import 'app_routes.dart';
@@ -89,8 +84,6 @@ class AppPages {
       binding: ChildDetailsBinding(),
     ),
     GetPage(
-<<<<<<< HEAD
-=======
       name: Routes.home,
       page: () => const MainShellView(),
       binding: MainShellBinding(),
@@ -157,7 +150,6 @@ class AppPages {
       binding: RewardsBinding(),
     ),
     GetPage(
->>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
       name: Routes.profile,
       page: () => const ProfileView(),
       binding: ProfileBinding(),

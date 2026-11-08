@@ -1,11 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-<<<<<<< HEAD
-=======
     // Google services plugin must be applied after the Android plugin.
     id("com.google.gms.google-services")
->>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }

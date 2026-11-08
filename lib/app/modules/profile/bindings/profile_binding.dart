@@ -1,21 +1,29 @@
 import 'package:get/get.dart';
 
-<<<<<<< HEAD
-import '../../../data/repositories/mock_profile_repository.dart';
+import '../../../core/services/session_service.dart';
+import '../../../data/repositories/children_repository.dart';
+import '../../../data/repositories/firebase_children_repository.dart';
+import '../../../data/repositories/firebase_profile_repository.dart';
 import '../../../data/repositories/profile_repository.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ProfileRepository>(() => MockProfileRepository());
+    if (!Get.isRegistered<ChildrenRepository>()) {
+      Get.lazyPut<ChildrenRepository>(() => FirebaseChildrenRepository());
+    }
+    Get.lazyPut<ProfileRepository>(
+      () => FirebaseProfileRepository(
+        childId: Get.find<SessionService>().selectedChildId,
+      ),
+    );
     Get.lazyPut<ProfileController>(
-      () => ProfileController(Get.find<ProfileRepository>()),
+      () => ProfileController(
+        Get.find<ProfileRepository>(),
+        Get.find<SessionService>(),
+        Get.find<ChildrenRepository>(),
+      ),
     );
   }
-=======
-class ProfileBinding extends Bindings {
-  @override
-  void dependencies() {}
->>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
 }
