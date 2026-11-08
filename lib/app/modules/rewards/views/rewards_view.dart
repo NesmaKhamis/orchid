@@ -27,6 +27,7 @@ class RewardsView extends StatelessWidget {
     return const AppScaffold(
       background: AppScaffoldBackground.cream,
       scrollable: false,
+      padding: EdgeInsets.zero,
       body: RewardsContent(),
     );
   }
@@ -55,7 +56,9 @@ class RewardsContent extends GetView<RewardsController> {
       if (controller.errorMessage.value.isNotEmpty) {
         return Center(
           child: Padding(
-            padding: const EdgeInsets.all(AppDimens.space24),
+            padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: AppDimens.screenHorizontalPadding,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
@@ -75,49 +78,62 @@ class RewardsContent extends GetView<RewardsController> {
         );
       }
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const SizedBox(height: AppDimens.space12),
+      return SafeArea(
+        top: true,
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsetsDirectional.symmetric(
+            horizontal: AppDimens.screenHorizontalPadding,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              // Top breathing room under status bar
+              const SizedBox(height: AppDimens.space32),
 
-          // Fixed Top: Header
-          const Text(
-            'المكافآت والهدايا',
-            style: AppTextStyles.h1,
-          ),
-          const SizedBox(height: AppDimens.space4),
-          Text(
-            'اجمع عملاتك وافتح مكافآت جديدة.',
-            style: AppTextStyles.body.copyWith(
-              color: AppColors.textSubtitle,
-            ),
-          ),
-          const SizedBox(height: AppDimens.space16),
+              // Fixed Top: Header
+              const Text(
+                'المكافآت والهدايا',
+                style: AppTextStyles.h1,
+              ),
+              const SizedBox(height: AppDimens.space4),
+              Text(
+                'اجمع عملاتك وافتح مكافآت جديدة.',
+                style: AppTextStyles.body.copyWith(
+                  color: AppColors.textSubtitle,
+                ),
+              ),
+              const SizedBox(height: AppDimens.space16),
 
-          // Fixed Top: Balance Card
-          CoinBalanceCard(
-            balance: controller.balance.value,
-            todayEarned: controller.todayEarned.value,
-            dailyCap: controller.dailyCap,
-          ),
-          const SizedBox(height: AppDimens.space16),
+              // Fixed Top: Balance Card
+              CoinBalanceCard(
+                balance: controller.balance.value,
+                todayEarned: controller.todayEarned.value,
+                dailyCap: controller.dailyCap,
+              ),
+              const SizedBox(height: AppDimens.space16),
 
-          // Fixed Top: Segmented Tabs (3 equal-width buttons)
-          AppSegmentedTabs(
-            labels: _tabLabels,
-            selectedIndex: controller.selectedTab.value,
-            onChanged: (int index) => controller.selectedTab.value = index,
-          ),
-          const SizedBox(height: AppDimens.space12),
+              // Fixed Top: Segmented Tabs (3 equal-width buttons)
+              AppSegmentedTabs(
+                labels: _tabLabels,
+                selectedIndex: controller.selectedTab.value,
+                onChanged: (int index) => controller.selectedTab.value = index,
+              ),
+              const SizedBox(height: AppDimens.space16),
 
-          // Expanded: Content of selected tab with smooth fade
-          Expanded(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 250),
-              child: _buildTabContent(controller.selectedTab.value),
-            ),
+              // Expanded: Content of selected tab with smooth fade
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  child: _buildTabContent(controller.selectedTab.value),
+                ),
+              ),
+
+              // Bottom padding below content
+              const SizedBox(height: AppDimens.space24),
+            ],
           ),
-        ],
+        ),
       );
     });
   }
@@ -147,13 +163,13 @@ class RewardsContent extends GetView<RewardsController> {
 
     return ListView.separated(
       key: const ValueKey<int>(0),
-      padding: const EdgeInsets.only(
+      padding: const EdgeInsetsDirectional.only(
         top: AppDimens.space4,
-        bottom: AppDimens.space24,
+        bottom: AppDimens.space32,
       ),
       itemCount: controller.dailyActivities.length,
       separatorBuilder: (BuildContext context, int index) =>
-          const SizedBox(height: AppDimens.space8),
+          const SizedBox(height: AppDimens.space12),
       itemBuilder: (BuildContext context, int index) {
         return _DailyActivityItem(
           activity: controller.dailyActivities[index],
@@ -175,9 +191,9 @@ class RewardsContent extends GetView<RewardsController> {
 
     return GridView.builder(
       key: const ValueKey<int>(1),
-      padding: const EdgeInsets.only(
+      padding: const EdgeInsetsDirectional.only(
         top: AppDimens.space4,
-        bottom: AppDimens.space24,
+        bottom: AppDimens.space32,
       ),
       itemCount: controller.rewards.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -204,37 +220,34 @@ class RewardsContent extends GetView<RewardsController> {
     if (controller.requests.isEmpty) {
       return Center(
         key: const ValueKey<int>(2),
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.all(AppDimens.space16),
-          child: Container(
-            padding: const EdgeInsets.all(AppDimens.space16),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(AppDimens.radiusCard),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(AppDimens.space12),
-                  decoration: BoxDecoration(
-                    color: AppColors.lavender,
-                    borderRadius: BorderRadius.circular(AppDimens.radiusField),
-                  ),
-                  child: const Icon(
-                    Icons.card_giftcard_rounded,
-                    color: AppColors.primary,
-                  ),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppDimens.radiusCard),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Row(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(AppDimens.space12),
+                decoration: BoxDecoration(
+                  color: AppColors.lavender,
+                  borderRadius: BorderRadius.circular(AppDimens.radiusField),
                 ),
-                const SizedBox(width: AppDimens.space12),
-                const Expanded(
-                  child: Text(
-                    'لم تطلب أي مكافأة بعد. اجمع العملات واطلب هديتك الأولى!',
-                    style: AppTextStyles.bodySmall,
-                  ),
+                child: const Icon(
+                  Icons.card_giftcard_rounded,
+                  color: AppColors.primary,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(width: AppDimens.space12),
+              const Expanded(
+                child: Text(
+                  'لم تطلب أي مكافأة بعد. اجمع العملات واطلب هديتك الأولى!',
+                  style: AppTextStyles.bodySmall,
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -242,9 +255,9 @@ class RewardsContent extends GetView<RewardsController> {
 
     return ListView.separated(
       key: const ValueKey<int>(2),
-      padding: const EdgeInsets.only(
+      padding: const EdgeInsetsDirectional.only(
         top: AppDimens.space4,
-        bottom: AppDimens.space24,
+        bottom: AppDimens.space32,
       ),
       itemCount: controller.requests.length,
       separatorBuilder: (BuildContext context, int index) =>
