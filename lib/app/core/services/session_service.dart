@@ -54,6 +54,11 @@ class SessionService extends GetxService {
     await _storage.setRegistrationComplete(true);
   }
 
+  Future<void> markRegistrationIncomplete() async {
+    _registrationComplete = false;
+    await _storage.setRegistrationComplete(false);
+  }
+
   Future<void> logout() async {
     _isLoggedIn = false;
     _registrationComplete = false;
