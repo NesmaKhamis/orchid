@@ -11,7 +11,6 @@ import '../../../core/widgets/animated_orchid.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/notice_banner.dart';
-import '../../../core/widgets/orchid_image.dart';
 import '../../../core/widgets/parent_gate_dialog.dart';
 import '../../../core/widgets/status_chip.dart';
 import '../../../data/models/reward_request.dart';
@@ -141,19 +140,17 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
             Container(
               height: 180,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: AppColors.lavender,
                 borderRadius: BorderRadius.circular(AppDimens.radiusCard),
                 border: Border.all(color: AppColors.border),
               ),
               child: Stack(
                 children: <Widget>[
                   Center(
-                    child: OrchidImage(
-                      assetPath: controller.reward.imageAsset,
-                      height: 130,
-                      width: 130,
-                      fit: BoxFit.contain,
-                    ),
+                    child: Text(
+                      controller.reward.emoji,
+                      style: const TextStyle(fontSize: 72),
+                    ), // TODO: replace emoji with final reward image
                   ),
                   if (isOutOfStock)
                     const PositionedDirectional(

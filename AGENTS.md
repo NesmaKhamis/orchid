@@ -190,6 +190,7 @@ callbacks, never a controller.
 | `RewardCard` | Card showing reward image, title, cost, and availability state (order button / progress / out-of-stock). |
 | `RequestStatusChip` | Status badge for reward requests mapping RewardRequestStatus to Arabic label and semantic tone. |
 | `ParentGateDialog` | Child-safe arithmetic parent gate dialog and `showParentGateDialog` helper before sensitive actions. |
+| `AppSegmentedTabs` | Segmented control with equal-width buttons (labels, selectedIndex, onChanged). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
 

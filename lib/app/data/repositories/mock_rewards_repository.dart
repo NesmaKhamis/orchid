@@ -26,6 +26,7 @@ class MockRewardsRepository implements RewardsRepository {
           'دفتر رسم فاخر بأوراق بيضاء سميكة مناسبة لكل أنواع الألوان، مع علبة ألوان شمعية براقة لتنطلق في عالم الإبداع والبهجة.',
       cost: 60,
       imageAsset: AppAssets.rewardPlaceholder,
+      emoji: '🎨', // TODO: replace emoji with final reward image
       stock: 5,
       pickupInstructions:
           'الاستلام من مكتب استقبال مركز الأوركيد يومي الأحد والثلاثاء مع إبراز هوية ولي الأمر.',
@@ -37,6 +38,7 @@ class MockRewardsRepository implements RewardsRepository {
           'دمية ناعمة مصممة بحب على شكل زهرة الأوركيد الباسمة لتكون صديقتك الوفية أثناء النوم والمغامرات.',
       cost: 120,
       imageAsset: AppAssets.rewardPlaceholder,
+      emoji: '🧸', // TODO: replace emoji with final reward image
       stock: 3,
       pickupInstructions:
           'الاستلام من غرفة الأنشطة بالجمعية خلال أوقات الدوام الرسمي.',
@@ -48,6 +50,7 @@ class MockRewardsRepository implements RewardsRepository {
           'كوب حراري مبهج تظهر عليه رسومات زهرة الأوركيد وأصدقائها عند سكب المشروب الدافئ.',
       cost: 40,
       imageAsset: AppAssets.rewardPlaceholder,
+      emoji: '🎒', // TODO: replace emoji with final reward image
       stock: 8,
       pickupInstructions:
           'الاستلام من مكتب الجمعية الرئيسي بعد يومين من تأكيد الطلب.',
@@ -59,6 +62,7 @@ class MockRewardsRepository implements RewardsRepository {
           'ألعاب تركيب خشبية ممتعة وممتازة لتحدي الذكاء وبناء القلاع والقصور الخيالية.',
       cost: 350,
       imageAsset: AppAssets.rewardPlaceholder,
+      emoji: '🧩', // TODO: replace emoji with final reward image
       stock: 2,
       pickupInstructions:
           'الاستلام من قسم الهدايا في الجمعية مصطحباً بطاقة العائلة.',
@@ -70,6 +74,7 @@ class MockRewardsRepository implements RewardsRepository {
           'مقلمة مدرسية لطيفة وجميلة مزودة بأقلام تلوين ومسطرة وممحاة مرحة.',
       cost: 50,
       imageAsset: AppAssets.rewardPlaceholder,
+      emoji: '✏️', // TODO: replace emoji with final reward image
       stock: 0,
       pickupInstructions:
           'الاستلام من مقر الجمعية عند توفر الدفعة الجديدة.',
@@ -81,6 +86,7 @@ class MockRewardsRepository implements RewardsRepository {
           'شارة لامعة تثبت على صدرك أو حقيبتك المدرسية تعبيراً عن تميزك ومشاركتك الإيجابية في أنشطة الأوركيد.',
       cost: 30,
       imageAsset: AppAssets.rewardPlaceholder,
+      emoji: '🏅', // TODO: replace emoji with final reward image
       stock: 15,
       pickupInstructions:
           'الاستلام فوراً من المشرفة في ورشتك التفاعلية القادمة.',

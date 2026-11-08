@@ -7,6 +7,7 @@ class RewardItem {
     required this.imageAsset,
     required this.stock,
     required this.pickupInstructions,
+    this.emoji = '🎁',
   });
 
   final String id;
@@ -16,6 +17,7 @@ class RewardItem {
   final String imageAsset;
   final int stock;
   final String pickupInstructions;
+  final String emoji;
 
   bool get isOutOfStock => stock <= 0;
 
@@ -27,6 +29,7 @@ class RewardItem {
     String? imageAsset,
     int? stock,
     String? pickupInstructions,
+    String? emoji,
   }) {
     return RewardItem(
       id: id ?? this.id,
@@ -36,6 +39,7 @@ class RewardItem {
       imageAsset: imageAsset ?? this.imageAsset,
       stock: stock ?? this.stock,
       pickupInstructions: pickupInstructions ?? this.pickupInstructions,
+      emoji: emoji ?? this.emoji,
     );
   }
 
@@ -48,6 +52,7 @@ class RewardItem {
       imageAsset: map['imageAsset'] as String? ?? '',
       stock: (map['stock'] as num?)?.toInt() ?? 0,
       pickupInstructions: map['pickupInstructions'] as String? ?? '',
+      emoji: map['emoji'] as String? ?? '🎁',
     );
   }
 
@@ -58,5 +63,6 @@ class RewardItem {
     'imageAsset': imageAsset,
     'stock': stock,
     'pickupInstructions': pickupInstructions,
+    'emoji': emoji,
   };
 }

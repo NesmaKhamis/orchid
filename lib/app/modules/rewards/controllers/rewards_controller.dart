@@ -22,6 +22,7 @@ class RewardsController extends GetxController {
 
   final RxBool isLoading = true.obs;
   final RxString errorMessage = ''.obs;
+  final RxInt selectedTab = 0.obs;
   final RxInt balance = 0.obs;
   final RxInt todayEarned = 0.obs;
   final RxList<DailyActivity> dailyActivities = <DailyActivity>[].obs;

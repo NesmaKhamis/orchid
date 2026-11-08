@@ -4,7 +4,6 @@ import '../../data/models/reward_item.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_dimens.dart';
 import '../theme/app_text_styles.dart';
-import 'orchid_image.dart';
 import 'status_chip.dart';
 
 class RewardCard extends StatelessWidget {
@@ -12,12 +11,22 @@ class RewardCard extends StatelessWidget {
     super.key,
     required this.item,
     required this.currentBalance,
+    this.index = 0,
     this.onTap,
   });
 
   final RewardItem item;
   final int currentBalance;
+  final int index;
   final VoidCallback? onTap;
+
+  static const List<Color> _pastelTones = <Color>[
+    AppColors.softPink,
+    AppColors.softMint,
+    AppColors.softBlue,
+    AppColors.softYellow,
+    AppColors.lavender,
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +37,8 @@ class RewardCard extends StatelessWidget {
     final double coinProgress = item.cost > 0
         ? (currentBalance / item.cost).clamp(0.0, 1.0)
         : 1.0;
+
+    final Color toneColor = _pastelTones[index % _pastelTones.length];
 
     return Material(
       color: Colors.transparent,
@@ -44,20 +55,18 @@ class RewardCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Reward image in soft container
+              // Reward placeholder with large emoji on rotated pastel background
               Container(
                 height: 80,
                 decoration: BoxDecoration(
-                  color: AppColors.inputBg,
+                  color: toneColor,
                   borderRadius: BorderRadius.circular(AppDimens.radiusField),
                 ),
                 alignment: Alignment.center,
-                child: OrchidImage(
-                  assetPath: item.imageAsset,
-                  height: 64,
-                  width: 64,
-                  fit: BoxFit.contain,
-                ),
+                child: Text(
+                  item.emoji,
+                  style: const TextStyle(fontSize: 36),
+                ), // TODO: replace emoji with final reward image
               ),
               const SizedBox(height: AppDimens.space8),
               // Title
