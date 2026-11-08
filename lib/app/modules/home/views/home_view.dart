@@ -24,10 +24,39 @@ class HomeView extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. الشريط العلوي (زر الإشعارات فقط بدون زر الرجوع والدائرة)
+              // 1. الشريط العلوي (الترحيب مع زر الإشعارات بمحاذاة واحدة)
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // مرحباً باسم الطفل الحقيقي
+                        Obx(
+                          () => Text(
+                            'مرحباً، ${controller.currentChild.value?.name ?? ''} 👋',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: textDark,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: AppDimens.space4),
+                        // العنوان الترحيبي
+                        const Text(
+                          'أهلاً بك يا بطل في الأُوركيد! جاهز لمغامرة اليوم؟ ✨',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: AppDimens.space12),
                   Obx(() {
                     final bool hasUnread =
                         controller.unreadNotificationsCount.value > 0;
@@ -76,33 +105,7 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
 
-              const SizedBox(height: 20),
-
-              // مرحباً باسم الطفل الحقيقي
-              Obx(
-                () => Text(
-                  'مرحباً، ${controller.currentChild.value?.name ?? ''} 👋',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: textDark,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 6),
-
-              // العنوان الترحيبي العريض
-              const Text(
-                'أهلاً بك يا بطل في الأُوركيد! جاهز لمغامرة اليوم؟ ✨',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-
-              const SizedBox(height: 24),
+              const SizedBox(height: AppDimens.space24),
 
               // 2. بطاقة التحدي الكبرى
               HeroCardContainer(

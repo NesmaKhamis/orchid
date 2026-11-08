@@ -54,7 +54,7 @@ then the child's space opens (feelings check-in, home, workshops).
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
 9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
-  For the `feature/notifications` task, the home bell icon is OPEN to open notifications.
+  For the `feature/notifications` task, the home bell icon and header are OPEN to open notifications and align the header layout.
   For the `feature/rewards` task, the home daily-challenge card and `main_shell` are
   OPEN for UI polish. For the `docs/start-flow-task.md` task, `auth` (login/register),
   `link_identity`, `select_children`, `child_details`, `verification_rejected`, `privacy` and
