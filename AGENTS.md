@@ -37,6 +37,13 @@ space opens (feelings check-in, home, workshops).
    If a task seems to need anything else, stop and report it in the final summary.
 2. **Do NOT create or edit** `firebase_options.dart`, `google-services.json`,
    `GoogleService-Info.plist`, or anything under `android/` and `ios/`.
+   **Temporary exception (Firebase integration only):** while the `feature/firebase-integration`
+   work is in progress, `firebase_options.dart`, the Android Gradle files
+   (`android/settings.gradle.kts`, `android/app/build.gradle.kts`), the Android manifest files and
+   the iOS Firebase files may be edited. Every other `android/`/`ios/` file stays off-limits.
+   `google-services.json` and `GoogleService-Info.plist` must still never be committed (they stay
+   in `.gitignore`), and no fake/placeholder copy of them may be created. This exception ends
+   when the Firebase integration task is closed; remove it from this file in that commit.
 3. **Never hardcode** colors, font sizes, radii, spacing or asset paths inside a view. Use the
    tokens in section 5 and `AppAssets`.
 4. **Never copy-paste a UI block** that already exists as a shared widget (section 6). If a
@@ -275,6 +282,24 @@ Shared app state (selected child, parent) lives in a `SessionService` (`GetxServ
   implementation. The Firebase implementation will replace it in the binding only.
 - Splash decides the next route through `SessionService`, never directly.
 - Logout = `SessionService.logout()` then `Get.offAllNamed(Routes.login)`.
+
+## 9c. Firebase
+
+- **Auth source of truth is `FirebaseAuth`.** The session is whatever `FirebaseAuth.instance
+  .currentUser` says; `SessionService` mirrors it, it is not the authority.
+- **Profile data lives in Firestore `users/{uid}`** (parent profile and its children).
+  Nothing else owns profile data.
+- **`onboardingSeen` stays in local storage** (`SessionStorage` / `shared_preferences`). It is a
+  device-level flag and is never written to Firestore.
+- **Repositories stay abstract.** Firebase implementations (`FirebaseAuthRepository`,
+  `FirestoreUserRepository`, ...) are swapped in the **binding only**; controllers and views keep
+  talking to the abstract repository, exactly like the mock ones today.
+- **No direct Firebase calls inside views.** Views never import `firebase_auth`,
+  `cloud_firestore` or `firebase_core`; they go through the controller, which goes through the
+  repository. If a view needs data, add it to the controller.
+- `Firebase.initializeApp` happens once, in `main.dart`, before `SessionService.init()`. On
+  platforms without a configuration (`DefaultFirebaseOptions.currentPlatform` throws
+  `UnsupportedError`) the app logs it and falls back to local mode instead of crashing.
 
 ## 10. Workflow for every new screen
 
