@@ -19,8 +19,13 @@ class VerificationRejectedController extends GetxController {
     final arguments = Get.arguments;
     if (arguments is ChildModel) {
       _child = arguments;
-      return;
     }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    if (Get.arguments is ChildModel) return;
 
     Get.offAllNamed(Routes.onboarding);
   }

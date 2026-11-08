@@ -21,8 +21,13 @@ class ChildDetailsController extends GetxController {
     final arguments = Get.arguments;
     if (arguments is ChildModel) {
       selectedChild = arguments;
-      return;
     }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    if (Get.arguments is ChildModel) return;
 
     AppSnackbar.info('تعذر العثور على بيانات الطفل');
     Get.back();

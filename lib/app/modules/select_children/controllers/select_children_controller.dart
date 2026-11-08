@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/session_service.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../data/models/child_model.dart';
 import '../../../data/repositories/child_repository.dart';
@@ -17,6 +18,12 @@ class SelectChildrenController extends GetxController {
     loadChildrenData();
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    Get.find<SessionService>().saveStep(Routes.selectChildren);
+  }
+
   Future<void> loadChildrenData() async {
     final children = await _repository.getChildren();
     childrenList.assignAll(children);
@@ -30,7 +37,7 @@ class SelectChildrenController extends GetxController {
     selectedChildId.value = id;
   }
 
-  void proceedToChildDetails() {
+  Future<void> proceedToChildDetails() async {
     final selectedChild =
         childrenList.firstWhere((c) => c.id == selectedChildId.value);
 
@@ -39,6 +46,7 @@ class SelectChildrenController extends GetxController {
         age >= AppConstants.minChildAge && age <= AppConstants.maxChildAge;
 
     if (isEligible) {
+      await Get.find<SessionService>().saveSelectedChild(selectedChild.id);
       Get.toNamed(Routes.childDetails, arguments: selectedChild);
     } else {
       Get.toNamed(Routes.verificationRejected, arguments: selectedChild);

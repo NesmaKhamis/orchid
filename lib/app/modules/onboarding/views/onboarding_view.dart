@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/animated_orchid.dart';
 import '../controllers/onboarding_controller.dart';
 
 class OnboardingView extends GetView<OnboardingController> {
@@ -33,7 +34,7 @@ class OnboardingView extends GetView<OnboardingController> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Colors.green.shade100.withOpacity(0.5),
+                      color: Colors.green.shade100.withValues(alpha: 0.5),
                       borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(80),
                       ),
@@ -64,7 +65,7 @@ class OnboardingView extends GetView<OnboardingController> {
                       width: 110,
                       height: 110,
                       decoration: BoxDecoration(
-                        color: Colors.green.shade100.withOpacity(0.5),
+                        color: Colors.green.shade100.withValues(alpha: 0.5),
                         borderRadius: const BorderRadius.only(
                           bottomRight: Radius.circular(90),
                         ),
@@ -91,18 +92,7 @@ class OnboardingView extends GetView<OnboardingController> {
                     const SizedBox(height: 20),
 
                     // باقة الأوركيد الخضراء والجميلة
-                    Image.asset(
-                      'assets/images/orchid_mascot.png',
-                      height: 210,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Icon(
-                          Icons.filter_vintage,
-                          size: 130,
-                          color: primaryPurple,
-                        );
-                      },
-                    )
+                    const AnimatedOrchid(size: 210)
                         .animate()
                         .fadeIn(duration: 600.ms)
                         .scale(begin: const Offset(0.85, 0.85)),
@@ -152,7 +142,7 @@ class OnboardingView extends GetView<OnboardingController> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryPurple,
                           elevation: 4,
-                          shadowColor: primaryPurple.withOpacity(0.4),
+                          shadowColor: primaryPurple.withValues(alpha: 0.4),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(26),
                           ),

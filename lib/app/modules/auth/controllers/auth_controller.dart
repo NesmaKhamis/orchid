@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/services/session_service.dart';
 import '../../../routes/app_routes.dart';
 
 class AuthController extends GetxController {
@@ -29,20 +30,32 @@ class AuthController extends GetxController {
   }
 
   // دالة تسجيل الدخول
-  void login() async {
+  Future<void> login() async {
     isLoading.value = true;
+
+    // TODO: replace with Firebase Auth
     await Future.delayed(const Duration(seconds: 2));
     isLoading.value = false;
+
+    final session = Get.find<SessionService>();
+    await session.markLoggedIn();
+    await session.saveStep(Routes.linkIdentity);
 
     // الانتقال لشاشة ربط الهوية بعد الدخول
     Get.offAllNamed(Routes.linkIdentity);
   }
 
   // دالة إنشاء الحساب
-  void register() async {
+  Future<void> register() async {
     isLoading.value = true;
+
+    // TODO: replace with Firebase Auth
     await Future.delayed(const Duration(seconds: 2));
     isLoading.value = false;
+
+    final session = Get.find<SessionService>();
+    await session.markLoggedIn();
+    await session.saveStep(Routes.linkIdentity);
 
     // الانتقال لشاشة ربط الهوية بعد إنشاء الحساب
     Get.offAllNamed(Routes.linkIdentity);
