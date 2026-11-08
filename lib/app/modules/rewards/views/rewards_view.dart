@@ -13,6 +13,7 @@ import '../../../core/widgets/notice_banner.dart';
 import '../../../core/widgets/request_status_chip.dart';
 import '../../../core/widgets/reward_card.dart';
 import '../../../core/widgets/section_card.dart';
+import '../../../core/widgets/tab_header.dart';
 import '../../../data/models/daily_activity.dart';
 import '../../../data/models/reward_item.dart';
 import '../../../data/models/reward_request.dart';
@@ -100,22 +101,11 @@ class RewardsContent extends GetView<RewardsController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // Top breathing room under status bar
-              const SizedBox(height: AppDimens.space32),
-
-              // Fixed Top: Header
-              const Text(
-                'المكافآت والهدايا',
-                style: AppTextStyles.h1,
+              // Fixed Top: Unified Tab Header
+              const TabHeader(
+                title: 'المكافآت والهدايا',
+                subtitle: 'اجمع عملاتك وافتح مكافآت جديدة.',
               ),
-              const SizedBox(height: AppDimens.space4),
-              Text(
-                'اجمع عملاتك وافتح مكافآت جديدة.',
-                style: AppTextStyles.body.copyWith(
-                  color: AppColors.textSubtitle,
-                ),
-              ),
-              const SizedBox(height: AppDimens.space16),
 
               // Fixed Top: Balance Card
               CoinBalanceCard(

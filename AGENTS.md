@@ -57,7 +57,7 @@ then the child's space opens (feelings check-in, home, workshops).
   For the `feature/notifications` task, the home bell icon and header are OPEN to open notifications and align the header layout.
   For the `feature/feelings` task, the home mood card area, and the save action of drawing, guided_coloring and song_recording are OPEN (logic/navigation only, no visual change there).
   For the `feature/rewards` task, the home daily-challenge card and `main_shell` are
-  OPEN for UI polish. For the `docs/start-flow-task.md` task, `auth` (login/register),
+  OPEN for UI polish. For the tab header consistency task, the home header area is OPEN to unify home and rewards tab headers. For the `docs/start-flow-task.md` task, `auth` (login/register),
   `link_identity`, `select_children`, `child_details`, `verification_rejected`, `privacy` and
   `email_verification` are OPEN for UI fixes and flow logic. Outside these tasks, preserve the
   existing visual freeze and touch these screens only when a prompt explicitly asks.
@@ -200,6 +200,7 @@ callbacks, never a controller.
 | `NotificationCard` | Card displaying an AppNotification with category pastel tone, unread purple dot, and relative time. |
 | `FeelingCard` | Card representing a single feeling with a large emoji and an Arabic label. |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
+| `TabHeader` | Unified top header for shell tabs: title, subtitle, optional trailing action, and consistent spacing. |
 
 Helpers: `AppSnackbar.info/success/warning/error(message)`, `Validators.required/email/password/match/nationalId/phone`,
 `AppDateUtils.ageFrom(DateTime)`, `AppDateUtils.format(DateTime)`.

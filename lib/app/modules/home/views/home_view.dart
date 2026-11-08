@@ -6,6 +6,7 @@ import '../../../core/theme/app_dimens.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/animated_orchid.dart';
 import '../../../core/widgets/hero_card_container.dart';
+import '../../../core/widgets/tab_header.dart';
 import '../../../data/models/mood_record.dart';
 import '../controllers/home_controller.dart';
 
@@ -14,7 +15,6 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    const textDark = Color(0xFF1A1A1A);
     final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
         MediaQuery.paddingOf(context).bottom +
         AppDimens.space24;
@@ -26,96 +26,27 @@ class HomeView extends GetView<HomeController> {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           padding: EdgeInsetsDirectional.fromSTEB(
-            AppDimens.space20,
-            AppDimens.space16,
-            AppDimens.space20,
+            AppDimens.screenHorizontalPadding,
+            0,
+            AppDimens.screenHorizontalPadding,
             bottomScrollPadding,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. الشريط العلوي (الترحيب مع زر الإشعارات بمحاذاة واحدة)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // مرحباً باسم الطفل الحقيقي
-                        Obx(
-                          () => Text(
-                            'مرحباً، ${controller.currentChild.value?.name ?? ''} 👋',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: textDark,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: AppDimens.space4),
-                        // العنوان الترحيبي
-                        const Text(
-                          'أهلاً بك يا بطل في الأُوركيد! جاهز لمغامرة اليوم؟ ✨',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: AppDimens.space12),
-                  Obx(() {
-                    final bool hasUnread =
-                        controller.unreadNotificationsCount.value > 0;
-                    return Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withValues(alpha: 0.08),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.notifications_outlined,
-                              color: AppColors.primary,
-                              size: 22,
-                            ),
-                            onPressed: controller.onNotificationPressed,
-                          ),
-                          if (hasUnread)
-                            PositionedDirectional(
-                              top: 10,
-                              end: 10,
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    );
-                  }),
-                ],
-              ),
-
-              const SizedBox(height: AppDimens.space24),
+              // 1. الشريط العلوي المشترك
+              Obx(() {
+                final bool hasUnread =
+                    controller.unreadNotificationsCount.value > 0;
+                final String childName =
+                    controller.currentChild.value?.name ?? '';
+                return TabHeader(
+                  title: 'مرحباً، $childName 👋',
+                  subtitle:
+                      'أهلاً بك يا بطل في الأُوركيد! جاهز لمغامرة اليوم؟ ✨',
+                  trailing: _buildNotificationBell(hasUnread),
+                );
+              }),
 
               // بطاقة مزاج اليوم
               Obx(() {
@@ -382,6 +313,50 @@ class HomeView extends GetView<HomeController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildNotificationBell(bool hasUnread) {
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications_outlined,
+              color: AppColors.primary,
+              size: 22,
+            ),
+            onPressed: controller.onNotificationPressed,
+          ),
+          if (hasUnread)
+            PositionedDirectional(
+              top: 10,
+              end: 10,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
