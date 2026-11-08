@@ -6,6 +6,7 @@ import '../../../core/theme/app_dimens.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/animated_orchid.dart';
 import '../../../core/widgets/hero_card_container.dart';
+import '../../../data/models/mood_record.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -115,6 +116,86 @@ class HomeView extends GetView<HomeController> {
               ),
 
               const SizedBox(height: AppDimens.space24),
+
+              // بطاقة مزاج اليوم
+              Obx(() {
+                final MoodRecord? record = controller.todayMoodRecord.value;
+                final bool hasRecord = record != null;
+
+                return InkWell(
+                  onTap: controller.onMoodCardPressed,
+                  borderRadius: BorderRadius.circular(AppDimens.radiusCard),
+                  child: HeroCardContainer(
+                    child: Row(
+                      children: <Widget>[
+                        if (hasRecord)
+                          Container(
+                            width: 52,
+                            height: 52,
+                            decoration: BoxDecoration(
+                              color: AppColors.white,
+                              shape: BoxShape.circle,
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.08),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              record.feeling.emoji,
+                              style: const TextStyle(fontSize: 26),
+                            ),
+                          )
+                        else
+                          const AnimatedOrchid(size: 52, autoStart: true),
+                        const SizedBox(width: AppDimens.space16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const Text(
+                                'مزاج اليوم',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: AppDimens.space4),
+                              Text(
+                                hasRecord
+                                    ? 'أشعر بـ ${record.feeling.label}'
+                                    : 'كيف قلبك اليوم؟',
+                                style: AppTextStyles.title,
+                              ),
+                              const SizedBox(height: AppDimens.space4),
+                              Text(
+                                hasRecord
+                                    ? 'اضغط هنا لمشاركة مشاعرك من جديد'
+                                    : 'شاركنا ما تشعر به لتكسب عملاتك اليوم',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.textSubtitle,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios_rounded,
+                          size: 16,
+                          color: AppColors.primary,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+
+              const SizedBox(height: AppDimens.space16),
 
               // 2. بطاقة التحدي الكبرى
               HeroCardContainer(

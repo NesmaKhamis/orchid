@@ -55,6 +55,7 @@ then the child's space opens (feelings check-in, home, workshops).
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
 9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
   For the `feature/notifications` task, the home bell icon and header are OPEN to open notifications and align the header layout.
+  For the `feature/feelings` task, the home mood card area, and the save action of drawing, guided_coloring and song_recording are OPEN (logic/navigation only, no visual change there).
   For the `feature/rewards` task, the home daily-challenge card and `main_shell` are
   OPEN for UI polish. For the `docs/start-flow-task.md` task, `auth` (login/register),
   `link_identity`, `select_children`, `child_details`, `verification_rejected`, `privacy` and
@@ -265,7 +266,7 @@ fixes and flow logic.
 | التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | 🔓 |
 | التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔓 |
 | التسجيل — تأكيد البريد الإلكتروني | `email_verification` | `Routes.emailVerification` | 🔓 |
-| المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
+| المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ✅ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
 | المكافآت والهدايا (rewards) inside the bottom-nav shell | `main_shell`, `rewards` | `Routes.rewards` | ✅ |
 | تفاصيل المكافأة (reward details) | `rewards` | `Routes.rewardDetails` | ✅ |
@@ -280,7 +281,7 @@ fixes and flow logic.
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ✅ |
 | الورشات المسجلة (registered workshops) | `workshops` | `Routes.myWorkshops` | ✅ |
 | الإشعارات (notifications) | `notifications` | `Routes.notifications` | ✅ |
-| المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |
+| المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ✅ |
 | Select children / Child details (current code, not in Figma set) | `select_children`, `child_details` | `Routes.selectChildren`, `Routes.childDetails` | 🔒 |
 
 Update this table in the same commit whenever a screen's status changes.
@@ -307,6 +308,14 @@ Shared app state (selected child, parent) lives in a `SessionService` (`GetxServ
 - A daily coin cap limits earning to support healthy screen habits.
 - Rewards data is mock-backed for now. Firebase implementations are selected in
   bindings only when the persistence layer is introduced.
+
+## 9e. Feelings
+
+- 6 core feelings (happy, sad, worried, shy, angry, tired) represented with warm, supportive, child-safe Arabic copy. "كل المشاعر مقبولة".
+- "Before" check-in is optional, opened from the "مزاج اليوم" card on Home.
+- "After" check-in opens automatically after saving a creative activity (drawing, guided coloring, song recording).
+- Privacy rule: Records are only saved. They are NEVER shown to parents or to the charity anywhere in the UI (no history screen, no profile section). The only thing shown back to the child is today's last feeling on the Home card.
+- Coins: Awarded only on the first check-in of the day (before or after) up to the daily coin cap through `RewardsRepository.completeActivity('act-mood')`.
 
 ## 9b. Session and first-launch logic
 

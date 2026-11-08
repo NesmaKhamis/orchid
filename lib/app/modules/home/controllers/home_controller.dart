@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 import '../../../core/services/session_service.dart';
 import '../../../core/utils/app_snackbar.dart';
 import '../../../data/models/child_model.dart';
+import '../../../data/models/feelings_args.dart';
+import '../../../data/models/mood_record.dart';
 import '../../../data/repositories/children_repository.dart';
+import '../../../data/repositories/mood_repository.dart';
 import '../../../data/repositories/notifications_repository.dart';
 import '../../../routes/app_routes.dart';
 
@@ -20,11 +23,28 @@ class HomeController extends GetxController {
   final RxInt unreadNotificationsCount = 0.obs;
   StreamSubscription<int>? _unreadNotificationsSub;
 
+  final Rxn<MoodRecord> todayMoodRecord = Rxn<MoodRecord>();
+  StreamSubscription<MoodRecord?>? _moodSub;
+
   @override
   void onInit() {
     super.onInit();
     _loadChild();
     _subscribeToNotifications();
+    _subscribeToTodayMood();
+  }
+
+  void _subscribeToTodayMood() {
+    if (Get.isRegistered<MoodRepository>()) {
+      final String? childId = Get.isRegistered<SessionService>()
+          ? Get.find<SessionService>().selectedChildId
+          : null;
+      _moodSub = Get.find<MoodRepository>()
+          .watchTodayLastRecord(childId: childId)
+          .listen((MoodRecord? record) {
+        todayMoodRecord.value = record;
+      });
+    }
   }
 
   void _subscribeToNotifications() {
@@ -75,6 +95,14 @@ class HomeController extends GetxController {
     Get.toNamed(Routes.workshops);
   }
 
+  // الانتقال إلى شاشة تسجيل المشاعر (المزاج)
+  void onMoodCardPressed() {
+    Get.toNamed(
+      Routes.feelingsBefore,
+      arguments: const FeelingsArgs(phase: MoodPhase.before),
+    );
+  }
+
   // الانتقال إلى شاشة "عَبِّر عن نفسك"
   void onExpressYourselfPressed() {
     Get.toNamed(Routes.expressYourself);
@@ -83,6 +111,7 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     _unreadNotificationsSub?.cancel();
+    _moodSub?.cancel();
     super.onClose();
   }
 }
