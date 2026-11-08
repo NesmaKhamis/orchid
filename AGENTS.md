@@ -189,6 +189,7 @@ callbacks, never a controller.
 | `CoinBalanceCard` | Animated balance display with AnimatedOrchid, coin count, encouraging copy and daily cap progress bar. |
 | `RewardCard` | Card showing reward image, title, cost, and availability state (order button / progress / out-of-stock). |
 | `RequestStatusChip` | Status badge for reward requests mapping RewardRequestStatus to Arabic label and semantic tone. |
+| `ParentGateDialog` | Child-safe arithmetic parent gate dialog and `showParentGateDialog` helper before sensitive actions. |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
 
@@ -260,8 +261,8 @@ fixes and flow logic.
 | المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
 | المكافآت والهدايا (rewards) inside the bottom-nav shell | `main_shell`, `rewards` | `Routes.rewards` | ✅ |
-| تفاصيل المكافأة (reward details) | `rewards` | `Routes.rewardDetails` | ⬜ |
-| طلباتي من المكافآت (reward requests) | `rewards` | `Routes.myRewardRequests` | ⬜ |
+| تفاصيل المكافأة (reward details) | `rewards` | `Routes.rewardDetails` | ✅ |
+| طلباتي من المكافآت (reward requests) | `rewards` | `Routes.myRewardRequests` | ✅ |
 | الملف الشخصي (profile) inside the bottom-nav shell | `main_shell`, `profile` | `Routes.profile` | ✅ |
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
 | الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
