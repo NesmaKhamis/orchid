@@ -42,11 +42,8 @@ class AppScaffold extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          if (title != null || showBackButton)
-            _buildAppBar(context),
-          Expanded(
-            child: content,
-          ),
+          if (title != null || showBackButton) _buildAppBar(context),
+          Expanded(child: content),
         ],
       ),
     );

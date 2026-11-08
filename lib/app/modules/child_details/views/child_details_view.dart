@@ -29,11 +29,7 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
                   shape: BoxShape.circle,
                   border: Border.all(color: primaryPurple, width: 2),
                 ),
-                child: const Icon(
-                  Icons.person,
-                  size: 45,
-                  color: primaryPurple,
-                ),
+                child: const Icon(Icons.person, size: 45, color: primaryPurple),
               ),
               const SizedBox(height: 14),
               Text(
@@ -153,4 +149,5 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
         ],
       ),
     );
-  }}
+  }
+}

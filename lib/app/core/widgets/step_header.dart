@@ -37,11 +37,7 @@ class StepHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppDimens.space4),
-              Text(
-                title,
-                textAlign: TextAlign.start,
-                style: AppTextStyles.h2,
-              ),
+              Text(title, textAlign: TextAlign.start, style: AppTextStyles.h2),
             ],
           ),
         ),

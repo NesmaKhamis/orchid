@@ -21,12 +21,12 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-                  const Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: Align(
-                      alignment: AlignmentDirectional.topStart,
-                      child: AppBackButton(),
-                    ),
+              const Directionality(
+                textDirection: TextDirection.rtl,
+                child: Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: AppBackButton(),
+                ),
               ),
               const SizedBox(height: 10),
 
@@ -106,7 +106,10 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                   decoration: const InputDecoration(
                     hintText: 'مثال: 900123456',
                     hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     border: InputBorder.none,
                     prefixIcon: Icon(
                       Icons.badge_outlined,
@@ -144,11 +147,20 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                     child: TextField(
                       controller: controller.birthDateController,
                       textAlign: TextAlign.right,
-                      style: const TextStyle(fontSize: 14, color: Colors.black87),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
                       decoration: const InputDecoration(
                         hintText: 'السنة - الشهر - اليوم',
-                        hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        hintStyle: TextStyle(
+                          color: Colors.black38,
+                          fontSize: 13,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                         border: InputBorder.none,
                         prefixIcon: Icon(
                           Icons.calendar_month_outlined,

@@ -89,7 +89,8 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
               color: AppColors.primary,
               size: 22,
             ),
-            text: 'تحقق من صندوق الوارد أو البريد غير المرغوب فيه إذا لم تجد الرابط.',
+            text:
+                'تحقق من صندوق الوارد أو البريد غير المرغوب فيه إذا لم تجد الرابط.',
           ),
           const SizedBox(height: AppDimens.space8),
         ],

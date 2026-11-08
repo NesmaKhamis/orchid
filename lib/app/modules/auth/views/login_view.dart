@@ -99,7 +99,10 @@ class LoginView extends GetView<AuthController> {
                   decoration: const InputDecoration(
                     hintText: 'nesma@gmail.com',
                     hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     border: InputBorder.none,
                     prefixIcon: Icon(
                       Icons.email_outlined,
@@ -138,9 +141,15 @@ class LoginView extends GetView<AuthController> {
                       controller: controller.passwordController,
                       obscureText: controller.isPasswordHidden.value,
                       textAlign: TextAlign.right,
-                      style: const TextStyle(fontSize: 14, color: Colors.black87),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                         border: InputBorder.none,
                         prefixIcon: IconButton(
                           icon: Icon(
@@ -184,7 +193,9 @@ class LoginView extends GetView<AuthController> {
                   width: Get.width * 0.65,
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: controller.isLoading.value ? null : controller.login,
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : controller.login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryPurple,
                       elevation: 4,

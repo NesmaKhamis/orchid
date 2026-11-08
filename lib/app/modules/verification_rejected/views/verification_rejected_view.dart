@@ -61,10 +61,7 @@ class VerificationRejectedView extends GetView<VerificationRejectedController> {
             style: AppTextStyles.bodySmall.copyWith(color: AppColors.textMuted),
           ),
           const SizedBox(height: AppDimens.space24),
-          AppButton(
-            label: 'اختيار طفل آخر',
-            onPressed: () => Get.back(),
-          ),
+          AppButton(label: 'اختيار طفل آخر', onPressed: () => Get.back()),
           const SizedBox(height: AppDimens.space16),
           Text(
             'إذا كانت البيانات غير صحيحة، يمكن لولي الأمر طلب المساعدة قبل إعادة المحاولة.',
