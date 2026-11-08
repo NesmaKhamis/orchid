@@ -39,7 +39,11 @@ import '../modules/workshops/views/my_workshops_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/rewards/bindings/rewards_binding.dart';
+import '../modules/rewards/bindings/reward_details_binding.dart';
+import '../modules/rewards/bindings/my_reward_requests_binding.dart';
 import '../modules/rewards/views/rewards_view.dart';
+import '../modules/rewards/views/reward_details_view.dart';
+import '../modules/rewards/views/my_reward_requests_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -148,6 +152,16 @@ class AppPages {
       name: Routes.rewards,
       page: () => const RewardsView(),
       binding: RewardsBinding(),
+    ),
+    GetPage(
+      name: Routes.rewardDetails,
+      page: () => const RewardDetailsView(),
+      binding: RewardDetailsBinding(),
+    ),
+    GetPage(
+      name: Routes.myRewardRequests,
+      page: () => const MyRewardRequestsView(),
+      binding: MyRewardRequestsBinding(),
     ),
     GetPage(
       name: Routes.profile,

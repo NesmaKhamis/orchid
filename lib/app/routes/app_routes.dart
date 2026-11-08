@@ -19,6 +19,8 @@ abstract class _Paths {
   static const workshopDetails = '/workshop-details';
   static const myWorkshops = '/my-workshops';
   static const rewards = '/rewards';
+  static const rewardDetails = '/reward-details';
+  static const myRewardRequests = '/my-reward-requests';
   static const profile = '/profile';
 }
 
@@ -44,5 +46,7 @@ abstract class Routes {
   static const workshopDetails = _Paths.workshopDetails;
   static const myWorkshops = _Paths.myWorkshops;
   static const rewards = _Paths.rewards;
+  static const rewardDetails = _Paths.rewardDetails;
+  static const myRewardRequests = _Paths.myRewardRequests;
   static const profile = _Paths.profile;
 }
