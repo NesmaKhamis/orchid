@@ -12,6 +12,8 @@ class AppAssets {
   static const String orchidFaceSad = orchidSingle;
   static const String orchidFaceWorried = orchidSingle;
   static const String orchidFaceShy = orchidSingle;
+  // TODO: replace with final reward assets.
+  static const String rewardPlaceholder = orchidSingle;
   static const String badgeCheck = 'assets/images/badge-check.png';
   static const String messageSquareLock =
       'assets/images/message-square-lock.png';
