@@ -247,20 +247,6 @@ fixes and flow logic.
 |---|---|---|---|
 | Splash | `splash` | `Routes.splash` | 🔒 |
 | بداية الرحلة (welcome) | `onboarding` | `Routes.onboarding` | 🔒 |
-<<<<<<< HEAD
-| Login (not in current Figma set) | `auth` | `Routes.login` | 🔒 |
-| Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
-| التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
-| التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
-| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | ⬜ |
-| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ⬜ |
-| التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
-| المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ⬜ |
-| الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.mainShell` | ⬜ |
-| الملف الشخصي | `profile` | `Routes.profile` | ✅ |
-| الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ⬜ |
-| الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ⬜ |
-=======
 | Login (not in current Figma set) | `auth` | `Routes.login` | 🔓 |
 | Register (not in current Figma set) | `auth` | `Routes.register` | 🔓 |
 | التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔓 |
@@ -280,7 +266,6 @@ fixes and flow logic.
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ✅ |
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ✅ |
 | الورشات المسجلة (registered workshops) | `workshops` | `Routes.myWorkshops` | ✅ |
->>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
 | المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |
 | Select children / Child details (current code, not in Figma set) | `select_children`, `child_details` | `Routes.selectChildren`, `Routes.childDetails` | 🔒 |
 
