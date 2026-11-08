@@ -44,6 +44,8 @@ import '../modules/rewards/bindings/my_reward_requests_binding.dart';
 import '../modules/rewards/views/rewards_view.dart';
 import '../modules/rewards/views/reward_details_view.dart';
 import '../modules/rewards/views/my_reward_requests_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -162,6 +164,11 @@ class AppPages {
       name: Routes.myRewardRequests,
       page: () => const MyRewardRequestsView(),
       binding: MyRewardRequestsBinding(),
+    ),
+    GetPage(
+      name: Routes.notifications,
+      page: () => const NotificationsView(),
+      binding: NotificationsBinding(),
     ),
     GetPage(
       name: Routes.profile,

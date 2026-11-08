@@ -21,6 +21,7 @@ abstract class _Paths {
   static const rewards = '/rewards';
   static const rewardDetails = '/reward-details';
   static const myRewardRequests = '/my-reward-requests';
+  static const notifications = '/notifications';
   static const profile = '/profile';
 }
 
@@ -48,5 +49,6 @@ abstract class Routes {
   static const rewards = _Paths.rewards;
   static const rewardDetails = _Paths.rewardDetails;
   static const myRewardRequests = _Paths.myRewardRequests;
+  static const notifications = _Paths.notifications;
   static const profile = _Paths.profile;
 }
