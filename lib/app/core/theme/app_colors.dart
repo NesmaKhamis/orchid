@@ -5,6 +5,7 @@ class AppColors {
   AppColors._();
 
   static const Color primary = Color(0xFF8B53A8);
+  static const Color white = Color(0xFFFFFFFF);
   static const Color textDark = Color(0xFF2D2D2D);
   static const Color textSubtitle = Color(0xFF6B588C);
   static const Color textMuted = Color(0xFF757575);

@@ -234,6 +234,7 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
 | التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
 | المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.mainShell` | ⬜ |
+| الملف الشخصي | `profile` | `Routes.profile` | ✅ |
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ⬜ |
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ⬜ |
 | المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |

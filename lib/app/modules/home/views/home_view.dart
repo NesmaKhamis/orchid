@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
+import '../../../routes/app_routes.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -199,7 +200,7 @@ class HomeView extends GetView<HomeController> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 90),
             ],
           ),
@@ -227,7 +228,15 @@ class HomeView extends GetView<HomeController> {
             _buildNavItem(Icons.home_rounded, 'الرئيسية', true, primaryPurple),
             _buildNavItem(Icons.card_giftcard_rounded, 'الهدايا', false, primaryPurple),
             _buildNavItem(Icons.emoji_events_rounded, 'الإنجازات', false, primaryPurple),
-            _buildNavItem(Icons.person_rounded, 'الملف', false, primaryPurple),
+            GestureDetector(
+              onTap: () => Get.toNamed(Routes.profile),
+              child: _buildNavItem(
+                Icons.person_rounded,
+                'الملف',
+                false,
+                primaryPurple,
+              ),
+            ),
           ],
         ),
       ),
