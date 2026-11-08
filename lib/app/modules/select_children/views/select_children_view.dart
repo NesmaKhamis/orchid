@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/app_back_button.dart';
 import '../controllers/select_children_controller.dart';
 
 class SelectChildrenView extends GetView<SelectChildrenController> {
@@ -13,26 +14,19 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: textDark),
-        title: const Text(
-          'اختيار الطفل',
-          style: TextStyle(
-            color: textDark,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+                  const Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Align(
+                      alignment: AlignmentDirectional.topStart,
+                      child: AppBackButton(),
+                    ),
+              ),
               const SizedBox(height: 10),
 
               // 1. العنوان

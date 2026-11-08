@@ -164,6 +164,7 @@ callbacks, never a controller.
 |---|---|
 | `AppScaffold` | Screen shell: background (`plain`, `cream`, `gradient`), optional corner leaf decoration, `SafeArea`, optional scroll, standard horizontal padding, optional `title` + back button app bar. |
 | `AppButton` | `label`, `onPressed`, `variant` (`primary` / `soft` / `text`), `isLoading`, `icon`, `fullWidth`. Handles disabled + loading state. |
+| `AppBackButton` | Shared RTL back action with a consistent 48px tap target; defaults to `Get.back()`. |
 | `AppTextField` | Label above the field, `controller`, `hint`, `prefixIcon`, `suffix`, `keyboardType`, `validator`, `readOnly`, `onTap`, `maxLength`, `obscureText`, `textDirection`, `fillColor`. |
 | `PasswordField` | Wraps `AppTextField` with its own show/hide toggle (local state, no controller flag). |
 | `SectionTitle` | Centered title + optional emoji + optional subtitle. |
