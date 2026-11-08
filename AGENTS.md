@@ -278,8 +278,9 @@ Shared app state (selected child, parent) lives in a `SessionService` (`GetxServ
 
 - `SessionService` (`GetxService`) is the only owner of: `onboardingSeen`, `isLoggedIn`,
   `registrationComplete`, `lastStep`, `selectedChildId`.
-- `SessionStorage` is an abstract class; `LocalSessionStorage` (`shared_preferences`) is the temporary
-  implementation. The Firebase implementation will replace it in the binding only.
+- `SessionStorage` is an abstract class. `FirebaseSessionStorage` stores account progress in
+  Firestore and uses `LocalSessionStorage` (`shared_preferences`) for onboarding and per-user cache
+  fallback; it is registered in `InitialBinding`.
 - Splash decides the next route through `SessionService`, never directly.
 - Logout = `SessionService.logout()` then `Get.offAllNamed(Routes.login)`.
 

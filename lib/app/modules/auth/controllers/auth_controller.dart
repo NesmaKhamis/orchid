@@ -101,11 +101,9 @@ class AuthController extends GetxController {
     Get.back();
   }
 
-  /// Shared post-authentication step: mirror the Firebase session locally and
-  /// continue the registration flow at the family-identity screen.
+  /// Continue the registration flow at the family-identity screen.
   Future<void> _continueAfterAuth() async {
     final SessionService session = Get.find<SessionService>();
-    await session.markLoggedIn();
     await session.saveStep(Routes.linkIdentity);
 
     isLoading.value = false;

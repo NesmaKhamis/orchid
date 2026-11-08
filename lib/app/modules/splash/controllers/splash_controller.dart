@@ -10,11 +10,14 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    _navigationTimer = Timer(AppConstants.splashMinDuration, () {
-      if (!isClosed) {
-        Get.offNamed(Get.find<SessionService>().resolveStartRoute());
-      }
-    });
+    _navigationTimer = Timer(AppConstants.splashMinDuration, _navigate);
+  }
+
+  Future<void> _navigate() async {
+    final String route = await Get.find<SessionService>().resolveStartRoute();
+    if (!isClosed) {
+      Get.offNamed(route);
+    }
   }
 
   @override

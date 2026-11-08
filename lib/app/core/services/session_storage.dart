@@ -4,9 +4,6 @@ abstract class SessionStorage {
   Future<bool> get onboardingSeen;
   Future<void> setOnboardingSeen(bool value);
 
-  Future<bool> get isLoggedIn;
-  Future<void> setIsLoggedIn(bool value);
-
   Future<bool> get registrationComplete;
   Future<void> setRegistrationComplete(bool value);
 
