@@ -16,8 +16,6 @@ import '../modules/song_recording/bindings/song_recording_binding.dart';
 import '../modules/song_recording/views/song_recording_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/feelings/bindings/feelings_before_binding.dart';
-import '../modules/feelings/views/feelings_before_view.dart';
 import '../modules/link_identity/bindings/link_identity_binding.dart';
 import '../modules/link_identity/views/link_identity_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
@@ -110,11 +108,7 @@ class AppPages {
       page: () => const PhoneVerificationView(),
       binding: PhoneVerificationBinding(),
     ),
-    GetPage(
-      name: Routes.feelingsBefore,
-      page: () => const FeelingsBeforeView(),
-      binding: FeelingsBeforeBinding(),
-    ),
+
     GetPage(
       name: Routes.singing,
       page: () => const SingingView(),

@@ -46,7 +46,7 @@ space opens (feelings check-in, home, workshops).
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
 9. **Legacy screens are FROZEN.** `splash`, `onboarding`, `auth` (login/register), `link_identity`,
-   `select_children`, `child_details` were designed and built by a teammate and look better than
+   `select_children`, `child_details`, `home` were designed and built by a teammate and look better than
    the Figma. Do not change their visuals, layout, colors, texts or widget trees, and do not
    restyle or "migrate" them to shared widgets. Touch them only when a prompt explicitly asks,
    and then only for the listed logic/navigation change.
@@ -240,8 +240,8 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder 
 | التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | ⬜ |
 | التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ⬜ |
 | التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
-| المشاعر — قبل (how is your heart today) | `feelings` | `Routes.feelingsBefore` | ⬜ |
-| الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` (temporary direct route from `childDetails`; shell not built yet) | ✅ |
+| المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
+| الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
 | الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
 | التلوين الموجه (guided coloring) | `guided_coloring` | `Routes.guidedColoring` (from express_yourself card "التلوين الموجه") | ✅ |
@@ -255,7 +255,7 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder 
 Update this table in the same commit whenever a screen's status changes.
 
 Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
+`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → phoneVerification → home → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
 `SelectChildrenController` checks the age with `AppDateUtils.ageFrom` against `AppConstants.minChildAge` / `maxChildAge` and routes accordingly.
 `childDetails` is the Figma "verification accepted" screen; its continue button now navigates to `Routes.privacy`.
 
