@@ -1,5 +1,7 @@
 abstract class AuthRepository {
-  Future<String> getParentPhoneMasked();
+  String get currentEmail;
 
-  Future<bool> verifyOtp(String code);
+  Future<void> sendEmailVerification();
+
+  Future<bool> reloadAndCheckVerified();
 }

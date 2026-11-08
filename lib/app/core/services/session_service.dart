@@ -54,6 +54,11 @@ class SessionService extends GetxService {
     await _storage.setRegistrationComplete(true);
   }
 
+  Future<void> markRegistrationIncomplete() async {
+    _registrationComplete = false;
+    await _storage.setRegistrationComplete(false);
+  }
+
   Future<void> logout() async {
     _isLoggedIn = false;
     _registrationComplete = false;
@@ -92,7 +97,7 @@ class SessionService extends GetxService {
       case Routes.selectChildren:
         return step;
       case Routes.privacy:
-      case Routes.phoneVerification:
+      case Routes.emailVerification:
         return hasSelectedChild ? step : Routes.selectChildren;
       default:
         return Routes.linkIdentity;

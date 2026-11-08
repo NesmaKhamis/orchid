@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../constants/app_assets.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_dimens.dart';
+import 'app_back_button.dart';
 
 /// Screen shell with RTL directionality.
 class AppScaffold extends StatelessWidget {
@@ -41,11 +42,8 @@ class AppScaffold extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          if (title != null || showBackButton)
-            _buildAppBar(context),
-          Expanded(
-            child: content,
-          ),
+          if (title != null || showBackButton) _buildAppBar(context),
+          Expanded(child: content),
         ],
       ),
     );
@@ -85,10 +83,7 @@ class AppScaffold extends StatelessWidget {
       child: Row(
         children: <Widget>[
           if (showBackButton)
-            IconButton(
-              onPressed: onBackPressed ?? () => Navigator.of(context).maybePop(),
-              icon: const Icon(Icons.arrow_back_rounded),
-            )
+            AppBackButton(onPressed: onBackPressed)
           else
             const SizedBox(width: 48),
           Expanded(

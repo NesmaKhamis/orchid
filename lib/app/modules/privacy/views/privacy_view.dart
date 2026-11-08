@@ -5,11 +5,11 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_dimens.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/widgets/app_back_button.dart';
 import '../../../core/widgets/app_checkbox_tile.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/notice_banner.dart';
 import '../../../core/widgets/status_chip.dart';
-import '../../../core/widgets/step_header.dart';
 import '../controllers/privacy_controller.dart';
 
 class PrivacyView extends GetView<PrivacyController> {
@@ -23,10 +23,9 @@ class PrivacyView extends GetView<PrivacyController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          StepHeader(
-            stepLabel: '02 / موافقة ولي الأمر • 2 من 4',
-            title: 'خصوصيته أولاً',
-            onBack: () => Get.back(),
+          const Align(
+            alignment: AlignmentDirectional.topStart,
+            child: AppBackButton(),
           ),
           const SizedBox(height: AppDimens.space20),
           const Align(
@@ -55,29 +54,13 @@ class PrivacyView extends GetView<PrivacyController> {
             ),
           ),
           const SizedBox(height: AppDimens.space12),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: AppButton(
-              label: 'قراءة سياسة الخصوصية وحقوق ولي الأمر ←',
-              variant: AppButtonVariant.text,
-              fullWidth: false,
-              onPressed: controller.readPrivacyPolicy,
-            ),
-          ),
-          const SizedBox(height: AppDimens.space8),
           Obx(
             () => AppButton(
               label: 'أوافق وأتابع',
               onPressed: controller.canContinue
-                  ? controller.proceedToPhoneVerification
+                  ? controller.proceedToEmailVerification
                   : null,
             ),
-          ),
-          const SizedBox(height: AppDimens.space12),
-          AppButton(
-            label: 'لا أوافق، العودة',
-            variant: AppButtonVariant.soft,
-            onPressed: () => Get.back(),
           ),
           const SizedBox(height: AppDimens.space20),
           NoticeBanner(

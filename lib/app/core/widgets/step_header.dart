@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_dimens.dart';
 import '../theme/app_text_styles.dart';
+import 'app_back_button.dart';
 
 /// Registration step header with step label, title, back chevron and lock badge.
 class StepHeader extends StatelessWidget {
@@ -22,17 +23,7 @@ class StepHeader extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        IconButton(
-          onPressed: onBack ?? () => Navigator.of(context).maybePop(),
-          icon: const Icon(Icons.arrow_back_rounded),
-          color: AppColors.textDark,
-          iconSize: 24,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints.tightFor(
-            width: 48,
-            height: 48,
-          ),
-        ),
+        AppBackButton(onPressed: onBack),
         const SizedBox(width: AppDimens.space12),
         Expanded(
           child: Column(
@@ -46,11 +37,7 @@ class StepHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppDimens.space4),
-              Text(
-                title,
-                textAlign: TextAlign.start,
-                style: AppTextStyles.h2,
-              ),
+              Text(title, textAlign: TextAlign.start, style: AppTextStyles.h2),
             ],
           ),
         ),

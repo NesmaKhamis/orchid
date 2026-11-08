@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_dimens.dart';
 import '../theme/app_text_styles.dart';
+import 'app_back_button.dart';
 
 /// Screen top bar: back button at the start, caption above a bold title,
 /// and an optional trailing widget (e.g. sound toggle) at the end.
@@ -30,11 +31,7 @@ class AppHeaderBar extends StatelessWidget {
         height: 48,
         child: Row(
           children: <Widget>[
-            IconButton(
-              onPressed:
-                  onBackPressed ?? () => Navigator.of(context).maybePop(),
-              icon: const Icon(Icons.arrow_back_rounded),
-            ),
+            AppBackButton(onPressed: onBackPressed),
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
