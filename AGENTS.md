@@ -46,12 +46,11 @@ space opens (feelings check-in, home, workshops).
 7. **No string route literals** (`'/login'`). Always use `Routes.xxx`.
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
-9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding`, `auth` (login/register)
-   and `link_identity` are OPEN for the "start flow refresh" (session logic now; visual polish later
-   in a separate task). `select_children`, `child_details` and `home` stay frozen EXCEPT the specific
-   logic changes listed in Stage 3 of `docs/start-flow-task.md`. Visuals, layout, colors, texts and
-   widget trees of all these screens must not change in this task. Touch them only when a prompt
-   explicitly asks, and then only for the listed logic/navigation change.
+9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
+  For the current `docs/start-flow-task.md` task only, `auth` (login/register), `link_identity`,
+  `select_children`, `child_details`, `verification_rejected`, `privacy` and
+  `email_verification` are OPEN for UI fixes and flow logic. Outside this task, preserve the
+  existing visual freeze and touch these screens only when a prompt explicitly asks.
 10. New screens must feel consistent with the legacy ones (same purple, rounded fields and buttons,
    animation style) wherever the Figma does not say otherwise.
 11. Available packages only: `get`, `flutter_animate`, `audioplayers`, `firebase_core`,
@@ -230,22 +229,23 @@ Data:
 
 ## 9. Screen map (Figma frame → module → route)
 
-Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder route wired, real screen pending · ⬜ not built.
+Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔓 open for this task · 🔶 placeholder route wired, real screen pending · ⬜ not built.
 
-Note: for the start-flow refresh, `splash`, `onboarding`, `auth` (login/register) and `link_identity`
-are open for session-logic changes only; their visuals remain frozen in this task.
+Note: for `docs/start-flow-task.md`, `auth` (login/register), `link_identity`, `select_children`,
+`child_details`, `verification_rejected`, `privacy` and `email_verification` are open for both UI
+fixes and flow logic.
 
 | Figma frame | Module | Route | Status |
 |---|---|---|---|
 | Splash | `splash` | `Routes.splash` | 🔒 |
 | بداية الرحلة (welcome) | `onboarding` | `Routes.onboarding` | 🔒 |
-| Login (not in current Figma set) | `auth` | `Routes.login` | 🔒 |
-| Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
-| التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
-| التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
-| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | ⬜ |
-| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ⬜ |
-| التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
+| Login (not in current Figma set) | `auth` | `Routes.login` | 🔓 |
+| Register (not in current Figma set) | `auth` | `Routes.register` | 🔓 |
+| التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔓 |
+| التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔓 |
+| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | 🔓 |
+| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔓 |
+| التسجيل — تأكيد البريد الإلكتروني | `email_verification` | `Routes.emailVerification` | 🔓 |
 | المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
