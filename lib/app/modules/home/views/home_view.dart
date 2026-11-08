@@ -30,14 +30,18 @@ class HomeView extends GetView<HomeController> {
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
                       ],
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.notifications_active_rounded, color: primaryPurple, size: 22),
+                      icon: const Icon(
+                        Icons.notifications_active_rounded,
+                        color: primaryPurple,
+                        size: 22,
+                      ),
                       onPressed: () => controller.onNotificationPressed(),
                     ),
                   ),
@@ -47,12 +51,14 @@ class HomeView extends GetView<HomeController> {
               const SizedBox(height: 20),
 
               // مرحباً باسم الطفل الحقيقي
-              Text(
-                'مرحباً، ${controller.currentChild.name} 👋',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: textDark,
+              Obx(
+                () => Text(
+                  'مرحباً، ${controller.currentChild.value?.name ?? ''} 👋',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: textDark,
+                  ),
                 ),
               ),
 
@@ -83,7 +89,7 @@ class HomeView extends GetView<HomeController> {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: primaryPurple.withOpacity(0.08),
+                      color: primaryPurple.withValues(alpha: 0.08),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -131,7 +137,11 @@ class HomeView extends GetView<HomeController> {
                           SizedBox(height: 8),
                           Text(
                             '6 من 10 محتويات مكتملة • التالي: G',
-                            style: TextStyle(fontSize: 11, color: Colors.black54, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
@@ -145,7 +155,7 @@ class HomeView extends GetView<HomeController> {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
+                            color: Colors.black.withValues(alpha: 0.06),
                             blurRadius: 8,
                             offset: const Offset(0, 3),
                           ),
@@ -155,7 +165,7 @@ class HomeView extends GetView<HomeController> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Image.asset(
-                            'assets/images/orchid_single.png', 
+                            'assets/images/orchid_single.png',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -177,7 +187,7 @@ class HomeView extends GetView<HomeController> {
                       icon: Icons.support_agent_rounded,
                       bgColor: const Color(0xFFE3F5E5),
                       iconColor: const Color(0xFF1B5E20),
-                      onTap: () {},
+                      onTap: controller.onWorkshopsPressed,
                     ),
                     const SizedBox(height: 16),
                     _buildLargeCard(
@@ -195,7 +205,7 @@ class HomeView extends GetView<HomeController> {
                       icon: Icons.palette_rounded,
                       bgColor: const Color(0xFFFFE8EF),
                       iconColor: const Color(0xFFAD1457),
-                      onTap: () {},
+                      onTap: controller.onExpressYourselfPressed,
                     ),
                   ],
                 ),
@@ -206,6 +216,7 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
+<<<<<<< HEAD
 
       // شريط التنقل السفلي العصري العائم
       bottomNavigationBar: Container(
@@ -240,6 +251,8 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
       ),
+=======
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
     );
   }
 
@@ -261,7 +274,7 @@ class HomeView extends GetView<HomeController> {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+              color: Colors.black.withValues(alpha: 0.03),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -276,7 +289,7 @@ class HomeView extends GetView<HomeController> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -309,12 +322,17 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.black45),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Colors.black45,
+            ),
           ],
         ),
       ),
     );
   }
+<<<<<<< HEAD
 
   Widget _buildNavItem(IconData icon, String label, bool isSelected, Color activeColor) {
     return Column(
@@ -343,4 +361,6 @@ class HomeView extends GetView<HomeController> {
       ],
     );
   }
+=======
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
 }

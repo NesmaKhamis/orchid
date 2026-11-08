@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/app_back_button.dart';
 import '../controllers/auth_controller.dart';
 
 class RegisterView extends GetView<AuthController> {
@@ -21,6 +22,13 @@ class RegisterView extends GetView<AuthController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Directionality(
+                textDirection: TextDirection.rtl,
+                child: Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: AppBackButton(),
+                ),
+              ),
               const SizedBox(height: 10),
 
               // 1. صورة الأوركيد (بنفس حجم ووضوح شاشة الدخول)
@@ -98,7 +106,10 @@ class RegisterView extends GetView<AuthController> {
                   decoration: const InputDecoration(
                     hintText: 'نسمة خميس دياب',
                     hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     border: InputBorder.none,
                     prefixIcon: Icon(
                       Icons.person_outline,
@@ -138,7 +149,10 @@ class RegisterView extends GetView<AuthController> {
                   decoration: const InputDecoration(
                     hintText: 'nesma@gmail.com',
                     hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
                     border: InputBorder.none,
                     prefixIcon: Icon(
                       Icons.email_outlined,
@@ -171,23 +185,32 @@ class RegisterView extends GetView<AuthController> {
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: Colors.grey.shade300, width: 1),
                   ),
-                  child: TextField(
-                    controller: controller.passwordController,
-                    obscureText: controller.isPasswordHidden.value,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(fontSize: 14, color: Colors.black87),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      border: InputBorder.none,
-                      prefixIcon: IconButton(
-                        icon: Icon(
-                          controller.isPasswordHidden.value
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
-                          color: Colors.grey,
-                          size: 20,
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: TextField(
+                      controller: controller.passwordController,
+                      obscureText: controller.isPasswordHidden.value,
+                      textAlign: TextAlign.right,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
                         ),
-                        onPressed: controller.togglePasswordVisibility,
+                        border: InputBorder.none,
+                        prefixIcon: IconButton(
+                          icon: Icon(
+                            controller.isPasswordHidden.value
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                          onPressed: controller.togglePasswordVisibility,
+                        ),
                       ),
                     ),
                   ),
@@ -216,23 +239,32 @@ class RegisterView extends GetView<AuthController> {
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: Colors.grey.shade300, width: 1),
                   ),
-                  child: TextField(
-                    controller: controller.confirmPasswordController,
-                    obscureText: controller.isConfirmPasswordHidden.value,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(fontSize: 14, color: Colors.black87),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      border: InputBorder.none,
-                      prefixIcon: IconButton(
-                        icon: Icon(
-                          controller.isConfirmPasswordHidden.value
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
-                          color: Colors.grey,
-                          size: 20,
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: TextField(
+                      controller: controller.confirmPasswordController,
+                      obscureText: controller.isConfirmPasswordHidden.value,
+                      textAlign: TextAlign.right,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black87,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
                         ),
-                        onPressed: controller.toggleConfirmPasswordVisibility,
+                        border: InputBorder.none,
+                        prefixIcon: IconButton(
+                          icon: Icon(
+                            controller.isConfirmPasswordHidden.value
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                          onPressed: controller.toggleConfirmPasswordVisibility,
+                        ),
                       ),
                     ),
                   ),
@@ -247,11 +279,13 @@ class RegisterView extends GetView<AuthController> {
                   width: Get.width * 0.65,
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: controller.isLoading.value ? null : controller.register,
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : controller.register,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryPurple,
                       elevation: 4,
-                      shadowColor: primaryPurple.withOpacity(0.4),
+                      shadowColor: primaryPurple.withValues(alpha: 0.4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

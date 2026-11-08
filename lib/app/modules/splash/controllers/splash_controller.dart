@@ -1,40 +1,27 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import '../../../routes/app_routes.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/services/session_service.dart';
 
 class SplashController extends GetxController {
-  final isWinking = false.obs;
-  Timer? _winkTimer;
   Timer? _navigationTimer;
 
   @override
   void onReady() {
     super.onReady();
-    _startWinkAnimation();
-    _navigationTimer = Timer(const Duration(seconds: 3), () {
-      if (!isClosed) {
-        Get.offNamed(Routes.onboarding);
-      }
-    });
+    _navigationTimer = Timer(AppConstants.splashMinDuration, _navigate);
   }
 
-  void _startWinkAnimation() {
-    _winkTimer = Timer.periodic(const Duration(seconds: 2), (timer) async {
-      if (isClosed) return;
-      isWinking.value = true;
-
-      await Future.delayed(const Duration(milliseconds: 350));
-
-      if (!isClosed) {
-        isWinking.value = false;
-      }
-    });
+  Future<void> _navigate() async {
+    final String route = await Get.find<SessionService>().resolveStartRoute();
+    if (!isClosed) {
+      Get.offNamed(route);
+    }
   }
 
   @override
   void onClose() {
-    _winkTimer?.cancel();
     _navigationTimer?.cancel();
     super.onClose();
   }

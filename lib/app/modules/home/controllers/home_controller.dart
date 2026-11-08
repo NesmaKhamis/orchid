@@ -1,9 +1,14 @@
 import 'package:get/get.dart';
-import 'package:orchid_app/app/data/models/child_model.dart';
+import '../../../core/utils/app_snackbar.dart';
+import '../../../core/services/session_service.dart';
+import '../../../data/models/child_model.dart';
+import '../../../data/repositories/children_repository.dart';
+import '../../../routes/app_routes.dart';
 
 class HomeController extends GetxController {
-  // استقبال بيانات الطفل المُمررة بأمان تام مع قيمة افتراضية احتياطية
-  late final ChildModel currentChild;
+  final ChildrenRepository _repository = Get.find<ChildrenRepository>();
+
+  final currentChild = Rxn<ChildModel>();
 
   // نسبة تقدم التحدي اليومي (مثلاً 60%)
   final RxDouble challengeProgress = 0.6.obs;
@@ -11,32 +16,49 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    
-    // التحقق من وجود arguments لمنع حدوث خطأ Unexpected null value
-    if (Get.arguments != null && Get.arguments is ChildModel) {
-      currentChild = Get.arguments;
-    } else {
-      currentChild = ChildModel(
-        id: '1',
-        name: 'محمد أحمد دياب',
-        grade: 'الصف الأول الابتدائي',
-        avatarAsset: 'assets/images/orchid_single.png', nationalId: '', birthDate: DateTime(2017, 9, 7, 17, 30)
-      );
+    _loadChild();
+  }
+
+  Future<void> _loadChild() async {
+    final arguments = Get.arguments;
+    if (arguments is ChildModel) {
+      currentChild.value = arguments;
+      return;
     }
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
+    try {
+      final children = await _repository.getChildren();
+      if (isClosed) return;
 
-  @override
-  void onClose() {
-    super.onClose();
+      final selectedChildId = Get.find<SessionService>().selectedChildId;
+      ChildModel? selectedChild;
+      for (final child in children) {
+        if (child.id == selectedChildId) {
+          selectedChild = child;
+          break;
+        }
+      }
+
+      currentChild.value =
+          selectedChild ?? (children.isEmpty ? null : children.first);
+    } catch (error) {
+      Get.log('Could not load the current child: $error');
+      AppSnackbar.error('تعذر تحميل بيانات الطفل، حاول مجدداً');
+    }
   }
 
   // دالة عند الضغط على أحد الكاردات أو زر الإشعارات
   void onNotificationPressed() {
     // منطق الإشعارات هنا
+  }
+
+  // نقطة الدخول الحالية لتخصيص بطاقة ورشات الدعم النفسي والاجتماعي.
+  void onWorkshopsPressed() {
+    Get.toNamed(Routes.workshops);
+  }
+
+  // الانتقال إلى شاشة "عَبِّر عن نفسك"
+  void onExpressYourselfPressed() {
+    Get.toNamed(Routes.expressYourself);
   }
 }

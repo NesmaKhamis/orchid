@@ -10,8 +10,8 @@ rely on this file, so follow it strictly.
 
 Orchid is an Arabic-only (RTL) Flutter mobile app for children aged 5–12 and their parents,
 focused on emotional well-being (feelings check-ins, workshops). A parent registers, verifies
-the family identity, accepts the privacy terms, verifies a phone number, and then the child's
-space opens (feelings check-in, home, workshops).
+their email, verifies the family identity, selects a child and confirms the child's details,
+then the child's space opens (feelings check-in, home, workshops).
 
 - UI language: Arabic only. All user-facing strings are Arabic. Code, identifiers, comments: English.
 - Design source of truth: Figma frames (390 × 940). Every UI task comes with a screenshot of the
@@ -32,10 +32,18 @@ space opens (feelings check-in, home, workshops).
 
 ## 2. Hard rules (never break)
 
-1. **Do NOT edit `pubspec.yaml`** (no new packages, no version changes, no asset/font changes).
-   If a task seems to need a package or a font, stop and report it in the final summary.
+1. **Do NOT edit `pubspec.yaml`** except to add the approved packages listed in rule 11.
+   Everything else (version changes, assets, fonts) still needs to be reported in the final summary.
+   If a task seems to need anything else, stop and report it in the final summary.
 2. **Do NOT create or edit** `firebase_options.dart`, `google-services.json`,
    `GoogleService-Info.plist`, or anything under `android/` and `ios/`.
+   **Temporary exception (Firebase integration only):** while the `feature/firebase-integration`
+   work is in progress, `firebase_options.dart`, the Android Gradle files
+   (`android/settings.gradle.kts`, `android/app/build.gradle.kts`), the Android manifest files and
+   the iOS Firebase files may be edited. Every other `android/`/`ios/` file stays off-limits.
+   `google-services.json` and `GoogleService-Info.plist` must still never be committed (they stay
+   in `.gitignore`), and no fake/placeholder copy of them may be created. This exception ends
+   when the Firebase integration task is closed; remove it from this file in that commit.
 3. **Never hardcode** colors, font sizes, radii, spacing or asset paths inside a view. Use the
    tokens in section 5 and `AppAssets`.
 4. **Never copy-paste a UI block** that already exists as a shared widget (section 6). If a
@@ -45,15 +53,15 @@ space opens (feelings check-in, home, workshops).
 7. **No string route literals** (`'/login'`). Always use `Routes.xxx`.
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
-9. **Legacy screens are FROZEN.** `splash`, `onboarding`, `auth` (login/register), `link_identity`,
-   `select_children`, `child_details` were designed and built by a teammate and look better than
-   the Figma. Do not change their visuals, layout, colors, texts or widget trees, and do not
-   restyle or "migrate" them to shared widgets. Touch them only when a prompt explicitly asks,
-   and then only for the listed logic/navigation change.
+9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
+  For the current `docs/start-flow-task.md` task only, `auth` (login/register), `link_identity`,
+  `select_children`, `child_details`, `verification_rejected`, `privacy` and
+  `email_verification` are OPEN for UI fixes and flow logic. Outside this task, preserve the
+  existing visual freeze and touch these screens only when a prompt explicitly asks.
 10. New screens must feel consistent with the legacy ones (same purple, rounded fields and buttons,
    animation style) wherever the Figma does not say otherwise.
 11. Available packages only: `get`, `flutter_animate`, `audioplayers`, `firebase_core`,
-   `cloud_firestore`, `firebase_auth`, `cupertino_icons`.
+   `cloud_firestore`, `firebase_auth`, `cupertino_icons`, `shared_preferences`.
 
 ## 3. Tech stack
 
@@ -72,7 +80,7 @@ lib/
       constants/
         app_assets.dart             # every asset path as a static const
         app_strings.dart            # shared strings only (validation messages, common labels)
-        app_constants.dart          # business constants (min/max child age 5–12, OTP length, timers)
+        app_constants.dart          # business constants (min/max child age 5–12, verification timers)
       theme/
         app_colors.dart             # color tokens
         app_text_styles.dart        # text style tokens
@@ -118,6 +126,7 @@ and update this table).
 | Token | Value | Use |
 |---|---|---|
 | `primary` | `0xFF8B53A8` | buttons, links, icons, selected borders |
+| `white` | `0xFFFFFFFF` | cards on cream backgrounds |
 | `textDark` | `0xFF2D2D2D` | titles, labels |
 | `textSubtitle` | `0xFF6B588C` | subtitles on onboarding-style screens |
 | `textMuted` | `0xFF757575` | hints, captions |
@@ -129,8 +138,14 @@ and update this table).
 | `softMint` | `0xFFE0F0E0` | success banners, positive chips |
 | `softPink` | `0xFFF0D8E8` | feelings cards, accents |
 | `softBlue` | `0xFFE0E8F0` | feelings cards, accents |
+| `success` | `0xFF2E7D32` | success text and icons |
 | `splashGradient` | `D8F3DC → E8E8F4 → FFF0F5` | splash background only |
 | `error` | `0xFFD32F2F` | validation errors |
+| `palettePink` | `0xFFE86A92` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteYellow` | `0xFFF5C542` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteGreen` | `0xFF58B368` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteBlue` | `0xFF4E7AC7` | drawing color swatch (placeholder hex, confirm with Figma) |
+| `paletteNavy` | `0xFF2D3A5E` | drawing color swatch (placeholder hex, confirm with Figma) |
 
 Use `color.withValues(alpha: x)` — never `withOpacity` (deprecated).
 
@@ -156,20 +171,23 @@ callbacks, never a controller.
 |---|---|
 | `AppScaffold` | Screen shell: background (`plain`, `cream`, `gradient`), optional corner leaf decoration, `SafeArea`, optional scroll, standard horizontal padding, optional `title` + back button app bar. |
 | `AppButton` | `label`, `onPressed`, `variant` (`primary` / `soft` / `text`), `isLoading`, `icon`, `fullWidth`. Handles disabled + loading state. |
-| `AppTextField` | Label above the field, `controller`, `hint`, `prefixIcon`, `suffix`, `keyboardType`, `validator`, `readOnly`, `onTap`, `maxLength`, `obscureText`. |
+| `AppBackButton` | Shared RTL back action with a consistent 48px tap target; defaults to `Get.back()`. |
+| `AppTextField` | Label above the field, `controller`, `hint`, `prefixIcon`, `suffix`, `keyboardType`, `validator`, `readOnly`, `onTap`, `maxLength`, `obscureText`, `textDirection`, `fillColor`. |
 | `PasswordField` | Wraps `AppTextField` with its own show/hide toggle (local state, no controller flag). |
 | `SectionTitle` | Centered title + optional emoji + optional subtitle. |
 | `NoticeBanner` | `tone` (`info` lavender / `warning` yellow / `success` mint / `danger` soft pink), icon, text. Used in many frames. |
 | `StatusChip` | Small pill label (e.g. green "verified" tag), `tone`. |
 | `OrchidImage` | `Image.asset` with a built-in fallback icon. Replaces every `errorBuilder` copy. |
+| `AnimatedOrchid` | Animated orchid hero switching between `orchidOpen` and `orchidWink`; owns its wink timer. Params: `size` (default 240), `autoStart` (default true). |
 | `SelectableCard` | Card with selected/unselected look + tap; used by child selection and feelings. |
-| `OtpInput` | N separate digit boxes, `onCompleted`, `length` (default 6). |
+| `OtpInput` | N separate digit boxes, `length` (default 6), `onChanged`, `onCompleted`, optional `OtpInputController.clear()`, autofocus first box, auto-advance, backspace to previous, paste fills all boxes. |
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
-| `StepHeader` | Registration header: small step label ("02 / تأكيد الهاتف • 4 من 4"), bold title, lock icon in a white circle, back chevron (created in prompt C3, reused by C2 and C4). |
+| `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by registration screens. |
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
-| `AppCheckboxTile` | Labelled checkbox with optional "required" marker (created in prompt C3). |
+| `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
+| `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
 
 Helpers: `AppSnackbar.info/success/warning/error(message)`, `Validators.required/email/password/match/nationalId/phone`,
 `AppDateUtils.ageFrom(DateTime)`, `AppDateUtils.format(DateTime)`.
@@ -198,7 +216,7 @@ Controllers:
 - Never hold `BuildContext`. Date pickers / dialogs are called from the view, and the controller
   receives the result (`onDatePicked(DateTime)`).
 - Navigation: `Get.toNamed(Routes.xxx, arguments: typedModel)`.
-- Controllers talk to repositories (`Get.find<ChildRepository>()` registered in a binding),
+- Controllers talk to repositories (`Get.find<ChildrenRepository>()` registered in a binding),
   never to hardcoded lists.
 
 Views:
@@ -215,16 +233,21 @@ Data:
 - `data/models/` plain immutable classes with `const` constructors, `fromMap`/`toMap` when
   Firestore is introduced.
 - `data/repositories/xxx_repository.dart` = abstract class; `mock_xxx_repository.dart` = fake
-  implementation with `Future.delayed`. Swapping to Firebase later must only touch the binding.
+  implementation with `Future.delayed`. Firebase repositories are selected in the relevant binding.
 
 ## 9. Screen map (Figma frame → module → route)
 
-Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
+Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔓 open for this task · 🔶 placeholder route wired, real screen pending · ⬜ not built.
+
+Note: for `docs/start-flow-task.md`, `auth` (login/register), `link_identity`, `select_children`,
+`child_details`, `verification_rejected`, `privacy` and `email_verification` are open for both UI
+fixes and flow logic.
 
 | Figma frame | Module | Route | Status |
 |---|---|---|---|
 | Splash | `splash` | `Routes.splash` | 🔒 |
 | بداية الرحلة (welcome) | `onboarding` | `Routes.onboarding` | 🔒 |
+<<<<<<< HEAD
 | Login (not in current Figma set) | `auth` | `Routes.login` | 🔒 |
 | Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
 | التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
@@ -237,16 +260,67 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · ⬜ not built.
 | الملف الشخصي | `profile` | `Routes.profile` | ✅ |
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ⬜ |
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ⬜ |
+=======
+| Login (not in current Figma set) | `auth` | `Routes.login` | 🔓 |
+| Register (not in current Figma set) | `auth` | `Routes.register` | 🔓 |
+| التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔓 |
+| التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔓 |
+| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | 🔓 |
+| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔓 |
+| التسجيل — تأكيد البريد الإلكتروني | `email_verification` | `Routes.emailVerification` | 🔓 |
+| المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
+| الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
+| المكافآت والهدايا (rewards) inside the bottom-nav shell | `main_shell`, `rewards` | `Routes.rewards` | ✅ |
+| الملف الشخصي (profile) inside the bottom-nav shell | `main_shell`, `profile` | `Routes.profile` | ✅ |
+| حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
+| الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
+| التلوين الموجه (guided coloring) | `guided_coloring` | `Routes.guidedColoring` (from express_yourself card "التلوين الموجه") | ✅ |
+| الغناء والإنشاد (singing) | `singing` | `Routes.singing` (from express_yourself card "الغناء والإنشاد") | ✅ |
+| تسجيل النشيد (song recording) | `song_recording` | `Routes.songRecording` (from singing card tap; play circle only previews) | ✅ |
+| الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ✅ |
+| الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ✅ |
+| الورشات المسجلة (registered workshops) | `workshops` | `Routes.myWorkshops` | ✅ |
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
 | المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |
 | Select children / Child details (current code, not in Figma set) | `select_children`, `child_details` | `Routes.selectChildren`, `Routes.childDetails` | 🔒 |
 
 Update this table in the same commit whenever a screen's status changes.
 
-Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → selectChildren → (child age 5–12) childDetails | (otherwise) verificationRejected → privacy → phoneVerification → feelingsBefore → mainShell (home / workshops) → workshopDetails → feelingsAfter`.
-`childDetails` is the Figma "verification accepted" screen; its continue button will navigate to `Routes.privacy`.
+Current registration navigation:
+`splash → onboarding → login/register → login (email prefilled) → emailVerification if unverified, otherwise linkIdentity → selectChildren → (age 5–12) childDetails → home`.
+Out-of-range children route to `verificationRejected`.
+`SelectChildrenController` checks the age with `AppDateUtils.ageFrom` against `AppConstants.minChildAge` / `maxChildAge` and routes accordingly.
+`childDetails` is the Figma "verification accepted" screen; its continue button completes registration and navigates to `Routes.home`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
+
+## 9b. Session and first-launch logic
+
+- `SessionService` (`GetxService`) is the only owner of: `onboardingSeen`, `isLoggedIn`,
+  `registrationComplete`, `lastStep`, `selectedChildId`.
+- `SessionStorage` is an abstract class. `FirebaseSessionStorage` stores account progress in
+  Firestore and uses `LocalSessionStorage` (`shared_preferences`) for onboarding and per-user cache
+  fallback; it is registered in `InitialBinding`.
+- Splash decides the next route through `SessionService`, never directly.
+- Logout = `SessionService.logout()` then `Get.offAllNamed(Routes.login)`.
+
+## 9c. Firebase
+
+- **Auth source of truth is `FirebaseAuth`.** The session is whatever `FirebaseAuth.instance
+  .currentUser` says; `SessionService` mirrors it, it is not the authority.
+- **Profile data lives in Firestore `users/{uid}`** (parent profile and its children).
+  Nothing else owns profile data.
+- **`onboardingSeen` stays in local storage** (`SessionStorage` / `shared_preferences`). It is a
+  device-level flag and is never written to Firestore.
+- **Repositories stay abstract.** Firebase implementations (`FirebaseAuthRepository`,
+  `FirestoreUserRepository`, ...) are swapped in the **binding only**; controllers and views keep
+  talking to the abstract repository, exactly like the mock ones today.
+- **No direct Firebase calls inside views.** Views never import `firebase_auth`,
+  `cloud_firestore` or `firebase_core`; they go through the controller, which goes through the
+  repository. If a view needs data, add it to the controller.
+- `Firebase.initializeApp` happens once, in `main.dart`, before `SessionService.init()`. On
+  platforms without a configuration (`DefaultFirebaseOptions.currentPlatform` throws
+  `UnsupportedError`) the app logs it and falls back to local mode instead of crashing.
 
 ## 10. Workflow for every new screen
 
@@ -283,13 +357,13 @@ Shared app state (selected child, parent) lives in a `SessionService` (`GetxServ
 Items 2, 9, 11, 12 concern frozen legacy screens: do NOT fix them unless a prompt says so. Items 1, 3–7
 may be fixed by their dedicated prompt (no visual change). Never make any of them worse.
 
-1. `main.dart` defines its own inline `getPages` and ignores `AppPages` → `Splash` and
-   `Onboarding` are unreachable; initial route is `/login`.
+1. **Fixed** — `main.dart` now uses `AppPages.initial` and `AppPages.routes` (no inline
+   `getPages`; initial route is `Routes.splash`).
 2. Two dead color files (`core/constant/app_colors.dart` with a different purple, and an empty
    `core/constants/app_colors.dart`), plus an empty `app_theme.dart`. Colors are repeated as
    literals in every view (`0xFF8B53A8` ×9, `0xFF2D2D2D` ×8, `0xFFFAF9FC` ×5).
-3. Splash navigates twice: `SplashController.onReady` (10 s delay) and a 3 s `Timer` inside
-   the view. Timers and wink animation state live in the view.
+3. **Fixed** — splash has a single controller navigation decision, and the wink animation
+   state lives in the shared `AnimatedOrchid` widget.
 4. `ChildModel` is defined in `select_children_controller.dart`, and
    `select_children_controller` ↔ `child_details_controller` import each other (circular).
    `SelectChildrenController` also imports a view.
@@ -298,12 +372,13 @@ may be fixed by their dedicated prompt (no visual change). Never make any of the
 6. `LinkIdentityController` contains dead members (`idController` getter returning null,
    `verifyIdentity` getter returning null) and a hardcoded color.
 7. Route strings hardcoded in controllers (`'/link-identity'`, `'/register'`, `'/select-children'`).
-8. `leaf_top.png` is referenced (onboarding) but missing; `leaf_corner.png` exists.
+8. `leaf_top.png` → use `leaf_corner.png` (the referenced `leaf_top.png` is missing).
 9. No Arabic RTL guarantee: no localization delegates or `Directionality`; views use physical
    `Alignment.centerRight`, `TextAlign.right`.
 10. Theme font `Cairo` is set but no font is declared in `pubspec.yaml` (needs a team decision).
 11. No form validation (login/register accept empty and mismatched passwords).
 12. 16× deprecated `withOpacity`; 5× `Get.width` for layout.
+13. No session/persistence (fixed in start flow refresh).
 
 ## 14. Git
 

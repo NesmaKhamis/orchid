@@ -1,3 +1,4 @@
+import '../constants/app_constants.dart';
 import '../constants/app_strings.dart';
 
 /// Pure validation functions.
@@ -32,6 +33,17 @@ class Validators {
     return null;
   }
 
+  /// Minimum accepted by the auth provider (Firebase requires 6 characters).
+  static String? passwordMin6(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.requiredField;
+    }
+    if (value.length < AppConstants.minPasswordLength) {
+      return AppStrings.passwordMin6;
+    }
+    return null;
+  }
+
   static String? match(String? value, String? other) {
     if (value == null || value.isEmpty) {
       return AppStrings.requiredField;
@@ -43,11 +55,7 @@ class Validators {
   }
 
   static String? nationalId(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return AppStrings.requiredField;
-    }
-    final String digits = value.trim();
-    if (!RegExp(r'^[0-9]+$').hasMatch(digits) || digits.length < 10) {
+    if (value == null || !RegExp(r'^\d{9}$').hasMatch(value)) {
       return AppStrings.invalidNationalId;
     }
     return null;

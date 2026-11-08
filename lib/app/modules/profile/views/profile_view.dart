@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:get/get.dart';
 
 import '../../../core/constants/app_assets.dart';
@@ -9,10 +10,20 @@ import '../../../data/models/profile_model.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
+=======
+
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_dimens.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/app_scaffold.dart';
+
+class ProfileView extends StatelessWidget {
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
   const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -105,10 +116,16 @@ class ProfileView extends GetView<ProfileController> {
           );
         }),
       ),
+=======
+    return AppScaffold(
+      background: AppScaffoldBackground.cream,
+      body: const ProfileContent(),
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
     );
   }
 }
 
+<<<<<<< HEAD
 class _PersonalInfoCard extends StatelessWidget {
   const _PersonalInfoCard({required this.profile});
 
@@ -223,12 +240,61 @@ class _ProfileListCard extends StatelessWidget {
               ],
             ),
           ],
+=======
+class ProfileContent extends StatelessWidget {
+  const ProfileContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          const Text('الملف الشخصي', style: AppTextStyles.h1),
+          const SizedBox(height: AppDimens.space24),
+          Container(
+            padding: const EdgeInsets.all(AppDimens.space20),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(AppDimens.radiusCard),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: const Column(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 42,
+                  backgroundColor: AppColors.softPink,
+                  child: Icon(
+                    Icons.face_rounded,
+                    color: AppColors.primary,
+                    size: 52,
+                  ),
+                ),
+                SizedBox(height: AppDimens.space12),
+                Text('ملف الطفل', style: AppTextStyles.title),
+                SizedBox(height: AppDimens.space4),
+                Text('إدارة الصورة والإعدادات', style: AppTextStyles.body),
+              ],
+            ),
+          ),
+          const SizedBox(height: AppDimens.space16),
+          const _ProfileOption(
+            icon: Icons.face_retouching_natural_rounded,
+            title: 'تخصيص الشخصية الكرتونية',
+          ),
+          const SizedBox(height: AppDimens.space12),
+          const _ProfileOption(
+            icon: Icons.settings_outlined,
+            title: 'الإعدادات',
+          ),
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
         ],
       ),
     );
   }
 }
 
+<<<<<<< HEAD
 class _ContactRow extends StatelessWidget {
   const _ContactRow({
     required this.icon,
@@ -330,10 +396,38 @@ class _SettingsCard extends StatelessWidget {
             ),
           ),
         ],
+=======
+class _ProfileOption extends StatelessWidget {
+  const _ProfileOption({required this.icon, required this.title});
+
+  final IconData icon;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.white,
+      borderRadius: BorderRadius.circular(AppDimens.radiusCard),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppDimens.radiusCard),
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.all(AppDimens.space16),
+          child: Row(
+            children: <Widget>[
+              Icon(icon, color: AppColors.primary),
+              const SizedBox(width: AppDimens.space12),
+              Expanded(child: Text(title, style: AppTextStyles.label)),
+              const Icon(Icons.arrow_back_ios_rounded, size: 16),
+            ],
+          ),
+        ),
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7
       ),
     );
   }
 }
+<<<<<<< HEAD
 
 BoxDecoration _cardDecoration() {
   return BoxDecoration(
@@ -342,3 +436,5 @@ BoxDecoration _cardDecoration() {
     border: Border.all(color: AppColors.border),
   );
 }
+=======
+>>>>>>> 9b01b038e93a01f4ef6d11ec465397272b4be6f7

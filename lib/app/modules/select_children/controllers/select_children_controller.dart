@@ -1,10 +1,14 @@
 import 'package:get/get.dart';
+import '../../../core/utils/app_snackbar.dart';
+import '../../../core/constants/app_constants.dart';
+import '../../../core/services/session_service.dart';
+import '../../../core/utils/date_utils.dart';
 import '../../../data/models/child_model.dart';
-import '../../../data/repositories/child_repository.dart';
+import '../../../data/repositories/children_repository.dart';
 import '../../../routes/app_routes.dart';
 
 class SelectChildrenController extends GetxController {
-  final ChildRepository _repository = Get.find<ChildRepository>();
+  final ChildrenRepository _repository = Get.find<ChildrenRepository>();
 
   final childrenList = <ChildModel>[].obs;
   final selectedChildId = ''.obs;
@@ -15,12 +19,30 @@ class SelectChildrenController extends GetxController {
     loadChildrenData();
   }
 
-  Future<void> loadChildrenData() async {
-    final children = await _repository.getChildren();
-    childrenList.assignAll(children);
+  @override
+  void onReady() {
+    super.onReady();
+    Get.find<SessionService>().saveStep(Routes.selectChildren);
+  }
 
-    if (childrenList.isNotEmpty) {
-      selectedChildId.value = childrenList.first.id;
+  Future<void> loadChildrenData() async {
+    try {
+      final children = await _repository.getChildren();
+      if (isClosed) return;
+      childrenList.assignAll(children);
+
+      if (childrenList.isNotEmpty) {
+        final String? savedChildId =
+            Get.find<SessionService>().selectedChildId;
+        selectedChildId.value = childrenList.any(
+          (child) => child.id == savedChildId,
+        )
+            ? savedChildId!
+            : childrenList.first.id;
+      }
+    } catch (error) {
+      Get.log('Could not load children: $error');
+      AppSnackbar.error('تعذر تحميل بيانات الأطفال، حاول مجدداً');
     }
   }
 
@@ -28,10 +50,33 @@ class SelectChildrenController extends GetxController {
     selectedChildId.value = id;
   }
 
-  void proceedToChildDetails() {
-    final selectedChild =
-        childrenList.firstWhere((c) => c.id == selectedChildId.value);
+  Future<void> proceedToChildDetails() async {
+    final int selectedIndex = childrenList.indexWhere(
+      (child) => child.id == selectedChildId.value,
+    );
+    if (selectedIndex < 0) {
+      AppSnackbar.warning('لا توجد بيانات أطفال متاحة للاختيار');
+      return;
+    }
 
-    Get.toNamed(Routes.childDetails, arguments: selectedChild);
+    final ChildModel selectedChild = childrenList[selectedIndex];
+
+    final age = AppDateUtils.ageFrom(selectedChild.birthDate);
+    final isEligible =
+        age >= AppConstants.minChildAge && age <= AppConstants.maxChildAge;
+
+    if (isEligible) {
+      try {
+        final SessionService session = Get.find<SessionService>();
+        await session.saveSelectedChild(selectedChild.id);
+        await session.saveStep(Routes.childDetails);
+        Get.toNamed(Routes.childDetails, arguments: selectedChild);
+      } catch (error) {
+        Get.log('Could not save the selected child: $error');
+        AppSnackbar.error('تعذر حفظ اختيار الطفل، حاول مجدداً');
+      }
+    } else {
+      Get.toNamed(Routes.verificationRejected, arguments: selectedChild);
+    }
   }
 }
