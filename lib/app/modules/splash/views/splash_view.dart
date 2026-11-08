@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/animated_orchid.dart';
 import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
@@ -45,10 +46,10 @@ class SplashContent extends StatelessWidget {
                       height: 270,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                             blurRadius: 30,
                             spreadRadius: 10,
                           ),
@@ -72,33 +73,7 @@ class SplashContent extends StatelessWidget {
               children: [
                 const SizedBox(height: 30),
 
-                SizedBox(
-                      height: 240,
-                      width: 240,
-                      child: Obx(
-                        () => AnimatedCrossFade(
-                          duration: const Duration(milliseconds: 140),
-                          crossFadeState: controller.isWinking.value
-                              ? CrossFadeState.showSecond
-                              : CrossFadeState.showFirst,
-                          firstChild: Image.asset(
-                            'assets/images/orchid_open.png',
-                          ),
-                          secondChild: Image.asset(
-                            'assets/images/orchid_wink.png',
-                          ),
-                        ),
-                      ),
-                    )
-                    .animate(
-                      onPlay: (controller) => controller.repeat(reverse: true),
-                    )
-                    .shake(
-                      duration: 3000.ms,
-                      hz: 0.5,
-                      offset: const Offset(0, 8),
-                    )
-                    .rotate(duration: 4000.ms, begin: -0.02, end: 0.02),
+                const AnimatedOrchid(),
 
                 const SizedBox(height: 25),
 
@@ -108,11 +83,11 @@ class SplashContent extends StatelessWidget {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         borderRadius: BorderRadius.circular(30),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.purple.withOpacity(0.15),
+                            color: Colors.purple.withValues(alpha: 0.15),
                             blurRadius: 15,
                             offset: const Offset(0, 5),
                           ),

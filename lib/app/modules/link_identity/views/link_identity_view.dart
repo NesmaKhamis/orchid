@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/app_back_button.dart';
 import '../controllers/link_identity_controller.dart';
 
 class LinkIdentityView extends GetView<LinkIdentityController> {
@@ -13,20 +14,6 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: textDark),
-        title: const Text(
-          'ربط الهوية',
-          style: TextStyle(
-            color: textDark,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -34,6 +21,13 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Directionality(
+                textDirection: TextDirection.rtl,
+                child: Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: AppBackButton(),
+                ),
+              ),
               const SizedBox(height: 10),
 
               // 1. صورة الأوركيد المفردة
@@ -104,20 +98,32 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.grey.shade300, width: 1),
                 ),
-                child: TextField(
-                  controller: controller.identityController,
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
-                  decoration: const InputDecoration(
-                    hintText: 'مثال: 900123456',
-                    hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                    border: InputBorder.none,
-                    prefixIcon: Icon(
-                      Icons.badge_outlined,
-                      color: primaryPurple,
-                      size: 20,
+                child: Obx(
+                  () => TextField(
+                    controller: controller.identityController,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.right,
+                    onChanged: controller.onIdentityChanged,
+                    style: const TextStyle(fontSize: 14, color: Colors.black87),
+                    decoration: InputDecoration(
+                      hintText: 'مثال: 900123456',
+                      hintStyle: const TextStyle(
+                        color: Colors.black38,
+                        fontSize: 13,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      border: InputBorder.none,
+                      errorText: controller.identityError.value.isEmpty
+                          ? null
+                          : controller.identityError.value,
+                      prefixIcon: const Icon(
+                        Icons.badge_outlined,
+                        color: primaryPurple,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -147,19 +153,33 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: Colors.grey.shade300, width: 1),
                     ),
-                    child: TextField(
-                      controller: controller.birthDateController,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(fontSize: 14, color: Colors.black87),
-                      decoration: const InputDecoration(
-                        hintText: 'السنة - الشهر - اليوم',
-                        hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.calendar_month_outlined,
-                          color: primaryPurple,
-                          size: 20,
+                    child: Obx(
+                      () => TextField(
+                        controller: controller.birthDateController,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: 'السنة - الشهر - اليوم',
+                          hintStyle: const TextStyle(
+                            color: Colors.black38,
+                            fontSize: 13,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          border: InputBorder.none,
+                          errorText: controller.birthDateError.value.isEmpty
+                              ? null
+                              : controller.birthDateError.value,
+                          prefixIcon: const Icon(
+                            Icons.calendar_month_outlined,
+                            color: primaryPurple,
+                            size: 20,
+                          ),
                         ),
                       ),
                     ),
@@ -181,7 +201,7 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryPurple,
                       elevation: 4,
-                      shadowColor: primaryPurple.withOpacity(0.4),
+                      shadowColor: primaryPurple.withValues(alpha: 0.4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

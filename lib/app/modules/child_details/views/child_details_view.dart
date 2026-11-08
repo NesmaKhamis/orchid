@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/app_button.dart';
 import '../controllers/child_details_controller.dart';
 
 class ChildDetailsView extends GetView<ChildDetailsController> {
@@ -13,20 +14,6 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: textDark),
-        title: const Text(
-          'بيانات الطفل',
-          style: TextStyle(
-            color: textDark,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -38,15 +25,11 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
                 width: 85,
                 height: 85,
                 decoration: BoxDecoration(
-                  color: primaryPurple.withOpacity(0.1),
+                  color: primaryPurple.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                   border: Border.all(color: primaryPurple, width: 2),
                 ),
-                child: const Icon(
-                  Icons.person,
-                  size: 45,
-                  color: primaryPurple,
-                ),
+                child: const Icon(Icons.person, size: 45, color: primaryPurple),
               ),
               const SizedBox(height: 14),
               Text(
@@ -97,38 +80,14 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
                 ),
               ),
               const SizedBox(height: 15),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: controller.proceedToDashboard,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryPurple,
-                    elevation: 3,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'متابعة إلى لوحة التحكم',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ),
+              AppButton(
+                label: 'متابعة',
+                onPressed: controller.proceedToDashboard,
+              ),
+              AppButton(
+                label: 'رجوع',
+                variant: AppButtonVariant.text,
+                onPressed: Get.back,
               ),
               const SizedBox(height: 10),
             ],
@@ -157,7 +116,7 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.1),
+              color: primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: primaryColor, size: 22),
@@ -190,4 +149,5 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
         ],
       ),
     );
-  }}
+  }
+}

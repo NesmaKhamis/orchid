@@ -6,4 +6,10 @@ class AppConstants {
   static const int maxChildAge = 12;
   static const int otpLength = 6;
   static const int otpResendSeconds = 60;
+  static const int minPasswordLength = 6;
+  static const int emailVerificationResendSeconds = 60;
+  static const Duration splashMinDuration = Duration(milliseconds: 2500);
+
+  /// Firestore collection holding one profile document per Firebase user.
+  static const String usersCollection = 'users';
 }

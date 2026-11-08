@@ -11,11 +11,13 @@ class NoticeBanner extends StatelessWidget {
     required this.tone,
     this.icon,
     required this.text,
+    this.textStyle,
   });
 
   final NoticeBannerTone tone;
   final Widget? icon;
   final String text;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,8 @@ class NoticeBanner extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: AppTextStyles.bodySmall.copyWith(color: style.textColor),
+              style: (textStyle ?? AppTextStyles.bodySmall)
+                  .copyWith(color: style.textColor),
             ),
           ),
         ],

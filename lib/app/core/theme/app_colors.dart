@@ -17,7 +17,25 @@ class AppColors {
   static const Color softMint = Color(0xFFE0F0E0);
   static const Color softPink = Color(0xFFF0D8E8);
   static const Color softBlue = Color(0xFFE0E8F0);
+  static const Color success = Color(0xFF2E7D32);
   static const Color error = Color(0xFFD32F2F);
+
+  // Drawing palette (kid marker colors for the free-drawing canvas).
+  static const Color palettePink = Color(0xFFE86A92);
+  static const Color paletteYellow = Color(0xFFF5C542);
+  static const Color paletteGreen = Color(0xFF58B368);
+  static const Color paletteBlue = Color(0xFF4E7AC7);
+  static const Color paletteNavy = Color(0xFF2D3A5E);
+
+  /// Shared kid-marker palette for the drawing and coloring canvases.
+  static const List<Color> canvasPalette = <Color>[
+    primary,
+    palettePink,
+    paletteYellow,
+    paletteGreen,
+    paletteBlue,
+    paletteNavy,
+  ];
 
   static const List<Color> splashGradient = <Color>[
     Color(0xFFD8F3DC),

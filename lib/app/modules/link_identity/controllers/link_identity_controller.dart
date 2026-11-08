@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/services/session_service.dart';
+import '../../../core/utils/app_snackbar.dart';
+import '../../../core/utils/validators.dart';
 import '../../../routes/app_routes.dart';
 
 class LinkIdentityController extends GetxController {
   final identityController = TextEditingController();
   final birthDateController = TextEditingController();
 
-  var isLoading = false.obs;
-  var selectedDate = Rxn<DateTime>();
+  final identityError = ''.obs;
+  final birthDateError = ''.obs;
+  final isLoading = false.obs;
+  final selectedDate = Rxn<DateTime>();
+
+  void onIdentityChanged(String value) {
+    identityError.value = Validators.nationalId(value) ?? '';
+  }
 
   // دالة فتح التقويم لاختيار تاريخ الميلاد
   Future<void> pickBirthDate(BuildContext context) async {
@@ -32,44 +42,44 @@ class LinkIdentityController extends GetxController {
 
     if (picked != null) {
       selectedDate.value = picked;
+      birthDateError.value = '';
       birthDateController.text =
           "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
     }
   }
 
   // دالة البحث في قاعدة البيانات والتحقق
-  void verifyAndSearchChildren() async {
-    if (identityController.text.trim().isEmpty) {
-      Get.snackbar(
-        'تنبيه',
-        'يرجى إدخال رقم الهوية',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.amber.shade100,
-        colorText: Colors.black87,
-      );
+  Future<void> verifyAndSearchChildren() async {
+    final String? identityValidationError = Validators.nationalId(
+      identityController.text,
+    );
+    if (identityValidationError != null) {
+      identityError.value = identityValidationError;
       return;
     }
 
     if (birthDateController.text.trim().isEmpty) {
-      Get.snackbar(
-        'تنبيه',
-        'يرجى اختيار تاريخ الميلاد للتحقق',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.amber.shade100,
-        colorText: Colors.black87,
-      );
+      birthDateError.value = 'يرجى اختيار تاريخ الميلاد للتحقق';
       return;
     }
 
     isLoading.value = true;
+    try {
+      await Future.delayed(const Duration(seconds: 2));
+      await Get.find<SessionService>().saveStep(Routes.selectChildren);
+      Get.toNamed(Routes.selectChildren);
+    } catch (error) {
+      Get.log('Could not complete parent verification: $error');
+      AppSnackbar.error('تعذر إكمال التحقق، حاول مجدداً');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
-    // محاكاة الاتصال بقاعدة البيانات (مؤقتاً)
-    await Future.delayed(const Duration(seconds: 2));
-
-    isLoading.value = false;
-
-    // الانتقال لشاشة اختيار الأبناء (سننشئها في الخطوة القادمة)
-    Get.toNamed(Routes.selectChildren);
+  @override
+  void onReady() {
+    super.onReady();
+    Get.find<SessionService>().saveStep(Routes.linkIdentity);
   }
 
   @override
