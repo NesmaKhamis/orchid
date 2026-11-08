@@ -19,9 +19,9 @@ class PrivacyController extends GetxController {
     consentGiven.value = value;
   }
 
-  void proceedToPhoneVerification() {
+  void proceedToEmailVerification() {
     if (!canContinue) return;
-    Get.toNamed(Routes.phoneVerification);
+    Get.toNamed(Routes.emailVerification);
   }
 
   void readPrivacyPolicy() {

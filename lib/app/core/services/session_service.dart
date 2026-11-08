@@ -97,7 +97,7 @@ class SessionService extends GetxService {
       case Routes.selectChildren:
         return step;
       case Routes.privacy:
-      case Routes.phoneVerification:
+      case Routes.emailVerification:
         return hasSelectedChild ? step : Routes.selectChildren;
       default:
         return Routes.linkIdentity;

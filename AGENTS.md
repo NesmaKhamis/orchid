@@ -10,7 +10,7 @@ rely on this file, so follow it strictly.
 
 Orchid is an Arabic-only (RTL) Flutter mobile app for children aged 5–12 and their parents,
 focused on emotional well-being (feelings check-ins, workshops). A parent registers, verifies
-the family identity, accepts the privacy terms, verifies a phone number, and then the child's
+the family identity, accepts the privacy terms, verifies an email address, and then the child's
 space opens (feelings check-in, home, workshops).
 
 - UI language: Arabic only. All user-facing strings are Arabic. Code, identifiers, comments: English.
@@ -73,7 +73,7 @@ lib/
       constants/
         app_assets.dart             # every asset path as a static const
         app_strings.dart            # shared strings only (validation messages, common labels)
-        app_constants.dart          # business constants (min/max child age 5–12, OTP length, timers)
+        app_constants.dart          # business constants (min/max child age 5–12, verification timers)
       theme/
         app_colors.dart             # color tokens
         app_text_styles.dart        # text style tokens
@@ -175,7 +175,7 @@ callbacks, never a controller.
 | `SelectableCard` | Card with selected/unselected look + tap; used by child selection and feelings. |
 | `OtpInput` | N separate digit boxes, `length` (default 6), `onChanged`, `onCompleted`, optional `OtpInputController.clear()`, autofocus first box, auto-advance, backspace to previous, paste fills all boxes. |
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
-| `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by privacy and phone screens. |
+| `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by registration screens. |
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
 | `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
@@ -262,7 +262,7 @@ fixes and flow logic.
 Update this table in the same commit whenever a screen's status changes.
 
 Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → phoneVerification → home → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
+`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → emailVerification → home → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
 `SelectChildrenController` checks the age with `AppDateUtils.ageFrom` against `AppConstants.minChildAge` / `maxChildAge` and routes accordingly.
 `childDetails` is the Figma "verification accepted" screen; its continue button now navigates to `Routes.privacy`.
 

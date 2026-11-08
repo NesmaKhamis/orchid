@@ -2,15 +2,18 @@ import 'auth_repository.dart';
 
 class MockAuthRepository implements AuthRepository {
   @override
-  Future<String> getParentPhoneMasked() async {
+  String get currentEmail => 'nesma@gmail.com';
+
+  @override
+  Future<void> sendEmailVerification() async {
     await Future.delayed(const Duration(milliseconds: 200));
-    return '+970 59 ••• •• 42';
+    // TODO: replace with FirebaseAuth currentUser.sendEmailVerification().
   }
 
   @override
-  Future<bool> verifyOtp(String code) async {
+  Future<bool> reloadAndCheckVerified() async {
     await Future.delayed(const Duration(milliseconds: 600));
-    // TODO: replace with Firebase phone authentication.
-    return code == '123456';
+    // TODO: replace with FirebaseAuth currentUser.reload() / emailVerified.
+    return true;
   }
 }

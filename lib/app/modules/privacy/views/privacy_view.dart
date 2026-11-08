@@ -58,7 +58,7 @@ class PrivacyView extends GetView<PrivacyController> {
             () => AppButton(
               label: 'أوافق وأتابع',
               onPressed: controller.canContinue
-                  ? controller.proceedToPhoneVerification
+                  ? controller.proceedToEmailVerification
                   : null,
             ),
           ),
