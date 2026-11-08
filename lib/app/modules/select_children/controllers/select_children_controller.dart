@@ -1,13 +1,14 @@
 import 'package:get/get.dart';
+import '../../../core/utils/app_snackbar.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/services/session_service.dart';
 import '../../../core/utils/date_utils.dart';
 import '../../../data/models/child_model.dart';
-import '../../../data/repositories/child_repository.dart';
+import '../../../data/repositories/children_repository.dart';
 import '../../../routes/app_routes.dart';
 
 class SelectChildrenController extends GetxController {
-  final ChildRepository _repository = Get.find<ChildRepository>();
+  final ChildrenRepository _repository = Get.find<ChildrenRepository>();
 
   final childrenList = <ChildModel>[].obs;
   final selectedChildId = ''.obs;
@@ -25,11 +26,17 @@ class SelectChildrenController extends GetxController {
   }
 
   Future<void> loadChildrenData() async {
-    final children = await _repository.getChildren();
-    childrenList.assignAll(children);
+    try {
+      final children = await _repository.getChildren();
+      if (isClosed) return;
+      childrenList.assignAll(children);
 
-    if (childrenList.isNotEmpty) {
-      selectedChildId.value = childrenList.first.id;
+      if (childrenList.isNotEmpty) {
+        selectedChildId.value = childrenList.first.id;
+      }
+    } catch (error) {
+      Get.log('Could not load children: $error');
+      AppSnackbar.error('تعذر تحميل بيانات الأطفال، حاول مجدداً');
     }
   }
 

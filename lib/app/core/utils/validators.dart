@@ -1,3 +1,4 @@
+import '../constants/app_constants.dart';
 import '../constants/app_strings.dart';
 
 /// Pure validation functions.
@@ -28,6 +29,17 @@ class Validators {
     }
     if (value.length < 8) {
       return AppStrings.passwordMin8;
+    }
+    return null;
+  }
+
+  /// Minimum accepted by the auth provider (Firebase requires 6 characters).
+  static String? passwordMin6(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.requiredField;
+    }
+    if (value.length < AppConstants.minPasswordLength) {
+      return AppStrings.passwordMin6;
     }
     return null;
   }
