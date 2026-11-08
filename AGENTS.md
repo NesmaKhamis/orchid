@@ -216,7 +216,7 @@ Controllers:
 - Never hold `BuildContext`. Date pickers / dialogs are called from the view, and the controller
   receives the result (`onDatePicked(DateTime)`).
 - Navigation: `Get.toNamed(Routes.xxx, arguments: typedModel)`.
-- Controllers talk to repositories (`Get.find<ChildRepository>()` registered in a binding),
+- Controllers talk to repositories (`Get.find<ChildrenRepository>()` registered in a binding),
   never to hardcoded lists.
 
 Views:
@@ -233,7 +233,7 @@ Data:
 - `data/models/` plain immutable classes with `const` constructors, `fromMap`/`toMap` when
   Firestore is introduced.
 - `data/repositories/xxx_repository.dart` = abstract class; `mock_xxx_repository.dart` = fake
-  implementation with `Future.delayed`. Swapping to Firebase later must only touch the binding.
+  implementation with `Future.delayed`. Firebase repositories are selected in the relevant binding.
 
 ## 9. Screen map (Figma frame → module → route)
 

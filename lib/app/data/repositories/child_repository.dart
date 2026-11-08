@@ -1,5 +1,4 @@
-import '../models/child_model.dart';
+import 'children_repository.dart';
 
-abstract class ChildRepository {
-  Future<List<ChildModel>> getChildren();
-}
+/// Backward-compatible name for the children repository contract.
+typedef ChildRepository = ChildrenRepository;

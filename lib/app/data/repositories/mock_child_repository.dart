@@ -1,8 +1,8 @@
 import '../../core/constants/app_assets.dart';
 import '../models/child_model.dart';
-import 'child_repository.dart';
+import 'children_repository.dart';
 
-class MockChildRepository implements ChildRepository {
+class MockChildRepository implements ChildrenRepository {
   @override
   Future<List<ChildModel>> getChildren() async {
     await Future.delayed(const Duration(milliseconds: 400));
