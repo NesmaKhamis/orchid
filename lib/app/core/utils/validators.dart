@@ -55,11 +55,7 @@ class Validators {
   }
 
   static String? nationalId(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return AppStrings.requiredField;
-    }
-    final String digits = value.trim();
-    if (!RegExp(r'^[0-9]+$').hasMatch(digits) || digits.length < 10) {
+    if (value == null || !RegExp(r'^\d{9}$').hasMatch(value)) {
       return AppStrings.invalidNationalId;
     }
     return null;

@@ -103,6 +103,12 @@ class SessionService extends GetxService {
       return Routes.login;
     }
 
+    if (!_authRepository.isEmailVerified) {
+      await markRegistrationIncomplete();
+      await saveStep(Routes.emailVerification);
+      return Routes.emailVerification;
+    }
+
     if (_registrationComplete) {
       return Routes.home;
     }
@@ -112,16 +118,16 @@ class SessionService extends GetxService {
       return Routes.linkIdentity;
     }
 
-    final hasSelectedChild =
-        _selectedChildId != null && _selectedChildId!.isNotEmpty;
-
     switch (step) {
       case Routes.linkIdentity:
       case Routes.selectChildren:
         return step;
-      case Routes.privacy:
+      case Routes.childDetails:
+        return Routes.selectChildren;
       case Routes.emailVerification:
-        return hasSelectedChild ? step : Routes.selectChildren;
+        return Routes.linkIdentity;
+      case Routes.privacy:
+        return Routes.linkIdentity;
       default:
         return Routes.linkIdentity;
     }

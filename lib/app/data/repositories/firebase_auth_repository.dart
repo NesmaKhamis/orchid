@@ -47,6 +47,9 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
+  bool get isEmailVerified => _authInstance.currentUser?.emailVerified ?? false;
+
+  @override
   String get currentEmail {
     try {
       return _authInstance.currentUser?.email ?? '';
@@ -123,7 +126,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> sendEmailVerification() async {
-    final user = _authInstance.currentUser;
+    final User? user = _authInstance.currentUser;
     if (user == null) {
       throw const AuthFailure(AppStrings.genericError);
     }
@@ -135,14 +138,14 @@ class FirebaseAuthRepository implements AuthRepository {
     } on AuthFailure {
       rethrow;
     } catch (error) {
-      debugPrint('Email verification failed: $error');
+      debugPrint('Could not send email verification: $error');
       throw const AuthFailure(AppStrings.genericError);
     }
   }
 
   @override
   Future<bool> reloadAndCheckVerified() async {
-    final user = _authInstance.currentUser;
+    final User? user = _authInstance.currentUser;
     if (user == null) return false;
 
     try {

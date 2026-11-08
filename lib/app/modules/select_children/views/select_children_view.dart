@@ -81,7 +81,7 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? primaryPurple.withOpacity(0.08)
+                                  ? primaryPurple.withValues(alpha: 0.08)
                                   : lightInputBg,
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
@@ -93,7 +93,9 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                               boxShadow: isSelected
                                   ? [
                                       BoxShadow(
-                                        color: primaryPurple.withOpacity(0.15),
+                                        color: primaryPurple.withValues(
+                                          alpha: 0.15,
+                                        ),
                                         blurRadius: 8,
                                         offset: const Offset(0, 4),
                                       ),
@@ -121,7 +123,9 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: primaryPurple.withOpacity(0.3),
+                                      color: primaryPurple.withValues(
+                                        alpha: 0.3,
+                                      ),
                                       width: 1,
                                     ),
                                   ),
@@ -188,7 +192,7 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryPurple,
                     elevation: 4,
-                    shadowColor: primaryPurple.withOpacity(0.4),
+                    shadowColor: primaryPurple.withValues(alpha: 0.4),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),

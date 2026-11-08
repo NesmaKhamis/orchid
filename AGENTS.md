@@ -10,8 +10,8 @@ rely on this file, so follow it strictly.
 
 Orchid is an Arabic-only (RTL) Flutter mobile app for children aged 5–12 and their parents,
 focused on emotional well-being (feelings check-ins, workshops). A parent registers, verifies
-the family identity, accepts the privacy terms, verifies an email address, and then the child's
-space opens (feelings check-in, home, workshops).
+their email, verifies the family identity, selects a child and confirms the child's details,
+then the child's space opens (feelings check-in, home, workshops).
 
 - UI language: Arabic only. All user-facing strings are Arabic. Code, identifiers, comments: English.
 - Design source of truth: Figma frames (390 × 940). Every UI task comes with a screenshot of the
@@ -271,10 +271,11 @@ fixes and flow logic.
 
 Update this table in the same commit whenever a screen's status changes.
 
-Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → emailVerification → home → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
+Current registration navigation:
+`splash → onboarding → login/register → login (email prefilled) → emailVerification if unverified, otherwise linkIdentity → selectChildren → (age 5–12) childDetails → home`.
+Out-of-range children route to `verificationRejected`.
 `SelectChildrenController` checks the age with `AppDateUtils.ageFrom` against `AppConstants.minChildAge` / `maxChildAge` and routes accordingly.
-`childDetails` is the Figma "verification accepted" screen; its continue button now navigates to `Routes.privacy`.
+`childDetails` is the Figma "verification accepted" screen; its continue button completes registration and navigates to `Routes.home`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
 

@@ -44,7 +44,7 @@ class EmailVerificationView extends GetView<EmailVerificationController> {
           ),
           const SizedBox(height: AppDimens.space12),
           Text(
-            'أرسلنا رابط تأكيد إلى بريدك الإلكتروني. افتح الرابط ثم عد إلى هنا للمتابعة.',
+            'أرسلنا رابط تأكيد إلى Gmail الخاص بك. افتح الرابط ثم عد إلى هنا للمتابعة.',
             textAlign: TextAlign.start,
             style: AppTextStyles.bodySmall.copyWith(
               color: AppColors.textMuted,

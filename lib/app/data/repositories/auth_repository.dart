@@ -12,6 +12,9 @@ abstract class AuthRepository {
   /// Backed by the provider's cached session, so it also answers offline.
   String? get currentUserId;
 
+  /// Whether the current Firebase user's email has been verified.
+  bool get isEmailVerified;
+
   /// Email of the currently signed-in user.
   String get currentEmail;
 

@@ -38,4 +38,7 @@ class MockChildRepository implements ChildrenRepository {
       ),
     ];
   }
+
+  @override
+  Future<void> saveChild(ChildModel child) async {}
 }

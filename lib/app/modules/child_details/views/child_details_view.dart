@@ -25,7 +25,7 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
                 width: 85,
                 height: 85,
                 decoration: BoxDecoration(
-                  color: primaryPurple.withOpacity(0.1),
+                  color: primaryPurple.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                   border: Border.all(color: primaryPurple, width: 2),
                 ),
@@ -116,7 +116,7 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.1),
+              color: primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: primaryColor, size: 22),
