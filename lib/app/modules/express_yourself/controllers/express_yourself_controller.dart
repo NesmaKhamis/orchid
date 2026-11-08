@@ -1,15 +1,26 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 
-import '../../../core/utils/app_snackbar.dart';
+import '../../../core/services/audio_service.dart';
 import '../../../routes/app_routes.dart';
 
 /// Controller for the ExpressYourself screen (creativity garden).
 class ExpressYourselfController extends GetxController {
+  ExpressYourselfController({required AudioService audioService})
+    : _audioService = audioService;
+
+  final AudioService _audioService;
+
   /// Sound toggle, UI-only for now until audio is wired.
   final isMuted = false.obs;
 
   void toggleSound() {
     isMuted.value = !isMuted.value;
+  }
+
+  void onMascotTapped() {
+    unawaited(_audioService.playMascotSound());
   }
 
   void onFreeDrawingPressed() {
@@ -21,11 +32,6 @@ class ExpressYourselfController extends GetxController {
   }
 
   void onSingingPressed() {
-    _soon();
-  }
-
-  // TODO: plug in the real screens for coloring and singing when built.
-  void _soon() {
-    AppSnackbar.info('قريباً');
+    Get.toNamed(Routes.singing);
   }
 }

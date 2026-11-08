@@ -245,6 +245,8 @@ Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder 
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
 | الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
 | التلوين الموجه (guided coloring) | `guided_coloring` | `Routes.guidedColoring` (from express_yourself card "التلوين الموجه") | ✅ |
+| الغناء والإنشاد (singing) | `singing` | `Routes.singing` (from express_yourself card "الغناء والإنشاد") | ✅ |
+| تسجيل النشيد (song recording) | `song_recording` | `Routes.songRecording` (from singing card tap; play circle only previews) | ✅ |
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ⬜ |
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ⬜ |
 | المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |

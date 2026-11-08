@@ -10,6 +10,10 @@ import '../modules/drawing/bindings/drawing_binding.dart';
 import '../modules/drawing/views/drawing_view.dart';
 import '../modules/guided_coloring/bindings/guided_coloring_binding.dart';
 import '../modules/guided_coloring/views/guided_coloring_view.dart';
+import '../modules/singing/bindings/singing_binding.dart';
+import '../modules/singing/views/singing_view.dart';
+import '../modules/song_recording/bindings/song_recording_binding.dart';
+import '../modules/song_recording/views/song_recording_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/link_identity/bindings/link_identity_binding.dart';
@@ -103,6 +107,17 @@ class AppPages {
       name: Routes.phoneVerification,
       page: () => const PhoneVerificationView(),
       binding: PhoneVerificationBinding(),
+    ),
+
+    GetPage(
+      name: Routes.singing,
+      page: () => const SingingView(),
+      binding: SingingBinding(),
+    ),
+    GetPage(
+      name: Routes.songRecording,
+      page: () => const SongRecordingView(),
+      binding: SongRecordingBinding(),
     ),
   ];
 }
