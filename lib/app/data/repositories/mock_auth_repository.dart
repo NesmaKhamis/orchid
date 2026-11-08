@@ -13,12 +13,16 @@ class MockAuthRepository implements AuthRepository {
       StreamController<String?>.broadcast();
 
   String? _currentUserId;
+  String _currentEmail = '';
 
   @override
   Stream<String?> get authStateChanges => _authStateController.stream;
 
   @override
   String? get currentUserId => _currentUserId;
+
+  @override
+  String get currentEmail => _currentEmail;
 
   @override
   Future<void> signUp({
@@ -48,7 +52,7 @@ class MockAuthRepository implements AuthRepository {
       name: name.trim(),
       password: password,
     );
-    _setCurrentUser(uid);
+    _setCurrentUser(uid, normalizedEmail);
   }
 
   @override
@@ -57,7 +61,8 @@ class MockAuthRepository implements AuthRepository {
     required String password,
   }) async {
     await Future<void>.delayed(_delay);
-    final _MockAccount? account = _accounts[email.trim().toLowerCase()];
+    final String normalizedEmail = email.trim().toLowerCase();
+    final _MockAccount? account = _accounts[normalizedEmail];
 
     if (account == null) {
       throw const AuthFailure(
@@ -72,17 +77,32 @@ class MockAuthRepository implements AuthRepository {
       );
     }
 
-    _setCurrentUser(account.uid);
+    _setCurrentUser(account.uid, normalizedEmail);
   }
 
   @override
   Future<void> signOut() async {
     await Future<void>.delayed(_delay);
-    _setCurrentUser(null);
+    _setCurrentUser(null, '');
   }
 
-  void _setCurrentUser(String? uid) {
+  @override
+  Future<void> sendEmailVerification() async {
+    await Future<void>.delayed(_delay);
+    // Mock: nothing to send. The Firebase implementation sends the real link.
+  }
+
+  @override
+  Future<bool> reloadAndCheckVerified() async {
+    await Future<void>.delayed(const Duration(milliseconds: 600));
+    // Mock: always verified. The Firebase implementation reloads the user
+    // and returns emailVerified.
+    return true;
+  }
+
+  void _setCurrentUser(String? uid, String email) {
     _currentUserId = uid;
+    _currentEmail = email;
     _authStateController.add(uid);
   }
 }

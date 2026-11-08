@@ -1,4 +1,4 @@
-/// Abstract email/password authentication boundary.
+// Abstract email/password authentication boundary.
 ///
 /// Implementations must translate provider errors into `AuthFailure` so the rest
 /// of the app only deals with friendly Arabic messages. The concrete
@@ -12,6 +12,9 @@ abstract class AuthRepository {
   /// Backed by the provider's cached session, so it also answers offline.
   String? get currentUserId;
 
+  /// Email of the currently signed-in user.
+  String get currentEmail;
+
   /// Creates the account of [email]/[password] and its `users/{uid}` profile.
   Future<void> signUp({
     required String email,
@@ -24,4 +27,10 @@ abstract class AuthRepository {
 
   /// Signs the current user out.
   Future<void> signOut();
+
+  /// Sends the verification link to the current user's email.
+  Future<void> sendEmailVerification();
+
+  /// Reloads the user and returns whether the email is verified.
+  Future<bool> reloadAndCheckVerified();
 }

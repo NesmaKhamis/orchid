@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/widgets/app_back_button.dart';
 import '../controllers/select_children_controller.dart';
 
 class SelectChildrenView extends GetView<SelectChildrenController> {
@@ -13,26 +14,19 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: textDark),
-        title: const Text(
-          'اختيار الطفل',
-          style: TextStyle(
-            color: textDark,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        centerTitle: true,
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Directionality(
+                textDirection: TextDirection.rtl,
+                child: Align(
+                  alignment: AlignmentDirectional.topStart,
+                  child: AppBackButton(),
+                ),
+              ),
               const SizedBox(height: 10),
 
               // 1. العنوان
@@ -77,7 +71,8 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                     itemBuilder: (context, index) {
                       final child = controller.childrenList[index];
                       return Obx(() {
-                        final isSelected = controller.selectedChildId.value == child.id;
+                        final isSelected =
+                            controller.selectedChildId.value == child.id;
                         return GestureDetector(
                           onTap: () => controller.selectChild(child.id),
                           child: AnimatedContainer(
@@ -85,10 +80,14 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                             margin: const EdgeInsets.only(bottom: 16),
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: isSelected ? primaryPurple.withOpacity(0.08) : lightInputBg,
+                              color: isSelected
+                                  ? primaryPurple.withOpacity(0.08)
+                                  : lightInputBg,
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color: isSelected ? primaryPurple : Colors.grey.shade300,
+                                color: isSelected
+                                    ? primaryPurple
+                                    : Colors.grey.shade300,
                                 width: isSelected ? 2 : 1,
                               ),
                               boxShadow: isSelected
@@ -97,7 +96,7 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                                         color: primaryPurple.withOpacity(0.15),
                                         blurRadius: 8,
                                         offset: const Offset(0, 4),
-                                      )
+                                      ),
                                     ]
                                   : [],
                             ),
@@ -108,7 +107,9 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                                   isSelected
                                       ? Icons.radio_button_checked
                                       : Icons.radio_button_off,
-                                  color: isSelected ? primaryPurple : Colors.grey,
+                                  color: isSelected
+                                      ? primaryPurple
+                                      : Colors.grey,
                                 ),
                                 const SizedBox(width: 14),
 
@@ -129,8 +130,12 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                                     child: Image.asset(
                                       child.avatarAsset,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) =>
-                                          const Icon(Icons.person, color: primaryPurple),
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(
+                                                Icons.person,
+                                                color: primaryPurple,
+                                              ),
                                     ),
                                   ),
                                 ),
@@ -140,7 +145,8 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                                 // بيانات الطفل
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         child.name,
@@ -215,4 +221,5 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
         ),
       ),
     );
-  }}
+  }
+}

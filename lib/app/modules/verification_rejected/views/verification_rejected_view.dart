@@ -12,8 +12,6 @@ import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/notice_banner.dart';
 import '../../../core/widgets/orchid_image.dart';
 import '../../../core/widgets/status_chip.dart';
-import '../../../core/widgets/step_header.dart';
-import '../../../routes/app_routes.dart';
 import '../controllers/verification_rejected_controller.dart';
 
 class VerificationRejectedView extends GetView<VerificationRejectedController> {
@@ -27,12 +25,6 @@ class VerificationRejectedView extends GetView<VerificationRejectedController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          StepHeader(
-            stepLabel: '01 / تعذّر استكمال التسجيل',
-            title: 'لكل مرحلة ما يناسبها',
-            onBack: () => Get.back(),
-          ),
-          const SizedBox(height: AppDimens.space24),
           AnimatedEntrance(
             child: Center(
               child: OrchidImage(
@@ -69,16 +61,7 @@ class VerificationRejectedView extends GetView<VerificationRejectedController> {
             style: AppTextStyles.bodySmall.copyWith(color: AppColors.textMuted),
           ),
           const SizedBox(height: AppDimens.space24),
-          AppButton(
-            label: 'مراجعة البيانات',
-            onPressed: () => Get.back(),
-          ),
-          const SizedBox(height: AppDimens.space12),
-          AppButton(
-            label: 'العودة إلى البداية',
-            variant: AppButtonVariant.soft,
-            onPressed: () => Get.offAllNamed(Routes.onboarding),
-          ),
+          AppButton(label: 'اختيار طفل آخر', onPressed: () => Get.back()),
           const SizedBox(height: AppDimens.space16),
           Text(
             'إذا كانت البيانات غير صحيحة، يمكن لولي الأمر طلب المساعدة قبل إعادة المحاولة.',

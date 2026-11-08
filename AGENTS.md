@@ -10,7 +10,7 @@ rely on this file, so follow it strictly.
 
 Orchid is an Arabic-only (RTL) Flutter mobile app for children aged 5–12 and their parents,
 focused on emotional well-being (feelings check-ins, workshops). A parent registers, verifies
-the family identity, accepts the privacy terms, verifies a phone number, and then the child's
+the family identity, accepts the privacy terms, verifies an email address, and then the child's
 space opens (feelings check-in, home, workshops).
 
 - UI language: Arabic only. All user-facing strings are Arabic. Code, identifiers, comments: English.
@@ -53,12 +53,11 @@ space opens (feelings check-in, home, workshops).
 7. **No string route literals** (`'/login'`). Always use `Routes.xxx`.
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
-9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding`, `auth` (login/register)
-   and `link_identity` are OPEN for the "start flow refresh" (session logic now; visual polish later
-   in a separate task). `select_children`, `child_details` and `home` stay frozen EXCEPT the specific
-   logic changes listed in Stage 3 of `docs/start-flow-task.md`. Visuals, layout, colors, texts and
-   widget trees of all these screens must not change in this task. Touch them only when a prompt
-   explicitly asks, and then only for the listed logic/navigation change.
+9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
+  For the current `docs/start-flow-task.md` task only, `auth` (login/register), `link_identity`,
+  `select_children`, `child_details`, `verification_rejected`, `privacy` and
+  `email_verification` are OPEN for UI fixes and flow logic. Outside this task, preserve the
+  existing visual freeze and touch these screens only when a prompt explicitly asks.
 10. New screens must feel consistent with the legacy ones (same purple, rounded fields and buttons,
    animation style) wherever the Figma does not say otherwise.
 11. Available packages only: `get`, `flutter_animate`, `audioplayers`, `firebase_core`,
@@ -81,7 +80,7 @@ lib/
       constants/
         app_assets.dart             # every asset path as a static const
         app_strings.dart            # shared strings only (validation messages, common labels)
-        app_constants.dart          # business constants (min/max child age 5–12, OTP length, timers)
+        app_constants.dart          # business constants (min/max child age 5–12, verification timers)
       theme/
         app_colors.dart             # color tokens
         app_text_styles.dart        # text style tokens
@@ -172,6 +171,7 @@ callbacks, never a controller.
 |---|---|
 | `AppScaffold` | Screen shell: background (`plain`, `cream`, `gradient`), optional corner leaf decoration, `SafeArea`, optional scroll, standard horizontal padding, optional `title` + back button app bar. |
 | `AppButton` | `label`, `onPressed`, `variant` (`primary` / `soft` / `text`), `isLoading`, `icon`, `fullWidth`. Handles disabled + loading state. |
+| `AppBackButton` | Shared RTL back action with a consistent 48px tap target; defaults to `Get.back()`. |
 | `AppTextField` | Label above the field, `controller`, `hint`, `prefixIcon`, `suffix`, `keyboardType`, `validator`, `readOnly`, `onTap`, `maxLength`, `obscureText`, `textDirection`, `fillColor`. |
 | `PasswordField` | Wraps `AppTextField` with its own show/hide toggle (local state, no controller flag). |
 | `SectionTitle` | Centered title + optional emoji + optional subtitle. |
@@ -182,7 +182,7 @@ callbacks, never a controller.
 | `SelectableCard` | Card with selected/unselected look + tap; used by child selection and feelings. |
 | `OtpInput` | N separate digit boxes, `length` (default 6), `onChanged`, `onCompleted`, optional `OtpInputController.clear()`, autofocus first box, auto-advance, backspace to previous, paste fills all boxes. |
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
-| `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by privacy and phone screens. |
+| `StepHeader` | Registration header: `stepLabel`, bold `title`, optional `onBack` (defaults to pop), lock icon in a white circle, back chevron. Reused by registration screens. |
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
 | `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
@@ -237,22 +237,23 @@ Data:
 
 ## 9. Screen map (Figma frame → module → route)
 
-Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder route wired, real screen pending · ⬜ not built.
+Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔓 open for this task · 🔶 placeholder route wired, real screen pending · ⬜ not built.
 
-Note: for the start-flow refresh, `splash`, `onboarding`, `auth` (login/register) and `link_identity`
-are open for session-logic changes only; their visuals remain frozen in this task.
+Note: for `docs/start-flow-task.md`, `auth` (login/register), `link_identity`, `select_children`,
+`child_details`, `verification_rejected`, `privacy` and `email_verification` are open for both UI
+fixes and flow logic.
 
 | Figma frame | Module | Route | Status |
 |---|---|---|---|
 | Splash | `splash` | `Routes.splash` | 🔒 |
 | بداية الرحلة (welcome) | `onboarding` | `Routes.onboarding` | 🔒 |
-| Login (not in current Figma set) | `auth` | `Routes.login` | 🔒 |
-| Register (not in current Figma set) | `auth` | `Routes.register` | 🔒 |
-| التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔒 |
-| التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔒 |
-| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | ⬜ |
-| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | ⬜ |
-| التسجيل — تأكد من هاتفك (phone OTP) | `phone_verification` | `Routes.phoneVerification` | ⬜ |
+| Login (not in current Figma set) | `auth` | `Routes.login` | 🔓 |
+| Register (not in current Figma set) | `auth` | `Routes.register` | 🔓 |
+| التسجيل — تعرّف على الأسرة (family identification) | `link_identity` | `Routes.linkIdentity` | 🔓 |
+| التحقق — قبول ("اطمئن، كل شيء مناسب") = the existing child details screen | `child_details` | `Routes.childDetails` | 🔓 |
+| التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | 🔓 |
+| التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔓 |
+| التسجيل — تأكيد البريد الإلكتروني | `email_verification` | `Routes.emailVerification` | 🔓 |
 | المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
@@ -268,7 +269,7 @@ are open for session-logic changes only; their visuals remain frozen in this tas
 Update this table in the same commit whenever a screen's status changes.
 
 Proposed navigation (confirm with the team, then edit here):
-`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → phoneVerification → home → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
+`splash → onboarding → login/register → linkIdentity → selectChildren → (age 5–12) childDetails → privacy → emailVerification → home → mainShell (home / workshops) → workshopDetails → feelingsAfter; (otherwise) selectChildren → verificationRejected`.
 `SelectChildrenController` checks the age with `AppDateUtils.ageFrom` against `AppConstants.minChildAge` / `maxChildAge` and routes accordingly.
 `childDetails` is the Figma "verification accepted" screen; its continue button now navigates to `Routes.privacy`.
 

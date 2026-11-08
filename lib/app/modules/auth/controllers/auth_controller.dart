@@ -53,7 +53,7 @@ class AuthController extends GetxController {
         email: emailController.text.trim(),
         password: passwordController.text,
       );
-      await _continueAfterAuth();
+      await _continueAfterLogin();
     } on AuthFailure catch (failure) {
       Get.log('Authentication failed: ${failure.code ?? 'unknown'}');
       AppSnackbar.error(failure.message);
@@ -81,7 +81,7 @@ class AuthController extends GetxController {
         password: passwordController.text,
         name: nameController.text.trim(),
       );
-      await _continueAfterAuth();
+      await _continueAfterRegister();
     } on AuthFailure catch (failure) {
       Get.log('Registration failed: ${failure.code ?? 'unknown'}');
       AppSnackbar.error(failure.message);
@@ -101,9 +101,21 @@ class AuthController extends GetxController {
     Get.back();
   }
 
-  /// Continue the registration flow at the family-identity screen.
-  Future<void> _continueAfterAuth() async {
+  /// A returning user resumes where they stopped, or goes straight to home
+  /// when the registration was already completed.
+  Future<void> _continueAfterLogin() async {
     final SessionService session = Get.find<SessionService>();
+    await session.markLoggedIn();
+
+    isLoading.value = false;
+    Get.offAllNamed(session.resolveStartRoute());
+  }
+
+  /// A new account always starts the registration details from the beginning.
+  Future<void> _continueAfterRegister() async {
+    final SessionService session = Get.find<SessionService>();
+    await session.markLoggedIn();
+    await session.markRegistrationIncomplete();
     await session.saveStep(Routes.linkIdentity);
 
     isLoading.value = false;

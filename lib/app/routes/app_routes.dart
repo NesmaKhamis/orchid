@@ -14,7 +14,7 @@ abstract class _Paths {
   static const songRecording = '/song-recording';
   static const verificationRejected = '/verification-rejected';
   static const privacy = '/privacy';
-  static const phoneVerification = '/phone-verification';
+  static const emailVerification = '/email-verification';
 }
 
 abstract class Routes {
@@ -34,5 +34,5 @@ abstract class Routes {
   static const songRecording = _Paths.songRecording;
   static const verificationRejected = _Paths.verificationRejected;
   static const privacy = _Paths.privacy;
-  static const phoneVerification = _Paths.phoneVerification;
+  static const emailVerification = _Paths.emailVerification;
 }

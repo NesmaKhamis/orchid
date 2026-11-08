@@ -6,58 +6,51 @@ import 'package:get/get.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/services/session_service.dart';
 import '../../../core/utils/app_snackbar.dart';
-import '../../../core/widgets/otp_input.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../routes/app_routes.dart';
 
-class PhoneVerificationController extends GetxController {
+class EmailVerificationController extends GetxController {
   late final AuthRepository _repository;
 
-  final otp = ''.obs;
   final isLoading = false.obs;
-  final secondsRemaining = AppConstants.otpResendSeconds.obs;
-
-  final phoneController = TextEditingController();
-  final otpInputController = OtpInputController();
+  final secondsRemaining = AppConstants.emailVerificationResendSeconds.obs;
+  final emailController = TextEditingController();
 
   Timer? _timer;
   bool _closed = false;
 
-  bool get canConfirm =>
-      otp.value.length == AppConstants.otpLength && !isLoading.value;
-
+  bool get canContinue => !isLoading.value;
   bool get canResend => secondsRemaining.value == 0;
 
   String get countdownLabel {
     final int total = secondsRemaining.value;
-    final String minutes = (total ~/ 60).toString().padLeft(2, '0');
-    final String seconds = (total % 60).toString().padLeft(2, '0');
-    return '$minutes:$seconds';
+    final int minutes = total ~/ 60;
+    final int seconds = total % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
 
   @override
   void onInit() {
     super.onInit();
     _repository = Get.find<AuthRepository>();
-    _loadParentPhone();
+    emailController.text = _repository.currentEmail;
+    _sendVerificationLink();
     _startCountdown();
   }
 
   @override
   void onReady() {
     super.onReady();
-    Get.find<SessionService>().saveStep(Routes.phoneVerification);
+    Get.find<SessionService>().saveStep(Routes.emailVerification);
   }
 
-  Future<void> _loadParentPhone() async {
-    final String maskedPhone = await _repository.getParentPhoneMasked();
-    if (_closed) return;
-    phoneController.text = maskedPhone;
+  Future<void> _sendVerificationLink() async {
+    await _repository.sendEmailVerification();
   }
 
   void _startCountdown() {
     _timer?.cancel();
-    secondsRemaining.value = AppConstants.otpResendSeconds;
+    secondsRemaining.value = AppConstants.emailVerificationResendSeconds;
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (secondsRemaining.value > 0) {
         secondsRemaining.value--;
@@ -67,41 +60,37 @@ class PhoneVerificationController extends GetxController {
     });
   }
 
-  void onOtpChanged(String code) {
-    otp.value = code;
-  }
-
   Future<void> confirm() async {
-    if (!canConfirm) return;
+    if (!canContinue) return;
 
     isLoading.value = true;
-    final bool isValid = await _repository.verifyOtp(otp.value);
+    final bool isVerified = await _repository.reloadAndCheckVerified();
     if (_closed) return;
     isLoading.value = false;
 
-    if (isValid) {
+    if (isVerified) {
       await Get.find<SessionService>().markRegistrationComplete();
       if (_closed) return;
       Get.offAllNamed(Routes.home);
       return;
     }
 
-    AppSnackbar.error('الرمز غير صحيح، حاول مجدداً');
-    otp.value = '';
-    otpInputController.clear();
+    AppSnackbar.warning('لم يتم تأكيد البريد بعد، تحقق من صندوق الوارد');
   }
 
-  void resendCode() {
+  Future<void> resendLink() async {
     if (!canResend) return;
+    await _sendVerificationLink();
+    if (_closed) return;
     _startCountdown();
-    AppSnackbar.info('تم إرسال رمز جديد');
+    AppSnackbar.info('تم إرسال رابط تأكيد جديد');
   }
 
   @override
   void onClose() {
     _closed = true;
     _timer?.cancel();
-    phoneController.dispose();
+    emailController.dispose();
     super.onClose();
   }
 }
