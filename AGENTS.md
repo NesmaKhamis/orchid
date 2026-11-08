@@ -257,6 +257,8 @@ fixes and flow logic.
 | المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
 | المكافآت والهدايا (rewards) inside the bottom-nav shell | `main_shell`, `rewards` | `Routes.rewards` | ✅ |
+| تفاصيل المكافأة (reward details) | `rewards` | `Routes.rewardDetails` | ⬜ |
+| طلباتي من المكافآت (reward requests) | `rewards` | `Routes.myRewardRequests` | ⬜ |
 | الملف الشخصي (profile) inside the bottom-nav shell | `main_shell`, `profile` | `Routes.profile` | ✅ |
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
 | الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
@@ -278,6 +280,21 @@ Out-of-range children route to `verificationRejected`.
 `childDetails` is the Figma "verification accepted" screen; its continue button completes registration and navigates to `Routes.home`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
+
+## 9d. Rewards
+
+- Coins are earned only by completing daily activities: mood check-in, drawing,
+  guided coloring, singing/song recording, and attending a workshop.
+- Coins are spent on real rewards handed out by the charity. Redemption creates a
+  request and follows these statuses: `pending` ("طلب جديد"), `review` ("قيد
+  المراجعة"), `ready` ("جاهزة للاستلام"), and `received` ("تم الاستلام").
+- Every redemption requires parent confirmation through a child-safe parent gate.
+  No PIN is stored.
+- Rewards have limited stock. Out-of-stock and insufficient-coins are separate
+  states with friendly Arabic feedback.
+- A daily coin cap limits earning to support healthy screen habits.
+- Rewards data is mock-backed for now. Firebase implementations are selected in
+  bindings only when the persistence layer is introduced.
 
 ## 9b. Session and first-launch logic
 
