@@ -32,8 +32,42 @@ void main() {
     expect(session.isLoggedIn, isFalse);
     authRepository.emit('user-1');
 
-    expect(await route, Routes.privacy);
+    expect(await route, Routes.selectChildren);
     expect(session.isLoggedIn, isTrue);
+
+    session.onClose();
+    await authRepository.dispose();
+  });
+
+  test('unverified signed-in users are routed to email verification', () async {
+    final _TestAuthRepository authRepository = _TestAuthRepository()
+      ..emailVerified = false;
+    final _TestSessionStorage storage = _TestSessionStorage();
+    final SessionService session = SessionService(storage, authRepository);
+
+    final Future<String> route = session.resolveStartRoute();
+    await Future<void>.delayed(Duration.zero);
+    authRepository.emit('user-1');
+
+    expect(await route, Routes.emailVerification);
+    expect(storage.registrationCompleteValue, isFalse);
+    expect(storage.lastStepValue, Routes.emailVerification);
+
+    session.onClose();
+    await authRepository.dispose();
+  });
+
+  test('verified users continue from email verification to parent identity', () async {
+    final _TestAuthRepository authRepository = _TestAuthRepository();
+    final _TestSessionStorage storage = _TestSessionStorage()
+      ..lastStepValue = Routes.emailVerification;
+    final SessionService session = SessionService(storage, authRepository);
+
+    final Future<String> route = session.resolveStartRoute();
+    await Future<void>.delayed(Duration.zero);
+    authRepository.emit('user-1');
+
+    expect(await route, Routes.linkIdentity);
 
     session.onClose();
     await authRepository.dispose();
@@ -45,12 +79,16 @@ class _TestAuthRepository implements AuthRepository {
       StreamController<String?>.broadcast(sync: true);
 
   String? _currentUserId;
+  bool emailVerified = true;
 
   @override
   Stream<String?> get authStateChanges => _authChanges.stream;
 
   @override
   String? get currentUserId => _currentUserId;
+
+  @override
+  bool get isEmailVerified => emailVerified;
 
   void emit(String? userId) {
     _currentUserId = userId;
@@ -72,9 +110,21 @@ class _TestAuthRepository implements AuthRepository {
     required String password,
     required String name,
   }) => throw UnimplementedError();
+
+  @override
+  String get currentEmail => throw UnimplementedError();
+
+  @override
+  Future<bool> reloadAndCheckVerified() async => emailVerified;
+
+  @override
+  Future<void> sendEmailVerification() async {}
 }
 
 class _TestSessionStorage implements SessionStorage {
+  bool registrationCompleteValue = false;
+  String? lastStepValue = Routes.selectChildren;
+
   @override
   Future<bool> get onboardingSeen async => true;
 
@@ -82,16 +132,20 @@ class _TestSessionStorage implements SessionStorage {
   Future<void> setOnboardingSeen(bool value) async {}
 
   @override
-  Future<bool> get registrationComplete async => false;
+  Future<bool> get registrationComplete async => registrationCompleteValue;
 
   @override
-  Future<void> setRegistrationComplete(bool value) async {}
+  Future<void> setRegistrationComplete(bool value) async {
+    registrationCompleteValue = value;
+  }
 
   @override
-  Future<String?> get lastStep async => Routes.privacy;
+  Future<String?> get lastStep async => lastStepValue;
 
   @override
-  Future<void> setLastStep(String? value) async {}
+  Future<void> setLastStep(String? value) async {
+    lastStepValue = value;
+  }
 
   @override
   Future<String?> get selectedChildId async => 'child-1';

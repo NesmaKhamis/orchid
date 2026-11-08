@@ -22,6 +22,9 @@ class MockAuthRepository implements AuthRepository {
   String? get currentUserId => _currentUserId;
 
   @override
+  bool get isEmailVerified => _currentUserId != null;
+
+  @override
   String get currentEmail => _currentEmail;
 
   @override

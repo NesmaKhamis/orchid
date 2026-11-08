@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/services/session_service.dart';
 import '../../../core/utils/app_snackbar.dart';
+import '../../../data/models/auth_failure.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../../../routes/app_routes.dart';
 
@@ -34,14 +35,7 @@ class EmailVerificationController extends GetxController {
     super.onInit();
     _repository = Get.find<AuthRepository>();
     emailController.text = _repository.currentEmail;
-    _sendVerificationLink();
     _startCountdown();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    Get.find<SessionService>().saveStep(Routes.emailVerification);
   }
 
   Future<void> _sendVerificationLink() async {
@@ -64,26 +58,51 @@ class EmailVerificationController extends GetxController {
     if (!canContinue) return;
 
     isLoading.value = true;
-    final bool isVerified = await _repository.reloadAndCheckVerified();
-    if (_closed) return;
-    isLoading.value = false;
-
-    if (isVerified) {
-      await Get.find<SessionService>().markRegistrationComplete();
+    try {
+      final bool isVerified = await _repository.reloadAndCheckVerified();
       if (_closed) return;
-      Get.offAllNamed(Routes.home);
-      return;
-    }
 
-    AppSnackbar.warning('لم يتم تأكيد البريد بعد، تحقق من صندوق الوارد');
+      if (isVerified) {
+        final SessionService session = Get.find<SessionService>();
+        await session.markRegistrationIncomplete();
+        await session.saveStep(Routes.linkIdentity);
+        if (_closed) return;
+        Get.offAllNamed(Routes.linkIdentity);
+        return;
+      }
+
+      AppSnackbar.warning('لم يتم تأكيد البريد بعد، تحقق من صندوق الوارد');
+    } on AuthFailure catch (failure) {
+      Get.log(
+        'Could not confirm email verification: ${failure.code ?? 'unknown'}',
+      );
+      AppSnackbar.error(failure.message);
+    } catch (error) {
+      Get.log('Could not confirm email verification: $error');
+      AppSnackbar.error('تعذر التحقق من البريد الإلكتروني، حاول مجدداً');
+    } finally {
+      if (!_closed) {
+        isLoading.value = false;
+      }
+    }
   }
 
   Future<void> resendLink() async {
     if (!canResend) return;
-    await _sendVerificationLink();
-    if (_closed) return;
-    _startCountdown();
-    AppSnackbar.info('تم إرسال رابط تأكيد جديد');
+    try {
+      await _sendVerificationLink();
+      if (_closed) return;
+      _startCountdown();
+      AppSnackbar.info('تم إرسال رابط تأكيد جديد');
+    } on AuthFailure catch (failure) {
+      Get.log(
+        'Could not resend email verification: ${failure.code ?? 'unknown'}',
+      );
+      AppSnackbar.error(failure.message);
+    } catch (error) {
+      Get.log('Could not resend email verification: $error');
+      AppSnackbar.error('تعذر إرسال رابط التحقق، حاول مجدداً');
+    }
   }
 
   @override

@@ -47,6 +47,12 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
+  bool get isEmailVerified => _authInstance.currentUser?.emailVerified ?? false;
+
+  @override
+  String get currentEmail => _authInstance.currentUser?.email ?? '';
+
+  @override
   Future<void> signUp({
     required String email,
     required String password,
@@ -85,10 +91,7 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signIn({required String email, required String password}) async {
     try {
       await _authInstance.signInWithEmailAndPassword(
         email: email.trim(),
@@ -114,13 +117,47 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
+  @override
+  Future<void> sendEmailVerification() async {
+    try {
+      final User? user = _authInstance.currentUser;
+      if (user == null) {
+        throw const AuthFailure(AppStrings.genericError);
+      }
+      await user.sendEmailVerification();
+    } on FirebaseAuthException catch (error) {
+      throw _mapException(error);
+    } on AuthFailure {
+      rethrow;
+    } catch (error) {
+      debugPrint('Could not send email verification: $error');
+      throw const AuthFailure(AppStrings.genericError);
+    }
+  }
+
+  @override
+  Future<bool> reloadAndCheckVerified() async {
+    try {
+      final User? user = _authInstance.currentUser;
+      if (user == null) {
+        return false;
+      }
+      await user.reload();
+      return _authInstance.currentUser?.emailVerified ?? false;
+    } on FirebaseAuthException catch (error) {
+      throw _mapException(error);
+    } catch (error) {
+      debugPrint('Could not refresh email verification state: $error');
+      throw const AuthFailure(AppStrings.genericError);
+    }
+  }
+
   AuthFailure _mapException(FirebaseAuthException error) {
     final String message = switch (error.code) {
       'invalid-email' => 'صيغة البريد الإلكتروني غير صحيحة',
       'user-not-found' => 'لا يوجد حساب بهذا البريد الإلكتروني',
-      'wrong-password' ||
-      'invalid-credential' ||
-      'invalid-login-credentials' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+      'wrong-password' || 'invalid-credential' || 'invalid-login-credentials' =>
+        'البريد الإلكتروني أو كلمة المرور غير صحيحة',
       'email-already-in-use' => 'هذا البريد الإلكتروني مسجّل مسبقاً',
       'weak-password' => 'كلمة المرور ضعيفة، استخدم 6 أحرف على الأقل',
       'network-request-failed' =>

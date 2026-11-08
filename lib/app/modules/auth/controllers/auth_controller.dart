@@ -28,6 +28,10 @@ class AuthController extends GetxController {
   void onInit() {
     super.onInit();
     _repository = Get.find<AuthRepository>();
+    final Object? initialEmail = Get.arguments;
+    if (Get.currentRoute == Routes.login && initialEmail is String) {
+      emailController.text = initialEmail;
+    }
   }
 
   void togglePasswordVisibility() {
@@ -53,6 +57,12 @@ class AuthController extends GetxController {
         email: emailController.text.trim(),
         password: passwordController.text,
       );
+      if (!await _repository.reloadAndCheckVerified()) {
+        await _repository.sendEmailVerification();
+        await _continueToEmailVerification();
+        AppSnackbar.info('يرجى تأكيد بريدك الإلكتروني للمتابعة');
+        return;
+      }
       await _continueAfterLogin();
     } on AuthFailure catch (failure) {
       Get.log('Authentication failed: ${failure.code ?? 'unknown'}');
@@ -76,12 +86,35 @@ class AuthController extends GetxController {
 
     isLoading.value = true;
     try {
+      final String email = emailController.text.trim();
       await _repository.signUp(
-        email: emailController.text.trim(),
+        email: email,
         password: passwordController.text,
         name: nameController.text.trim(),
       );
-      await _continueAfterRegister();
+      final SessionService session = Get.find<SessionService>();
+      await session.markRegistrationIncomplete();
+      await session.saveStep(Routes.emailVerification);
+
+      String? verificationError;
+      try {
+        await _repository.sendEmailVerification();
+      } on AuthFailure catch (failure) {
+        Get.log(
+          'Could not send verification email: ${failure.code ?? 'unknown'}',
+        );
+        verificationError = failure.message;
+      } catch (error) {
+        Get.log('Could not send verification email: $error');
+        verificationError = AppStrings.genericError;
+      }
+
+      isLoading.value = false;
+      Get.offAllNamed(Routes.login, arguments: email);
+      AppSnackbar.success('تم إنشاء الحساب بنجاح');
+      if (verificationError != null) {
+        AppSnackbar.warning(verificationError);
+      }
     } on AuthFailure catch (failure) {
       Get.log('Registration failed: ${failure.code ?? 'unknown'}');
       AppSnackbar.error(failure.message);
@@ -105,21 +138,16 @@ class AuthController extends GetxController {
   /// when the registration was already completed.
   Future<void> _continueAfterLogin() async {
     final SessionService session = Get.find<SessionService>();
-    await session.markLoggedIn();
-
     isLoading.value = false;
-    Get.offAllNamed(session.resolveStartRoute());
+    Get.offAllNamed(await session.resolveStartRoute());
   }
 
-  /// A new account always starts the registration details from the beginning.
-  Future<void> _continueAfterRegister() async {
+  Future<void> _continueToEmailVerification() async {
     final SessionService session = Get.find<SessionService>();
-    await session.markLoggedIn();
     await session.markRegistrationIncomplete();
-    await session.saveStep(Routes.linkIdentity);
-
+    await session.saveStep(Routes.emailVerification);
     isLoading.value = false;
-    Get.offAllNamed(Routes.linkIdentity);
+    Get.offAllNamed(Routes.emailVerification);
   }
 
   String? _validateLogin() {

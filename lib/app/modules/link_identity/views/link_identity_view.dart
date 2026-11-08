@@ -98,23 +98,32 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.grey.shade300, width: 1),
                 ),
-                child: TextField(
-                  controller: controller.identityController,
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
-                  decoration: const InputDecoration(
-                    hintText: 'مثال: 900123456',
-                    hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    border: InputBorder.none,
-                    prefixIcon: Icon(
-                      Icons.badge_outlined,
-                      color: primaryPurple,
-                      size: 20,
+                child: Obx(
+                  () => TextField(
+                    controller: controller.identityController,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.right,
+                    onChanged: controller.onIdentityChanged,
+                    style: const TextStyle(fontSize: 14, color: Colors.black87),
+                    decoration: InputDecoration(
+                      hintText: 'مثال: 900123456',
+                      hintStyle: const TextStyle(
+                        color: Colors.black38,
+                        fontSize: 13,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      border: InputBorder.none,
+                      errorText: controller.identityError.value.isEmpty
+                          ? null
+                          : controller.identityError.value,
+                      prefixIcon: const Icon(
+                        Icons.badge_outlined,
+                        color: primaryPurple,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -144,28 +153,33 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: Colors.grey.shade300, width: 1),
                     ),
-                    child: TextField(
-                      controller: controller.birthDateController,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                      ),
-                      decoration: const InputDecoration(
-                        hintText: 'السنة - الشهر - اليوم',
-                        hintStyle: TextStyle(
-                          color: Colors.black38,
-                          fontSize: 13,
+                    child: Obx(
+                      () => TextField(
+                        controller: controller.birthDateController,
+                        textAlign: TextAlign.right,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.black87,
                         ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 14,
-                        ),
-                        border: InputBorder.none,
-                        prefixIcon: Icon(
-                          Icons.calendar_month_outlined,
-                          color: primaryPurple,
-                          size: 20,
+                        decoration: InputDecoration(
+                          hintText: 'السنة - الشهر - اليوم',
+                          hintStyle: const TextStyle(
+                            color: Colors.black38,
+                            fontSize: 13,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          border: InputBorder.none,
+                          errorText: controller.birthDateError.value.isEmpty
+                              ? null
+                              : controller.birthDateError.value,
+                          prefixIcon: const Icon(
+                            Icons.calendar_month_outlined,
+                            color: primaryPurple,
+                            size: 20,
+                          ),
                         ),
                       ),
                     ),
