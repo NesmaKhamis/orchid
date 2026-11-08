@@ -24,7 +24,6 @@ abstract class _Paths {
   static const notifications = '/notifications';
   static const profile = '/profile';
   static const feelingsBefore = '/feelings-before';
-  static const feelingsAfter = '/feelings-after';
 }
 
 abstract class Routes {
@@ -54,5 +53,4 @@ abstract class Routes {
   static const notifications = _Paths.notifications;
   static const profile = _Paths.profile;
   static const feelingsBefore = _Paths.feelingsBefore;
-  static const feelingsAfter = _Paths.feelingsAfter;
 }

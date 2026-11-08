@@ -54,7 +54,7 @@ class HomeView extends GetView<HomeController> {
                 final bool hasRecord = record != null;
 
                 return InkWell(
-                  onTap: controller.onMoodCardPressed,
+                  onTap: hasRecord ? null : controller.onMoodCardPressed,
                   borderRadius: BorderRadius.circular(AppDimens.radiusCard),
                   child: HeroCardContainer(
                     variant: hasRecord
@@ -437,23 +437,10 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
         const SizedBox(width: AppDimens.space8),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              'سجّل من جديد',
-              style: AppTextStyles.caption.copyWith(
-                color: AppColors.success,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(width: AppDimens.space4),
-            const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 12,
-              color: AppColors.success,
-            ),
-          ],
+        const Icon(
+          Icons.check_circle_rounded,
+          size: 22,
+          color: AppColors.success,
         ),
       ],
     );

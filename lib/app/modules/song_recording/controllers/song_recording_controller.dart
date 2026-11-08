@@ -3,13 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:get/get.dart';
 
-import '../../../core/services/session_service.dart';
 import '../../../core/utils/app_snackbar.dart';
-import '../../../data/models/feelings_args.dart';
-import '../../../data/models/mood_record.dart';
 import '../../../data/models/song.dart';
-import '../../../data/repositories/mood_repository.dart';
-import '../../../routes/app_routes.dart';
 
 /// Controller for the song recording screen (شاشة تسجيل النشيد).
 class SongRecordingController extends GetxController {
@@ -144,7 +139,7 @@ class SongRecordingController extends GetxController {
 
   // TODO: persist via a recordings repository (Firestore/mobile files);
   // this list preview stores labels only.
-  void saveRecording() async {
+  void saveRecording() {
     if (!hasUnsavedRecording.value) {
       return;
     }
@@ -153,31 +148,6 @@ class SongRecordingController extends GetxController {
     hasUnsavedRecording.value = false;
     recordingSeconds.value = 0;
     AppSnackbar.success('تم حفظ التسجيل (معاينة)');
-    await _openFeelingsAfter('act-singing');
-  }
-
-  Future<void> _openFeelingsAfter(String activityId) async {
-    Feeling? previousFeeling;
-    if (Get.isRegistered<MoodRepository>()) {
-      try {
-        final String? childId = Get.isRegistered<SessionService>()
-            ? Get.find<SessionService>().selectedChildId
-            : null;
-        final MoodRecord? record = await Get.find<MoodRepository>()
-            .getTodayLastRecord(childId: childId);
-        previousFeeling = record?.feeling;
-      } catch (_) {
-        // Fallback gracefully
-      }
-    }
-    Get.toNamed(
-      Routes.feelingsAfter,
-      arguments: FeelingsArgs(
-        phase: MoodPhase.after,
-        activityId: activityId,
-        previousFeeling: previousFeeling,
-      ),
-    );
   }
 
   String formatSeconds(int totalSeconds) {

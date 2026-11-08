@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../../core/services/session_service.dart';
 import '../../../core/utils/app_snackbar.dart';
 import '../../../data/models/child_model.dart';
-import '../../../data/models/feelings_args.dart';
 import '../../../data/models/mood_record.dart';
 import '../../../data/repositories/children_repository.dart';
 import '../../../data/repositories/mood_repository.dart';
@@ -97,10 +96,10 @@ class HomeController extends GetxController {
 
   // الانتقال إلى شاشة تسجيل المشاعر (المزاج)
   void onMoodCardPressed() {
-    Get.toNamed(
-      Routes.feelingsBefore,
-      arguments: const FeelingsArgs(phase: MoodPhase.before),
-    );
+    if (todayMoodRecord.value != null) {
+      return;
+    }
+    Get.toNamed(Routes.feelingsBefore);
   }
 
   // الانتقال إلى شاشة "عَبِّر عن نفسك"

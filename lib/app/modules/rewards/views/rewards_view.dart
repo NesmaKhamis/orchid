@@ -358,8 +358,9 @@ class _DailyActivityItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMood = activity.id == 'act-mood';
     final bool isDone = activity.isCompleted;
-    final bool hasRoute = activity.route != null && !isDone;
+    final bool hasRoute = !isMood && activity.route != null && !isDone;
 
     return SectionCard(
       tone: isDone ? SectionCardTone.softMint : SectionCardTone.white,

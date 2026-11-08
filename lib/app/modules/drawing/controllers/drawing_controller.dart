@@ -3,15 +3,10 @@ import 'dart:ui' show Offset;
 import 'package:flutter/material.dart' show Color;
 import 'package:get/get.dart';
 
-import '../../../core/services/session_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/app_snackbar.dart';
 import '../../../data/models/drawing_stroke.dart';
 import '../../../data/models/drawing_tool.dart';
-import '../../../data/models/feelings_args.dart';
-import '../../../data/models/mood_record.dart';
-import '../../../data/repositories/mood_repository.dart';
-import '../../../routes/app_routes.dart';
 
 /// Controller for the free-drawing canvas (مرسمي الصغير).
 class DrawingController extends GetxController {
@@ -117,33 +112,8 @@ class DrawingController extends GetxController {
   }
 
   // TODO: swap this preview-save for a real repository write.
-  void onSavePressed() async {
+  void onSavePressed() {
     AppSnackbar.success('تم الحفظ (معاينة)');
-    await _openFeelingsAfter('act-drawing');
-  }
-
-  Future<void> _openFeelingsAfter(String activityId) async {
-    Feeling? previousFeeling;
-    if (Get.isRegistered<MoodRepository>()) {
-      try {
-        final String? childId = Get.isRegistered<SessionService>()
-            ? Get.find<SessionService>().selectedChildId
-            : null;
-        final MoodRecord? record = await Get.find<MoodRepository>()
-            .getTodayLastRecord(childId: childId);
-        previousFeeling = record?.feeling;
-      } catch (_) {
-        // Fallback gracefully
-      }
-    }
-    Get.toNamed(
-      Routes.feelingsAfter,
-      arguments: FeelingsArgs(
-        phase: MoodPhase.after,
-        activityId: activityId,
-        previousFeeling: previousFeeling,
-      ),
-    );
   }
 
   // TODO: replace with the real stickers picker screen.

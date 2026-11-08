@@ -22,6 +22,11 @@ class MockMoodRepository implements MoodRepository {
   @override
   Future<MoodRecord> saveRecord(MoodRecord record) async {
     await Future<void>.delayed(const Duration(milliseconds: 150));
+    final MoodRecord? existing =
+        await getTodayLastRecord(childId: record.childId);
+    if (existing != null) {
+      return existing;
+    }
     final MoodRecord saved = record.id.isEmpty
         ? record.copyWith(id: 'mood-${DateTime.now().millisecondsSinceEpoch}')
         : record;

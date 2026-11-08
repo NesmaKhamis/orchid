@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:get/get.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/services/session_service.dart';
 import '../../../data/models/daily_activity.dart';
+import '../../../data/models/mood_record.dart';
 import '../../../data/models/reward_item.dart';
 import '../../../data/models/reward_request.dart';
+import '../../../data/repositories/mood_repository.dart';
 import '../../../data/repositories/rewards_repository.dart';
 
 enum RewardCardState {
@@ -30,6 +33,7 @@ class RewardsController extends GetxController {
   final RxList<RewardRequest> requests = <RewardRequest>[].obs;
 
   StreamSubscription<int>? _balanceSubscription;
+  StreamSubscription<MoodRecord?>? _moodSubscription;
 
   int get dailyCap => AppConstants.dailyCoinCap;
 
@@ -61,7 +65,29 @@ class RewardsController extends GetxController {
   void onInit() {
     super.onInit();
     _subscribeToBalance();
+    _subscribeToMoodRecord();
     loadRewardsData();
+  }
+
+  void _subscribeToMoodRecord() {
+    if (Get.isRegistered<MoodRepository>()) {
+      final String? childId = Get.isRegistered<SessionService>()
+          ? Get.find<SessionService>().selectedChildId
+          : null;
+      _moodSubscription = Get.find<MoodRepository>()
+          .watchTodayLastRecord(childId: childId)
+          .listen((MoodRecord? record) async {
+        if (record != null) {
+          final int index =
+              dailyActivities.indexWhere((DailyActivity a) => a.id == 'act-mood');
+          if (index != -1 && !dailyActivities[index].isCompleted) {
+            dailyActivities[index] =
+                dailyActivities[index].copyWith(isCompleted: true, route: null);
+          }
+          todayEarned.value = await _repository.getTodayEarnedCoins();
+        }
+      });
+    }
   }
 
   void _subscribeToBalance() {
@@ -91,7 +117,26 @@ class RewardsController extends GetxController {
 
       balance.value = results[0] as int;
       todayEarned.value = results[1] as int;
-      dailyActivities.assignAll(results[2] as List<DailyActivity>);
+      final List<DailyActivity> loadedActivities =
+          results[2] as List<DailyActivity>;
+
+      if (Get.isRegistered<MoodRepository>()) {
+        final String? childId = Get.isRegistered<SessionService>()
+            ? Get.find<SessionService>().selectedChildId
+            : null;
+        final MoodRecord? record = await Get.find<MoodRepository>()
+            .getTodayLastRecord(childId: childId);
+        if (record != null) {
+          final int index =
+              loadedActivities.indexWhere((DailyActivity a) => a.id == 'act-mood');
+          if (index != -1) {
+            loadedActivities[index] =
+                loadedActivities[index].copyWith(isCompleted: true, route: null);
+          }
+        }
+      }
+
+      dailyActivities.assignAll(loadedActivities);
       rewards.assignAll(results[3] as List<RewardItem>);
       requests.assignAll(results[4] as List<RewardRequest>);
     } on Object catch (error) {
@@ -118,6 +163,7 @@ class RewardsController extends GetxController {
   @override
   void onClose() {
     _balanceSubscription?.cancel();
+    _moodSubscription?.cancel();
     super.onClose();
   }
 }

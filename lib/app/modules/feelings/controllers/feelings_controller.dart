@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../../../core/services/session_service.dart';
-import '../../../data/models/feelings_args.dart';
 import '../../../data/models/mood_record.dart';
 import '../../../data/repositories/mood_repository.dart';
 import '../../../data/repositories/rewards_repository.dart';
@@ -42,26 +41,23 @@ class FeelingsController extends GetxController {
   final Rx<CalmingSuggestion?> calmingSuggestion = Rx<CalmingSuggestion?>(null);
   final RxString errorMessage = ''.obs;
 
-  late final MoodPhase phase;
-  String? activityId;
-  Feeling? previousFeeling;
-
   @override
   void onInit() {
     super.onInit();
-    _extractArguments();
+    _checkExistingRecord();
   }
 
-  void _extractArguments() {
-    final dynamic args = Get.arguments;
-    if (args is FeelingsArgs) {
-      phase = args.phase;
-      activityId = args.activityId;
-      previousFeeling = args.previousFeeling;
-    } else {
-      final bool isAfter = Get.currentRoute == Routes.feelingsAfter;
-      phase = isAfter ? MoodPhase.after : MoodPhase.before;
-    }
+  Future<void> _checkExistingRecord() async {
+    try {
+      final String? childId = _sessionService?.selectedChildId;
+      final MoodRecord? existing =
+          await _moodRepository.getTodayLastRecord(childId: childId);
+      if (existing != null) {
+        selectedFeeling.value = existing.feeling;
+        _buildSupportiveMessage(existing.feeling);
+        isSubmitted.value = true;
+      }
+    } catch (_) {}
   }
 
   void selectFeeling(Feeling feeling) {
@@ -81,12 +77,20 @@ class FeelingsController extends GetxController {
 
       final String? childId = _sessionService?.selectedChildId;
 
+      final MoodRecord? existing =
+          await _moodRepository.getTodayLastRecord(childId: childId);
+      if (existing != null) {
+        selectedFeeling.value = existing.feeling;
+        _buildSupportiveMessage(existing.feeling);
+        isSubmitted.value = true;
+        return;
+      }
+
       final MoodRecord record = MoodRecord(
         id: '',
         childId: childId,
         feeling: feeling,
-        phase: phase,
-        activityId: activityId,
+        phase: MoodPhase.before,
         createdAt: DateTime.now(),
       );
 
@@ -106,36 +110,31 @@ class FeelingsController extends GetxController {
   }
 
   void _buildSupportiveMessage(Feeling feeling) {
-    if (phase == MoodPhase.after) {
-      supportiveMessage.value =
-          'شكراً إنك شاركتنا، الوردة معك دائماً 🌸\nكل مشاعرك مقبولة ومهمة بالنسبة لنا.';
-    } else {
-      switch (feeling) {
-        case Feeling.happy:
-          supportiveMessage.value =
-              'رائع أن تشعر بالسعادة والبهجة! ابتسامتك تنير الأوركيد 🌟';
-          break;
-        case Feeling.sad:
-          supportiveMessage.value =
-              'من الطبيعي أن نشعر بالحزن أحياناً، كل المشاعر مقبولة. الوردة معك دائماً 🌸';
-          break;
-        case Feeling.worried:
-          supportiveMessage.value =
-              'أنت بأمان وقلقك سيمر بهدوء. تنفّس بعمق ودعنا نعبّر معاً 🌿';
-          break;
-        case Feeling.shy:
-          supportiveMessage.value =
-              'الخجل شعور لطيف وصادق، ونحن نحبك كما أنت تماماً 🌷';
-          break;
-        case Feeling.angry:
-          supportiveMessage.value =
-              'الغضب طاقة طبيعية تمر بنا وتهدأ. كل المشاعر مرحب بها يا بطل 💫';
-          break;
-        case Feeling.tired:
-          supportiveMessage.value =
-              'جسمك وقلبك يستحقان الراحة الآن. خذ نفساً هادئاً واستمتع بلحظات لطيفة ☁️';
-          break;
-      }
+    switch (feeling) {
+      case Feeling.happy:
+        supportiveMessage.value =
+            'رائع أن تشعر بالسعادة والبهجة! ابتسامتك تنير الأوركيد 🌟';
+        break;
+      case Feeling.sad:
+        supportiveMessage.value =
+            'من الطبيعي أن نشعر بالحزن أحياناً، كل المشاعر مقبولة. الوردة معك دائماً 🌸';
+        break;
+      case Feeling.worried:
+        supportiveMessage.value =
+            'أنت بأمان وقلقك سيمر بهدوء. تنفّس بعمق ودعنا نعبّر معاً 🌿';
+        break;
+      case Feeling.shy:
+        supportiveMessage.value =
+            'الخجل شعور لطيف وصادق، ونحن نحبك كما أنت تماماً 🌷';
+        break;
+      case Feeling.angry:
+        supportiveMessage.value =
+            'الغضب طاقة طبيعية تمر بنا وتهدأ. كل المشاعر مرحب بها يا بطل 💫';
+        break;
+      case Feeling.tired:
+        supportiveMessage.value =
+            'جسمك وقلبك يستحقان الراحة الآن. خذ نفساً هادئاً واستمتع بلحظات لطيفة ☁️';
+        break;
     }
 
     // Calming activity suggestion for difficult feelings (sad, worried, angry, tired)

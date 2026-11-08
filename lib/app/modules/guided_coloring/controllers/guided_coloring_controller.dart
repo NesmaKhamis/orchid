@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart' show Color, Colors, Offset, Size;
 import 'package:get/get.dart';
 
-import '../../../core/services/session_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/app_snackbar.dart';
 import '../../../data/models/coloring_action.dart';
 import '../../../data/models/coloring_picture.dart';
-import '../../../data/models/feelings_args.dart';
-import '../../../data/models/mood_record.dart';
 import '../../../data/repositories/coloring_repository.dart';
-import '../../../data/repositories/mood_repository.dart';
-import '../../../routes/app_routes.dart';
 
 /// Controller for the guided coloring screen (التلوين الموجه).
 class GuidedColoringController extends GetxController {
@@ -175,33 +170,8 @@ class GuidedColoringController extends GetxController {
   }
 
   // TODO: swap this preview-save for a real repository write.
-  void onSavePressed() async {
+  void onSavePressed() {
     AppSnackbar.success('تم الحفظ (معاينة)');
-    await _openFeelingsAfter('act-coloring');
-  }
-
-  Future<void> _openFeelingsAfter(String activityId) async {
-    Feeling? previousFeeling;
-    if (Get.isRegistered<MoodRepository>()) {
-      try {
-        final String? childId = Get.isRegistered<SessionService>()
-            ? Get.find<SessionService>().selectedChildId
-            : null;
-        final MoodRecord? record = await Get.find<MoodRepository>()
-            .getTodayLastRecord(childId: childId);
-        previousFeeling = record?.feeling;
-      } catch (_) {
-        // Fallback gracefully
-      }
-    }
-    Get.toNamed(
-      Routes.feelingsAfter,
-      arguments: FeelingsArgs(
-        phase: MoodPhase.after,
-        activityId: activityId,
-        previousFeeling: previousFeeling,
-      ),
-    );
   }
 
   void _fillRegion(String regionId, Color newColor) {

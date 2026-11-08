@@ -46,17 +46,6 @@ class FeelingsView extends GetView<FeelingsController> {
   }
 
   Widget _buildCheckInStep() {
-    final String titleText;
-    if (controller.phase == MoodPhase.after) {
-      if (controller.previousFeeling != null) {
-        titleText = 'كنت حاسس بـ ${controller.previousFeeling!.emoji}، وهلق؟';
-      } else {
-        titleText = 'كيف تحس هلق؟';
-      }
-    } else {
-      titleText = 'كيف قلبك اليوم؟';
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -77,8 +66,8 @@ class FeelingsView extends GetView<FeelingsController> {
         const SizedBox(height: AppDimens.space12),
 
         // Title
-        Text(
-          titleText,
+        const Text(
+          'كيف قلبك اليوم؟',
           textAlign: TextAlign.center,
           style: AppTextStyles.h2,
         ),

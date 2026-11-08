@@ -99,7 +99,7 @@ class MockRewardsRepository implements RewardsRepository {
       title: 'تسجيل مشاعري اليوم',
       coins: AppConstants.moodCheckInCoins,
       isCompleted: false,
-      route: Routes.feelingsBefore,
+      route: null,
     ),
     const DailyActivity(
       id: 'act-drawing',

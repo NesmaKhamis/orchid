@@ -182,10 +182,5 @@ class AppPages {
       page: () => const FeelingsView(),
       binding: FeelingsBinding(),
     ),
-    GetPage(
-      name: Routes.feelingsAfter,
-      page: () => const FeelingsView(),
-      binding: FeelingsBinding(),
-    ),
   ];
 }
