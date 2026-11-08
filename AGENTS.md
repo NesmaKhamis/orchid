@@ -197,6 +197,7 @@ callbacks, never a controller.
 | `AppSegmentedTabs` | Segmented control with equal-width buttons (labels, selectedIndex, onChanged). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
 | `NotificationCard` | Card displaying an AppNotification with category pastel tone, unread purple dot, and relative time. |
+| `FeelingCard` | Card representing a single feeling with a large emoji and an Arabic label. |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
 
 Helpers: `AppSnackbar.info/success/warning/error(message)`, `Validators.required/email/password/match/nationalId/phone`,
