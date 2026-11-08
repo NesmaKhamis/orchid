@@ -36,7 +36,11 @@ class HomeView extends GetView<HomeController> {
                       ],
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.notifications_active_rounded, color: primaryPurple, size: 22),
+                      icon: const Icon(
+                        Icons.notifications_active_rounded,
+                        color: primaryPurple,
+                        size: 22,
+                      ),
                       onPressed: () => controller.onNotificationPressed(),
                     ),
                   ),
@@ -132,7 +136,11 @@ class HomeView extends GetView<HomeController> {
                           SizedBox(height: 8),
                           Text(
                             '6 من 10 محتويات مكتملة • التالي: G',
-                            style: TextStyle(fontSize: 11, color: Colors.black54, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
@@ -156,7 +164,7 @@ class HomeView extends GetView<HomeController> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Image.asset(
-                            'assets/images/orchid_single.png', 
+                            'assets/images/orchid_single.png',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -178,7 +186,7 @@ class HomeView extends GetView<HomeController> {
                       icon: Icons.support_agent_rounded,
                       bgColor: const Color(0xFFE3F5E5),
                       iconColor: const Color(0xFF1B5E20),
-                      onTap: () {},
+                      onTap: controller.onWorkshopsPressed,
                     ),
                     const SizedBox(height: 16),
                     _buildLargeCard(
@@ -201,7 +209,7 @@ class HomeView extends GetView<HomeController> {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 90),
             ],
           ),
@@ -227,8 +235,18 @@ class HomeView extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(Icons.home_rounded, 'الرئيسية', true, primaryPurple),
-            _buildNavItem(Icons.card_giftcard_rounded, 'الهدايا', false, primaryPurple),
-            _buildNavItem(Icons.emoji_events_rounded, 'الإنجازات', false, primaryPurple),
+            _buildNavItem(
+              Icons.card_giftcard_rounded,
+              'الهدايا',
+              false,
+              primaryPurple,
+            ),
+            _buildNavItem(
+              Icons.emoji_events_rounded,
+              'الإنجازات',
+              false,
+              primaryPurple,
+            ),
             _buildNavItem(Icons.person_rounded, 'الملف', false, primaryPurple),
           ],
         ),
@@ -302,21 +320,32 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.black45),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Colors.black45,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isSelected, Color activeColor) {
+  Widget _buildNavItem(
+    IconData icon,
+    String label,
+    bool isSelected,
+    Color activeColor,
+  ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: isSelected ? activeColor.withValues(alpha: 0.12) : Colors.transparent,
+            color: isSelected
+                ? activeColor.withValues(alpha: 0.12)
+                : Colors.transparent,
             shape: BoxShape.circle,
           ),
           child: Icon(

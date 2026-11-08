@@ -30,12 +30,18 @@ import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/verification_rejected/bindings/verification_rejected_binding.dart';
 import '../modules/verification_rejected/views/verification_rejected_view.dart';
+import '../modules/workshops/bindings/workshop_details_binding.dart';
+import '../modules/workshops/bindings/my_workshops_binding.dart';
+import '../modules/workshops/bindings/workshops_binding.dart';
+import '../modules/workshops/views/workshop_details_view.dart';
+import '../modules/workshops/views/workshop_list_view.dart';
+import '../modules/workshops/views/my_workshops_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.splash;
+  static const initial = Routes.home;
 
   static final routes = [
     GetPage(
@@ -118,6 +124,21 @@ class AppPages {
       name: Routes.songRecording,
       page: () => const SongRecordingView(),
       binding: SongRecordingBinding(),
+    ),
+    GetPage(
+      name: Routes.workshops,
+      page: () => const WorkshopListView(),
+      binding: WorkshopsBinding(),
+    ),
+    GetPage(
+      name: Routes.workshopDetails,
+      page: () => const WorkshopDetailsView(),
+      binding: WorkshopDetailsBinding(),
+    ),
+    GetPage(
+      name: Routes.myWorkshops,
+      page: () => const MyWorkshopsView(),
+      binding: MyWorkshopsBinding(),
     ),
   ];
 }

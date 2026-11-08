@@ -261,8 +261,9 @@ fixes and flow logic.
 | التلوين الموجه (guided coloring) | `guided_coloring` | `Routes.guidedColoring` (from express_yourself card "التلوين الموجه") | ✅ |
 | الغناء والإنشاد (singing) | `singing` | `Routes.singing` (from express_yourself card "الغناء والإنشاد") | ✅ |
 | تسجيل النشيد (song recording) | `song_recording` | `Routes.songRecording` (from singing card tap; play circle only previews) | ✅ |
-| الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ⬜ |
-| الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ⬜ |
+| الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ✅ |
+| الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ✅ |
+| الورشات المسجلة (registered workshops) | `workshops` | `Routes.myWorkshops` | ✅ |
 | المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |
 | Select children / Child details (current code, not in Figma set) | `select_children`, `child_details` | `Routes.selectChildren`, `Routes.childDetails` | 🔒 |
 

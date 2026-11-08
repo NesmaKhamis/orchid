@@ -47,6 +47,16 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
+  String get currentEmail {
+    try {
+      return _authInstance.currentUser?.email ?? '';
+    } catch (error) {
+      debugPrint('Cannot read the current Firebase email: $error');
+      return '';
+    }
+  }
+
+  @override
   Future<void> signUp({
     required String email,
     required String password,
@@ -85,10 +95,7 @@ class FirebaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> signIn({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> signIn({required String email, required String password}) async {
     try {
       await _authInstance.signInWithEmailAndPassword(
         email: email.trim(),
@@ -114,13 +121,49 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
+  @override
+  Future<void> sendEmailVerification() async {
+    final user = _authInstance.currentUser;
+    if (user == null) {
+      throw const AuthFailure(AppStrings.genericError);
+    }
+
+    try {
+      await user.sendEmailVerification();
+    } on FirebaseAuthException catch (error) {
+      throw _mapException(error);
+    } on AuthFailure {
+      rethrow;
+    } catch (error) {
+      debugPrint('Email verification failed: $error');
+      throw const AuthFailure(AppStrings.genericError);
+    }
+  }
+
+  @override
+  Future<bool> reloadAndCheckVerified() async {
+    final user = _authInstance.currentUser;
+    if (user == null) return false;
+
+    try {
+      await user.reload();
+      return _authInstance.currentUser?.emailVerified ?? false;
+    } on FirebaseAuthException catch (error) {
+      throw _mapException(error);
+    } on AuthFailure {
+      rethrow;
+    } catch (error) {
+      debugPrint('Could not reload Firebase email verification state: $error');
+      throw const AuthFailure(AppStrings.genericError);
+    }
+  }
+
   AuthFailure _mapException(FirebaseAuthException error) {
     final String message = switch (error.code) {
       'invalid-email' => 'صيغة البريد الإلكتروني غير صحيحة',
       'user-not-found' => 'لا يوجد حساب بهذا البريد الإلكتروني',
-      'wrong-password' ||
-      'invalid-credential' ||
-      'invalid-login-credentials' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+      'wrong-password' || 'invalid-credential' || 'invalid-login-credentials' =>
+        'البريد الإلكتروني أو كلمة المرور غير صحيحة',
       'email-already-in-use' => 'هذا البريد الإلكتروني مسجّل مسبقاً',
       'weak-password' => 'كلمة المرور ضعيفة، استخدم 6 أحرف على الأقل',
       'network-request-failed' =>

@@ -52,6 +52,9 @@ class _TestAuthRepository implements AuthRepository {
   @override
   String? get currentUserId => _currentUserId;
 
+  @override
+  String get currentEmail => '';
+
   void emit(String? userId) {
     _currentUserId = userId;
     _authChanges.add(userId);
@@ -65,6 +68,12 @@ class _TestAuthRepository implements AuthRepository {
 
   @override
   Future<void> signOut() async => emit(null);
+
+  @override
+  Future<void> sendEmailVerification() async {}
+
+  @override
+  Future<bool> reloadAndCheckVerified() async => true;
 
   @override
   Future<void> signUp({

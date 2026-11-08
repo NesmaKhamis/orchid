@@ -105,16 +105,14 @@ class AuthController extends GetxController {
   /// when the registration was already completed.
   Future<void> _continueAfterLogin() async {
     final SessionService session = Get.find<SessionService>();
-    await session.markLoggedIn();
 
     isLoading.value = false;
-    Get.offAllNamed(session.resolveStartRoute());
+    Get.offAllNamed(await session.resolveStartRoute());
   }
 
   /// A new account always starts the registration details from the beginning.
   Future<void> _continueAfterRegister() async {
     final SessionService session = Get.find<SessionService>();
-    await session.markLoggedIn();
     await session.markRegistrationIncomplete();
     await session.saveStep(Routes.linkIdentity);
 
