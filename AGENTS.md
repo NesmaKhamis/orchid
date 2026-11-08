@@ -186,6 +186,9 @@ callbacks, never a controller.
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
 | `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
+| `CoinBalanceCard` | Animated balance display with AnimatedOrchid, coin count, encouraging copy and daily cap progress bar. |
+| `RewardCard` | Card showing reward image, title, cost, and availability state (order button / progress / out-of-stock). |
+| `RequestStatusChip` | Status badge for reward requests mapping RewardRequestStatus to Arabic label and semantic tone. |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
 

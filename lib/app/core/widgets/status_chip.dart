@@ -21,6 +21,7 @@ class StatusChip extends StatelessWidget {
       StatusChipTone.success => AppColors.softMint,
       StatusChipTone.info => AppColors.lavender,
       StatusChipTone.danger => AppColors.softPink,
+      StatusChipTone.warning => AppColors.softYellow,
     };
 
     return Container(
@@ -40,4 +41,4 @@ class StatusChip extends StatelessWidget {
   }
 }
 
-enum StatusChipTone { success, info, danger }
+enum StatusChipTone { success, info, danger, warning }
