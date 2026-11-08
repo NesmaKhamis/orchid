@@ -35,4 +35,8 @@ abstract class RewardsRepository {
 
   /// Redeems a reward, creating a request and deducting coins.
   Future<RewardRequest> redeem(String rewardId);
+
+  /// Completes a daily activity by [activityId], awarding coins up to the daily cap.
+  /// Returns the actual coins awarded (0 if already completed or capped).
+  Future<int> completeActivity(String activityId);
 }

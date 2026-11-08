@@ -46,6 +46,8 @@ import '../modules/rewards/views/reward_details_view.dart';
 import '../modules/rewards/views/my_reward_requests_view.dart';
 import '../modules/notifications/bindings/notifications_binding.dart';
 import '../modules/notifications/views/notifications_view.dart';
+import '../modules/feelings/bindings/feelings_binding.dart';
+import '../modules/feelings/views/feelings_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -174,6 +176,16 @@ class AppPages {
       name: Routes.profile,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: Routes.feelingsBefore,
+      page: () => const FeelingsView(),
+      binding: FeelingsBinding(),
+    ),
+    GetPage(
+      name: Routes.feelingsAfter,
+      page: () => const FeelingsView(),
+      binding: FeelingsBinding(),
     ),
   ];
 }

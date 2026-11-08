@@ -14,7 +14,7 @@ class MockRewardsRepository implements RewardsRepository {
         _todayEarned = initialTodayEarned;
 
   int _balance;
-  final int _todayEarned;
+  int _todayEarned;
   final StreamController<int> _balanceController =
       StreamController<int>.broadcast();
 
@@ -98,8 +98,8 @@ class MockRewardsRepository implements RewardsRepository {
       id: 'act-mood',
       title: 'تسجيل مشاعري اليوم',
       coins: AppConstants.moodCheckInCoins,
-      isCompleted: true,
-      route: null,
+      isCompleted: false,
+      route: Routes.feelingsBefore,
     ),
     const DailyActivity(
       id: 'act-drawing',
@@ -231,5 +231,28 @@ class MockRewardsRepository implements RewardsRepository {
     _balanceController.add(_balance);
 
     return newRequest;
+  }
+
+  @override
+  Future<int> completeActivity(String activityId) async {
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    final int index = _activities.indexWhere((a) => a.id == activityId);
+    if (index == -1) {
+      return 0;
+    }
+    final DailyActivity activity = _activities[index];
+    if (activity.isCompleted) {
+      return 0;
+    }
+    final int availableCap = AppConstants.dailyCoinCap - _todayEarned;
+    final int toAward = availableCap > 0
+        ? (activity.coins > availableCap ? availableCap : activity.coins)
+        : 0;
+
+    _todayEarned += toAward;
+    _balance += toAward;
+    _balanceController.add(_balance);
+    _activities[index] = activity.copyWith(isCompleted: true);
+    return toAward;
   }
 }
