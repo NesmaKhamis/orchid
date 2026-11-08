@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_dimens.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/animated_orchid.dart';
+import '../../../core/widgets/hero_card_container.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -76,98 +82,67 @@ class HomeView extends GetView<HomeController> {
               const SizedBox(height: 24),
 
               // 2. بطاقة التحدي الكبرى
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFEDE3F8), Color(0xFFF7F2FC)],
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                  ),
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryPurple.withValues(alpha: 0.08),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              HeroCardContainer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'تحدي اليوم • 8-12 سنة',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: primaryPurple,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            'اسمع، ثم اكتب كلمة',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: textDark,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'استمع للصوت واختر الحرف المناسب',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          SizedBox(height: 14),
-                          LinearProgressIndicator(
-                            value: 0.6,
-                            backgroundColor: Colors.white,
-                            color: primaryPurple,
-                            minHeight: 8,
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            '6 من 10 محتويات مكتملة • التالي: G',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Container(
-                      width: 75,
-                      height: 75,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.06),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: ClipOval(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/images/orchid_single.png',
-                            fit: BoxFit.cover,
+                    Row(
+                      children: const [
+                        AnimatedOrchid(size: 72, autoStart: true),
+                        SizedBox(width: AppDimens.space16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'تحدي اليوم • 8-12 سنة',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: AppDimens.space4),
+                              Text(
+                                'اسمع، ثم اكتب كلمة',
+                                style: AppTextStyles.title,
+                              ),
+                              SizedBox(height: AppDimens.space4),
+                              Text(
+                                'استمع للصوت واختر الحرف المناسب',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.textSubtitle,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: AppDimens.space16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text(
+                          '6 من 10 محتويات مكتملة • التالي: G',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: AppColors.textDark,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: AppDimens.space8),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppDimens.radiusChip),
+                      child: const LinearProgressIndicator(
+                        value: 0.6,
+                        backgroundColor: AppColors.white,
+                        color: AppColors.primary,
+                        minHeight: 8,
                       ),
                     ),
                   ],

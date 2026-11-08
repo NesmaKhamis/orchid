@@ -54,9 +54,10 @@ then the child's space opens (feelings check-in, home, workshops).
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
 9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
-  For the current `docs/start-flow-task.md` task only, `auth` (login/register), `link_identity`,
-  `select_children`, `child_details`, `verification_rejected`, `privacy` and
-  `email_verification` are OPEN for UI fixes and flow logic. Outside this task, preserve the
+  For the current `feature/rewards` task only, the home daily-challenge card and `main_shell` are
+  OPEN for UI polish. For the `docs/start-flow-task.md` task, `auth` (login/register),
+  `link_identity`, `select_children`, `child_details`, `verification_rejected`, `privacy` and
+  `email_verification` are OPEN for UI fixes and flow logic. Outside these tasks, preserve the
   existing visual freeze and touch these screens only when a prompt explicitly asks.
 10. New screens must feel consistent with the legacy ones (same purple, rounded fields and buttons,
    animation style) wherever the Figma does not say otherwise.
@@ -187,6 +188,7 @@ callbacks, never a controller.
 | `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
 | `CoinBalanceCard` | Animated balance display with AnimatedOrchid, coin count, encouraging copy and daily cap progress bar. |
+| `HeroCardContainer` | Reusable tinted hero card shell with lavender surface, primary border tint, and card radius (CoinBalanceCard, Home challenge). |
 | `RewardCard` | Card showing reward image, title, cost, and availability state (order button / progress / out-of-stock). |
 | `RequestStatusChip` | Status badge for reward requests mapping RewardRequestStatus to Arabic label and semantic tone. |
 | `ParentGateDialog` | Child-safe arithmetic parent gate dialog and `showParentGateDialog` helper before sensitive actions. |

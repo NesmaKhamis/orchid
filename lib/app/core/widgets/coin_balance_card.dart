@@ -5,6 +5,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_dimens.dart';
 import '../theme/app_text_styles.dart';
 import 'animated_orchid.dart';
+import 'hero_card_container.dart';
 
 class CoinBalanceCard extends StatelessWidget {
   const CoinBalanceCard({
@@ -26,16 +27,7 @@ class CoinBalanceCard extends StatelessWidget {
         ? (todayEarned / dailyCap).clamp(0.0, 1.0)
         : 0.0;
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(AppDimens.space20),
-      decoration: BoxDecoration(
-        color: AppColors.lavender,
-        borderRadius: BorderRadius.circular(AppDimens.radiusCard),
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.2),
-        ),
-      ),
+    return HeroCardContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
