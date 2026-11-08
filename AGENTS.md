@@ -32,8 +32,9 @@ space opens (feelings check-in, home, workshops).
 
 ## 2. Hard rules (never break)
 
-1. **Do NOT edit `pubspec.yaml`** (no new packages, no version changes, no asset/font changes).
-   If a task seems to need a package or a font, stop and report it in the final summary.
+1. **Do NOT edit `pubspec.yaml`** except to add the approved packages listed in rule 11.
+   Everything else (version changes, assets, fonts) still needs to be reported in the final summary.
+   If a task seems to need anything else, stop and report it in the final summary.
 2. **Do NOT create or edit** `firebase_options.dart`, `google-services.json`,
    `GoogleService-Info.plist`, or anything under `android/` and `ios/`.
 3. **Never hardcode** colors, font sizes, radii, spacing or asset paths inside a view. Use the
@@ -45,15 +46,16 @@ space opens (feelings check-in, home, workshops).
 7. **No string route literals** (`'/login'`). Always use `Routes.xxx`.
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
-9. **Legacy screens are FROZEN.** `splash`, `onboarding`, `auth` (login/register), `link_identity`,
-   `select_children`, `child_details`, `home` were designed and built by a teammate and look better than
-   the Figma. Do not change their visuals, layout, colors, texts or widget trees, and do not
-   restyle or "migrate" them to shared widgets. Touch them only when a prompt explicitly asks,
-   and then only for the listed logic/navigation change.
+9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding`, `auth` (login/register)
+   and `link_identity` are OPEN for the "start flow refresh" (session logic now; visual polish later
+   in a separate task). `select_children`, `child_details` and `home` stay frozen EXCEPT the specific
+   logic changes listed in Stage 3 of `docs/start-flow-task.md`. Visuals, layout, colors, texts and
+   widget trees of all these screens must not change in this task. Touch them only when a prompt
+   explicitly asks, and then only for the listed logic/navigation change.
 10. New screens must feel consistent with the legacy ones (same purple, rounded fields and buttons,
    animation style) wherever the Figma does not say otherwise.
 11. Available packages only: `get`, `flutter_animate`, `audioplayers`, `firebase_core`,
-   `cloud_firestore`, `firebase_auth`, `cupertino_icons`.
+   `cloud_firestore`, `firebase_auth`, `cupertino_icons`, `shared_preferences`.
 
 ## 3. Tech stack
 
@@ -229,6 +231,9 @@ Data:
 
 Status: ✅ built (new) · 🔒 legacy, frozen (see rule 9) · 🔶 placeholder route wired, real screen pending · ⬜ not built.
 
+Note: for the start-flow refresh, `splash`, `onboarding`, `auth` (login/register) and `link_identity`
+are open for session-logic changes only; their visuals remain frozen in this task.
+
 | Figma frame | Module | Route | Status |
 |---|---|---|---|
 | Splash | `splash` | `Routes.splash` | 🔒 |
@@ -260,6 +265,15 @@ Proposed navigation (confirm with the team, then edit here):
 `childDetails` is the Figma "verification accepted" screen; its continue button now navigates to `Routes.privacy`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
+
+## 9b. Session and first-launch logic
+
+- `SessionService` (`GetxService`) is the only owner of: `onboardingSeen`, `isLoggedIn`,
+  `registrationComplete`, `lastStep`, `selectedChildId`.
+- `SessionStorage` is an abstract class; `LocalSessionStorage` (`shared_preferences`) is the temporary
+  implementation. The Firebase implementation will replace it in the binding only.
+- Splash decides the next route through `SessionService`, never directly.
+- Logout = `SessionService.logout()` then `Get.offAllNamed(Routes.login)`.
 
 ## 10. Workflow for every new screen
 
@@ -296,8 +310,8 @@ Shared app state (selected child, parent) lives in a `SessionService` (`GetxServ
 Items 2, 9, 11, 12 concern frozen legacy screens: do NOT fix them unless a prompt says so. Items 1, 3–7
 may be fixed by their dedicated prompt (no visual change). Never make any of them worse.
 
-1. `main.dart` defines its own inline `getPages` and ignores `AppPages` → `Splash` and
-   `Onboarding` are unreachable; initial route is `/login`.
+1. **Fixed** — `main.dart` now uses `AppPages.initial` and `AppPages.routes` (no inline
+   `getPages`; initial route is `Routes.splash`).
 2. Two dead color files (`core/constant/app_colors.dart` with a different purple, and an empty
    `core/constants/app_colors.dart`), plus an empty `app_theme.dart`. Colors are repeated as
    literals in every view (`0xFF8B53A8` ×9, `0xFF2D2D2D` ×8, `0xFFFAF9FC` ×5).
@@ -311,12 +325,13 @@ may be fixed by their dedicated prompt (no visual change). Never make any of the
 6. `LinkIdentityController` contains dead members (`idController` getter returning null,
    `verifyIdentity` getter returning null) and a hardcoded color.
 7. Route strings hardcoded in controllers (`'/link-identity'`, `'/register'`, `'/select-children'`).
-8. `leaf_top.png` is referenced (onboarding) but missing; `leaf_corner.png` exists.
+8. `leaf_top.png` → use `leaf_corner.png` (the referenced `leaf_top.png` is missing).
 9. No Arabic RTL guarantee: no localization delegates or `Directionality`; views use physical
    `Alignment.centerRight`, `TextAlign.right`.
 10. Theme font `Cairo` is set but no font is declared in `pubspec.yaml` (needs a team decision).
 11. No form validation (login/register accept empty and mismatched passwords).
 12. 16× deprecated `withOpacity`; 5× `Get.width` for layout.
+13. No session/persistence (fixed in start flow refresh).
 
 ## 14. Git
 
