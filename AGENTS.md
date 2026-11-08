@@ -54,7 +54,8 @@ then the child's space opens (feelings check-in, home, workshops).
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
 9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
-  For the current `feature/rewards` task only, the home daily-challenge card and `main_shell` are
+  For the `feature/notifications` task, the home bell icon is OPEN to open notifications.
+  For the `feature/rewards` task, the home daily-challenge card and `main_shell` are
   OPEN for UI polish. For the `docs/start-flow-task.md` task, `auth` (login/register),
   `link_identity`, `select_children`, `child_details`, `verification_rejected`, `privacy` and
   `email_verification` are OPEN for UI fixes and flow logic. Outside these tasks, preserve the
@@ -195,6 +196,7 @@ callbacks, never a controller.
 | `ParentGateDialog` | Child-safe arithmetic parent gate dialog and `showParentGateDialog` helper before sensitive actions. |
 | `AppSegmentedTabs` | Segmented control with equal-width buttons (labels, selectedIndex, onChanged). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
+| `NotificationCard` | Card displaying an AppNotification with category pastel tone, unread purple dot, and relative time. |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
 
 Helpers: `AppSnackbar.info/success/warning/error(message)`, `Validators.required/email/password/match/nationalId/phone`,
@@ -276,6 +278,7 @@ fixes and flow logic.
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ✅ |
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ✅ |
 | الورشات المسجلة (registered workshops) | `workshops` | `Routes.myWorkshops` | ✅ |
+| الإشعارات (notifications) | `notifications` | `Routes.notifications` | ✅ |
 | المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |
 | Select children / Child details (current code, not in Figma set) | `select_children`, `child_details` | `Routes.selectChildren`, `Routes.childDetails` | 🔒 |
 
