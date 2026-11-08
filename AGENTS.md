@@ -171,6 +171,7 @@ callbacks, never a controller.
 | `NoticeBanner` | `tone` (`info` lavender / `warning` yellow / `success` mint / `danger` soft pink), icon, text. Used in many frames. |
 | `StatusChip` | Small pill label (e.g. green "verified" tag), `tone`. |
 | `OrchidImage` | `Image.asset` with a built-in fallback icon. Replaces every `errorBuilder` copy. |
+| `AnimatedOrchid` | Animated orchid hero switching between `orchidOpen` and `orchidWink`; owns its wink timer. Params: `size` (default 240), `autoStart` (default true). |
 | `SelectableCard` | Card with selected/unselected look + tap; used by child selection and feelings. |
 | `OtpInput` | N separate digit boxes, `length` (default 6), `onChanged`, `onCompleted`, optional `OtpInputController.clear()`, autofocus first box, auto-advance, backspace to previous, paste fills all boxes. |
 | `AnimatedEntrance` | Extension/wrapper over `flutter_animate` for the common fade+slide entrance. |
@@ -315,8 +316,8 @@ may be fixed by their dedicated prompt (no visual change). Never make any of the
 2. Two dead color files (`core/constant/app_colors.dart` with a different purple, and an empty
    `core/constants/app_colors.dart`), plus an empty `app_theme.dart`. Colors are repeated as
    literals in every view (`0xFF8B53A8` ×9, `0xFF2D2D2D` ×8, `0xFFFAF9FC` ×5).
-3. Splash navigates twice: `SplashController.onReady` (10 s delay) and a 3 s `Timer` inside
-   the view. Timers and wink animation state live in the view.
+3. **Fixed** — splash has a single controller navigation decision, and the wink animation
+   state lives in the shared `AnimatedOrchid` widget.
 4. `ChildModel` is defined in `select_children_controller.dart`, and
    `select_children_controller` ↔ `child_details_controller` import each other (circular).
    `SelectChildrenController` also imports a view.
