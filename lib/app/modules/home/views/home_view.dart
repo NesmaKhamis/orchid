@@ -57,70 +57,15 @@ class HomeView extends GetView<HomeController> {
                   onTap: controller.onMoodCardPressed,
                   borderRadius: BorderRadius.circular(AppDimens.radiusCard),
                   child: HeroCardContainer(
-                    child: Row(
-                      children: <Widget>[
-                        if (hasRecord)
-                          Container(
-                            width: 52,
-                            height: 52,
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                  color: AppColors.primary.withValues(alpha: 0.08),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              record.feeling.emoji,
-                              style: const TextStyle(fontSize: 26),
-                            ),
-                          )
-                        else
-                          const AnimatedOrchid(size: 52, autoStart: true),
-                        const SizedBox(width: AppDimens.space16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const Text(
-                                'مزاج اليوم',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: AppDimens.space4),
-                              Text(
-                                hasRecord
-                                    ? 'أشعر بـ ${record.feeling.label}'
-                                    : 'كيف قلبك اليوم؟',
-                                style: AppTextStyles.title,
-                              ),
-                              const SizedBox(height: AppDimens.space4),
-                              Text(
-                                hasRecord
-                                    ? 'اضغط هنا لمشاركة مشاعرك من جديد'
-                                    : 'شاركنا ما تشعر به لتكسب عملاتك اليوم',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textSubtitle,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 16,
-                          color: AppColors.primary,
-                        ),
-                      ],
+                    variant: hasRecord
+                        ? HeroCardVariant.completed
+                        : HeroCardVariant.standard,
+                    padding: const EdgeInsets.all(AppDimens.space16),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: hasRecord
+                          ? _buildRecordedMoodContent(record)
+                          : _buildInvitationMoodContent(),
                     ),
                   ),
                 );
@@ -358,6 +303,159 @@ class HomeView extends GetView<HomeController> {
             ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInvitationMoodContent() {
+    return Row(
+      key: const ValueKey<String>('mood_invitation'),
+      children: const <Widget>[
+        AnimatedOrchid(size: 52, autoStart: true),
+        SizedBox(width: AppDimens.space16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'مزاج اليوم',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: AppDimens.space4),
+              Text(
+                'كيف قلبك اليوم؟',
+                style: AppTextStyles.title,
+              ),
+              SizedBox(height: AppDimens.space4),
+              Text(
+                'شاركنا ما تشعر به لتكسب عملاتك اليوم',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textSubtitle,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Icon(
+          Icons.arrow_forward_ios_rounded,
+          size: 16,
+          color: AppColors.primary,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecordedMoodContent(MoodRecord record) {
+    return Row(
+      key: ValueKey<String>(
+        'mood_recorded_${record.id}_${record.feeling.name}',
+      ),
+      children: <Widget>[
+        Stack(
+          clipBehavior: Clip.none,
+          children: <Widget>[
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                shape: BoxShape.circle,
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: AppColors.success.withValues(alpha: 0.15),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                record.feeling.emoji,
+                style: const TextStyle(fontSize: 26),
+              ),
+            ),
+            PositionedDirectional(
+              bottom: -2,
+              end: -2,
+              child: Container(
+                padding: const EdgeInsets.all(AppDimens.space4 / 2),
+                decoration: const BoxDecoration(
+                  color: AppColors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.check_circle_rounded,
+                  color: AppColors.success,
+                  size: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(width: AppDimens.space16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  const Icon(
+                    Icons.check_circle_rounded,
+                    size: 14,
+                    color: AppColors.success,
+                  ),
+                  const SizedBox(width: AppDimens.space4),
+                  Text(
+                    'مزاج اليوم • تم التسجيل',
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.success,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppDimens.space4),
+              Text(
+                'أشعر بـ ${record.feeling.label}',
+                style: AppTextStyles.title.copyWith(
+                  color: AppColors.textDark,
+                ),
+              ),
+              const SizedBox(height: AppDimens.space4),
+              Text(
+                'تم تسجيل مشاعرك اليوم 🌸',
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textDark.withValues(alpha: 0.75),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: AppDimens.space8),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              'سجّل من جديد',
+              style: AppTextStyles.caption.copyWith(
+                color: AppColors.success,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: AppDimens.space4),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 12,
+              color: AppColors.success,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

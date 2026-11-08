@@ -191,7 +191,7 @@ callbacks, never a controller.
 | `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
 | `CoinBalanceCard` | Animated balance display with AnimatedOrchid, coin count, encouraging copy and daily cap progress bar. |
-| `HeroCardContainer` | Reusable tinted hero card shell with lavender surface, primary border tint, and card radius (CoinBalanceCard, Home challenge). |
+| `HeroCardContainer` | Reusable tinted hero card shell with lavender/soft-mint surface, primary/success border tint, standard/completed variants, and card radius (CoinBalanceCard, Home challenge, Mood card). |
 | `RewardCard` | Card showing reward image, title, cost, and availability state (order button / progress / out-of-stock). |
 | `RequestStatusChip` | Status badge for reward requests mapping RewardRequestStatus to Arabic label and semantic tone. |
 | `ParentGateDialog` | Child-safe arithmetic parent gate dialog and `showParentGateDialog` helper before sensitive actions. |
