@@ -105,10 +105,12 @@ class AppScaffold extends StatelessWidget {
         return Colors.white;
       case AppScaffoldBackground.cream:
         return AppColors.background;
+      case AppScaffoldBackground.coolLavender:
+        return AppColors.coolLavender;
       case AppScaffoldBackground.gradient:
         return Colors.white;
     }
   }
 }
 
-enum AppScaffoldBackground { plain, cream, gradient }
+enum AppScaffoldBackground { plain, cream, gradient, coolLavender }

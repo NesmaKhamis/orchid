@@ -17,7 +17,7 @@ class HomeView extends GetView<HomeController> {
     const textDark = Color(0xFF1A1A1A);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F5FC),
+      backgroundColor: AppColors.coolLavender,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

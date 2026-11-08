@@ -25,7 +25,7 @@ class RewardsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const AppScaffold(
-      background: AppScaffoldBackground.cream,
+      background: AppScaffoldBackground.coolLavender,
       scrollable: false,
       padding: EdgeInsets.zero,
       body: RewardsContent(),
@@ -46,39 +46,47 @@ class RewardsContent extends GetView<RewardsController> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value) {
-        return const Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+        return const ColoredBox(
+          color: AppColors.coolLavender,
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+            ),
           ),
         );
       }
 
       if (controller.errorMessage.value.isNotEmpty) {
-        return Center(
-          child: Padding(
-            padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: AppDimens.screenHorizontalPadding,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                NoticeBanner(
-                  tone: NoticeBannerTone.danger,
-                  text: controller.errorMessage.value,
-                ),
-                const SizedBox(height: AppDimens.space16),
-                AppButton(
-                  label: 'إعادة المحاولة',
-                  onPressed: controller.loadRewardsData,
-                  fullWidth: false,
-                ),
-              ],
+        return ColoredBox(
+          color: AppColors.coolLavender,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.symmetric(
+                horizontal: AppDimens.screenHorizontalPadding,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  NoticeBanner(
+                    tone: NoticeBannerTone.danger,
+                    text: controller.errorMessage.value,
+                  ),
+                  const SizedBox(height: AppDimens.space16),
+                  AppButton(
+                    label: 'إعادة المحاولة',
+                    onPressed: controller.loadRewardsData,
+                    fullWidth: false,
+                  ),
+                ],
+              ),
             ),
           ),
         );
       }
 
-      return SafeArea(
+      return ColoredBox(
+        color: AppColors.coolLavender,
+        child: SafeArea(
         top: true,
         bottom: false,
         child: Padding(
@@ -134,8 +142,9 @@ class RewardsContent extends GetView<RewardsController> {
             ],
           ),
         ),
-      );
-    });
+      ),
+    );
+  });
   }
 
   Widget _buildTabContent(int tabIndex) {

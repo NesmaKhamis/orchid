@@ -134,6 +134,7 @@ and update this table).
 | `inputBg` | `0xFFFAF9FC` | text field background |
 | `border` | `0xFFE0E0E0` | field and card borders |
 | `background` | `0xFFFAFAF2` (cream, approx.) | screen background in the new design |
+| `coolLavender` | `0xFFF8F5FC` | cool lavender background on Home and Rewards |
 | `lavender` | `0xFFF0E0F0` | soft purple surfaces, secondary button background |
 | `softYellow` | `0xFFF8F0C8` | warning / note banners |
 | `softMint` | `0xFFE0F0E0` | success banners, positive chips |
