@@ -215,42 +215,6 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
-
-      // شريط التنقل السفلي العصري العائم
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: primaryPurple.withValues(alpha: 0.15),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.home_rounded, 'الرئيسية', true, primaryPurple),
-            _buildNavItem(
-              Icons.card_giftcard_rounded,
-              'الهدايا',
-              false,
-              primaryPurple,
-            ),
-            _buildNavItem(
-              Icons.emoji_events_rounded,
-              'الإنجازات',
-              false,
-              primaryPurple,
-            ),
-            _buildNavItem(Icons.person_rounded, 'الملف', false, primaryPurple),
-          ],
-        ),
-      ),
     );
   }
 
@@ -328,41 +292,6 @@ class HomeView extends GetView<HomeController> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildNavItem(
-    IconData icon,
-    String label,
-    bool isSelected,
-    Color activeColor,
-  ) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? activeColor.withValues(alpha: 0.12)
-                : Colors.transparent,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            color: isSelected ? activeColor : Colors.grey.shade400,
-            size: 24,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? activeColor : Colors.grey.shade500,
-          ),
-        ),
-      ],
     );
   }
 }

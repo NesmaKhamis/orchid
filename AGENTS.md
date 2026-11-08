@@ -256,6 +256,8 @@ fixes and flow logic.
 | التسجيل — تأكيد البريد الإلكتروني | `email_verification` | `Routes.emailVerification` | 🔓 |
 | المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
+| المكافآت والهدايا (rewards) inside the bottom-nav shell | `main_shell`, `rewards` | `Routes.rewards` | ✅ |
+| الملف الشخصي (profile) inside the bottom-nav shell | `main_shell`, `profile` | `Routes.profile` | ✅ |
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
 | الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
 | التلوين الموجه (guided coloring) | `guided_coloring` | `Routes.guidedColoring` (from express_yourself card "التلوين الموجه") | ✅ |

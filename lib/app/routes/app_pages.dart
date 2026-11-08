@@ -14,8 +14,8 @@ import '../modules/singing/bindings/singing_binding.dart';
 import '../modules/singing/views/singing_view.dart';
 import '../modules/song_recording/bindings/song_recording_binding.dart';
 import '../modules/song_recording/views/song_recording_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
+import '../modules/main_shell/bindings/main_shell_binding.dart';
+import '../modules/main_shell/views/main_shell_view.dart';
 import '../modules/link_identity/bindings/link_identity_binding.dart';
 import '../modules/link_identity/views/link_identity_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
@@ -36,6 +36,10 @@ import '../modules/workshops/bindings/workshops_binding.dart';
 import '../modules/workshops/views/workshop_details_view.dart';
 import '../modules/workshops/views/workshop_list_view.dart';
 import '../modules/workshops/views/my_workshops_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/rewards/bindings/rewards_binding.dart';
+import '../modules/rewards/views/rewards_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -81,8 +85,8 @@ class AppPages {
     ),
     GetPage(
       name: Routes.home,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
+      page: () => const MainShellView(),
+      binding: MainShellBinding(),
     ),
     GetPage(
       name: Routes.expressYourself,
@@ -139,6 +143,16 @@ class AppPages {
       name: Routes.myWorkshops,
       page: () => const MyWorkshopsView(),
       binding: MyWorkshopsBinding(),
+    ),
+    GetPage(
+      name: Routes.rewards,
+      page: () => const RewardsView(),
+      binding: RewardsBinding(),
+    ),
+    GetPage(
+      name: Routes.profile,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
     ),
   ];
 }
