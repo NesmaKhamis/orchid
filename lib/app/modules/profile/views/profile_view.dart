@@ -22,7 +22,15 @@ class ProfileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
+        MediaQuery.paddingOf(context).bottom +
+        AppDimens.space24;
+
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: EdgeInsetsDirectional.only(
+        bottom: bottomScrollPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[

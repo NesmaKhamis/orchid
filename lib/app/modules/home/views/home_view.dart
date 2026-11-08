@@ -14,13 +14,22 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     const textDark = Color(0xFF1A1A1A);
+    final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
+        MediaQuery.paddingOf(context).bottom +
+        AppDimens.space24;
 
     return Scaffold(
       backgroundColor: AppColors.coolLavender,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          padding: EdgeInsetsDirectional.fromSTEB(
+            AppDimens.space20,
+            AppDimens.space16,
+            AppDimens.space20,
+            bottomScrollPadding,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

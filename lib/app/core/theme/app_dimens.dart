@@ -21,4 +21,7 @@ class AppDimens {
   static const double radiusChip = 12;
 
   static const double buttonHeight = 52;
+
+  /// Total height of the floating bottom navigation bar (bar height 68 + bottom margin 16).
+  static const double floatingNavBarTotalHeight = 84;
 }

@@ -44,6 +44,10 @@ class RewardsContent extends GetView<RewardsController> {
 
   @override
   Widget build(BuildContext context) {
+    final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
+        MediaQuery.paddingOf(context).bottom +
+        AppDimens.space24;
+
     return Obx(() {
       if (controller.isLoading.value) {
         return const ColoredBox(
@@ -133,12 +137,12 @@ class RewardsContent extends GetView<RewardsController> {
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 250),
-                  child: _buildTabContent(controller.selectedTab.value),
+                  child: _buildTabContent(
+                    controller.selectedTab.value,
+                    bottomScrollPadding,
+                  ),
                 ),
               ),
-
-              // Bottom padding below content
-              const SizedBox(height: AppDimens.space24),
             ],
           ),
         ),
@@ -147,19 +151,19 @@ class RewardsContent extends GetView<RewardsController> {
   });
   }
 
-  Widget _buildTabContent(int tabIndex) {
+  Widget _buildTabContent(int tabIndex, double bottomScrollPadding) {
     switch (tabIndex) {
       case 0:
-        return _buildActivitiesTab();
+        return _buildActivitiesTab(bottomScrollPadding);
       case 1:
-        return _buildRewardsTab();
+        return _buildRewardsTab(bottomScrollPadding);
       case 2:
       default:
-        return _buildRequestsTab();
+        return _buildRequestsTab(bottomScrollPadding);
     }
   }
 
-  Widget _buildActivitiesTab() {
+  Widget _buildActivitiesTab(double bottomScrollPadding) {
     if (controller.dailyActivities.isEmpty) {
       return const Center(
         key: ValueKey<int>(0),
@@ -172,9 +176,9 @@ class RewardsContent extends GetView<RewardsController> {
 
     return ListView.separated(
       key: const ValueKey<int>(0),
-      padding: const EdgeInsetsDirectional.only(
+      padding: EdgeInsetsDirectional.only(
         top: AppDimens.space4,
-        bottom: AppDimens.space32,
+        bottom: bottomScrollPadding,
       ),
       itemCount: controller.dailyActivities.length,
       separatorBuilder: (BuildContext context, int index) =>
@@ -187,7 +191,7 @@ class RewardsContent extends GetView<RewardsController> {
     );
   }
 
-  Widget _buildRewardsTab() {
+  Widget _buildRewardsTab(double bottomScrollPadding) {
     if (controller.rewards.isEmpty) {
       return const Center(
         key: ValueKey<int>(1),
@@ -200,9 +204,9 @@ class RewardsContent extends GetView<RewardsController> {
 
     return GridView.builder(
       key: const ValueKey<int>(1),
-      padding: const EdgeInsetsDirectional.only(
+      padding: EdgeInsetsDirectional.only(
         top: AppDimens.space4,
-        bottom: AppDimens.space32,
+        bottom: bottomScrollPadding,
       ),
       itemCount: controller.rewards.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -225,7 +229,7 @@ class RewardsContent extends GetView<RewardsController> {
     );
   }
 
-  Widget _buildRequestsTab() {
+  Widget _buildRequestsTab(double bottomScrollPadding) {
     if (controller.requests.isEmpty) {
       return Center(
         key: const ValueKey<int>(2),
@@ -264,9 +268,9 @@ class RewardsContent extends GetView<RewardsController> {
 
     return ListView.separated(
       key: const ValueKey<int>(2),
-      padding: const EdgeInsetsDirectional.only(
+      padding: EdgeInsetsDirectional.only(
         top: AppDimens.space4,
-        bottom: AppDimens.space32,
+        bottom: bottomScrollPadding,
       ),
       itemCount: controller.requests.length,
       separatorBuilder: (BuildContext context, int index) =>

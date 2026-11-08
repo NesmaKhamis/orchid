@@ -17,6 +17,10 @@ class MyWorkshopsView extends GetView<MyWorkshopsController> {
 
   @override
   Widget build(BuildContext context) {
+    final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
+        MediaQuery.paddingOf(context).bottom +
+        AppDimens.space24;
+
     return AppScaffold(
       background: AppScaffoldBackground.cream,
       padding: EdgeInsets.zero,
@@ -40,11 +44,11 @@ class MyWorkshopsView extends GetView<MyWorkshopsController> {
 
               return ListView.separated(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsetsDirectional.fromSTEB(
+                padding: EdgeInsetsDirectional.fromSTEB(
                   AppDimens.screenHorizontalPadding,
                   AppDimens.space8,
                   AppDimens.screenHorizontalPadding,
-                  AppDimens.space24,
+                  bottomScrollPadding,
                 ),
                 itemCount: controller.workshops.length,
                 separatorBuilder: (_, _) =>
