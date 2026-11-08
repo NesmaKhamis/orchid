@@ -152,7 +152,7 @@ and update this table).
 Use `color.withValues(alpha: x)` — never `withOpacity` (deprecated).
 
 **Dimens (`AppDimens`)**: spacing scale `4, 8, 12, 16, 20, 24, 28, 32, 40`; screen horizontal
-padding `24`; radius `field 16`, `card 20`, `button 26`, `chip 12`; button height `52`.
+padding `24`; radius `field 16`, `card 20`, `button 26`, `pill 32`, `chip 12`; button height `52`.
 
 **Text styles (`AppTextStyles`)**: `h1` 27 bold, `h2` 22–24 bold, `title` 18 bold, `label` 14 bold,
 `body` 14, `bodySmall` 13, `caption` 12. Always `fontFamily` from the theme (do not set it per widget).
