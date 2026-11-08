@@ -50,7 +50,14 @@ class FirebaseAuthRepository implements AuthRepository {
   bool get isEmailVerified => _authInstance.currentUser?.emailVerified ?? false;
 
   @override
-  String get currentEmail => _authInstance.currentUser?.email ?? '';
+  String get currentEmail {
+    try {
+      return _authInstance.currentUser?.email ?? '';
+    } catch (error) {
+      debugPrint('Cannot read the current Firebase email: $error');
+      return '';
+    }
+  }
 
   @override
   Future<void> signUp({
@@ -119,11 +126,12 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<void> sendEmailVerification() async {
+    final User? user = _authInstance.currentUser;
+    if (user == null) {
+      throw const AuthFailure(AppStrings.genericError);
+    }
+
     try {
-      final User? user = _authInstance.currentUser;
-      if (user == null) {
-        throw const AuthFailure(AppStrings.genericError);
-      }
       await user.sendEmailVerification();
     } on FirebaseAuthException catch (error) {
       throw _mapException(error);
@@ -137,17 +145,18 @@ class FirebaseAuthRepository implements AuthRepository {
 
   @override
   Future<bool> reloadAndCheckVerified() async {
+    final User? user = _authInstance.currentUser;
+    if (user == null) return false;
+
     try {
-      final User? user = _authInstance.currentUser;
-      if (user == null) {
-        return false;
-      }
       await user.reload();
       return _authInstance.currentUser?.emailVerified ?? false;
     } on FirebaseAuthException catch (error) {
       throw _mapException(error);
+    } on AuthFailure {
+      rethrow;
     } catch (error) {
-      debugPrint('Could not refresh email verification state: $error');
+      debugPrint('Could not reload Firebase email verification state: $error');
       throw const AuthFailure(AppStrings.genericError);
     }
   }

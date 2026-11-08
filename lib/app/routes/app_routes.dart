@@ -15,6 +15,11 @@ abstract class _Paths {
   static const verificationRejected = '/verification-rejected';
   static const privacy = '/privacy';
   static const emailVerification = '/email-verification';
+  static const workshops = '/workshops';
+  static const workshopDetails = '/workshop-details';
+  static const myWorkshops = '/my-workshops';
+  static const rewards = '/rewards';
+  static const profile = '/profile';
 }
 
 abstract class Routes {
@@ -35,4 +40,9 @@ abstract class Routes {
   static const verificationRejected = _Paths.verificationRejected;
   static const privacy = _Paths.privacy;
   static const emailVerification = _Paths.emailVerification;
+  static const workshops = _Paths.workshops;
+  static const workshopDetails = _Paths.workshopDetails;
+  static const myWorkshops = _Paths.myWorkshops;
+  static const rewards = _Paths.rewards;
+  static const profile = _Paths.profile;
 }

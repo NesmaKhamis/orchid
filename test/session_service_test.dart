@@ -57,21 +57,24 @@ void main() {
     await authRepository.dispose();
   });
 
-  test('verified users continue from email verification to parent identity', () async {
-    final _TestAuthRepository authRepository = _TestAuthRepository();
-    final _TestSessionStorage storage = _TestSessionStorage()
-      ..lastStepValue = Routes.emailVerification;
-    final SessionService session = SessionService(storage, authRepository);
+  test(
+    'verified users continue from email verification to parent identity',
+    () async {
+      final _TestAuthRepository authRepository = _TestAuthRepository();
+      final _TestSessionStorage storage = _TestSessionStorage()
+        ..lastStepValue = Routes.emailVerification;
+      final SessionService session = SessionService(storage, authRepository);
 
-    final Future<String> route = session.resolveStartRoute();
-    await Future<void>.delayed(Duration.zero);
-    authRepository.emit('user-1');
+      final Future<String> route = session.resolveStartRoute();
+      await Future<void>.delayed(Duration.zero);
+      authRepository.emit('user-1');
 
-    expect(await route, Routes.linkIdentity);
+      expect(await route, Routes.linkIdentity);
 
-    session.onClose();
-    await authRepository.dispose();
-  });
+      session.onClose();
+      await authRepository.dispose();
+    },
+  );
 }
 
 class _TestAuthRepository implements AuthRepository {
@@ -105,6 +108,12 @@ class _TestAuthRepository implements AuthRepository {
   Future<void> signOut() async => emit(null);
 
   @override
+  Future<void> sendEmailVerification() async {}
+
+  @override
+  Future<bool> reloadAndCheckVerified() async => emailVerified;
+
+  @override
   Future<void> signUp({
     required String email,
     required String password,
@@ -113,12 +122,6 @@ class _TestAuthRepository implements AuthRepository {
 
   @override
   String get currentEmail => throw UnimplementedError();
-
-  @override
-  Future<bool> reloadAndCheckVerified() async => emailVerified;
-
-  @override
-  Future<void> sendEmailVerification() async {}
 }
 
 class _TestSessionStorage implements SessionStorage {

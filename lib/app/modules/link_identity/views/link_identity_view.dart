@@ -201,7 +201,7 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryPurple,
                       elevation: 4,
-                      shadowColor: primaryPurple.withOpacity(0.4),
+                      shadowColor: primaryPurple.withValues(alpha: 0.4),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

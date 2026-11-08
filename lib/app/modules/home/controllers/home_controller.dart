@@ -52,6 +52,11 @@ class HomeController extends GetxController {
     // منطق الإشعارات هنا
   }
 
+  // نقطة الدخول الحالية لتخصيص بطاقة ورشات الدعم النفسي والاجتماعي.
+  void onWorkshopsPressed() {
+    Get.toNamed(Routes.workshops);
+  }
+
   // الانتقال إلى شاشة "عَبِّر عن نفسك"
   void onExpressYourselfPressed() {
     Get.toNamed(Routes.expressYourself);

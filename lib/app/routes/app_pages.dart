@@ -14,8 +14,8 @@ import '../modules/singing/bindings/singing_binding.dart';
 import '../modules/singing/views/singing_view.dart';
 import '../modules/song_recording/bindings/song_recording_binding.dart';
 import '../modules/song_recording/views/song_recording_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
+import '../modules/main_shell/bindings/main_shell_binding.dart';
+import '../modules/main_shell/views/main_shell_view.dart';
 import '../modules/link_identity/bindings/link_identity_binding.dart';
 import '../modules/link_identity/views/link_identity_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
@@ -30,12 +30,22 @@ import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/verification_rejected/bindings/verification_rejected_binding.dart';
 import '../modules/verification_rejected/views/verification_rejected_view.dart';
+import '../modules/workshops/bindings/workshop_details_binding.dart';
+import '../modules/workshops/bindings/my_workshops_binding.dart';
+import '../modules/workshops/bindings/workshops_binding.dart';
+import '../modules/workshops/views/workshop_details_view.dart';
+import '../modules/workshops/views/workshop_list_view.dart';
+import '../modules/workshops/views/my_workshops_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/rewards/bindings/rewards_binding.dart';
+import '../modules/rewards/views/rewards_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.splash;
+  static const initial = Routes.home;
 
   static final routes = [
     GetPage(
@@ -75,8 +85,8 @@ class AppPages {
     ),
     GetPage(
       name: Routes.home,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
+      page: () => const MainShellView(),
+      binding: MainShellBinding(),
     ),
     GetPage(
       name: Routes.expressYourself,
@@ -118,6 +128,31 @@ class AppPages {
       name: Routes.songRecording,
       page: () => const SongRecordingView(),
       binding: SongRecordingBinding(),
+    ),
+    GetPage(
+      name: Routes.workshops,
+      page: () => const WorkshopListView(),
+      binding: WorkshopsBinding(),
+    ),
+    GetPage(
+      name: Routes.workshopDetails,
+      page: () => const WorkshopDetailsView(),
+      binding: WorkshopDetailsBinding(),
+    ),
+    GetPage(
+      name: Routes.myWorkshops,
+      page: () => const MyWorkshopsView(),
+      binding: MyWorkshopsBinding(),
+    ),
+    GetPage(
+      name: Routes.rewards,
+      page: () => const RewardsView(),
+      binding: RewardsBinding(),
+    ),
+    GetPage(
+      name: Routes.profile,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
     ),
   ];
 }
