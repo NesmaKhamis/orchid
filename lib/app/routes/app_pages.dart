@@ -38,10 +38,14 @@ import '../modules/workshops/bindings/workshops_binding.dart';
 import '../modules/workshops/views/workshop_details_view.dart';
 import '../modules/workshops/views/workshop_list_view.dart';
 import '../modules/workshops/views/my_workshops_view.dart';
-import '../modules/profile/bindings/profile_binding.dart';
-import '../modules/profile/views/profile_view.dart';
 import '../modules/rewards/bindings/rewards_binding.dart';
+import '../modules/rewards/bindings/reward_details_binding.dart';
 import '../modules/rewards/views/rewards_view.dart';
+import '../modules/rewards/views/reward_details_view.dart';
+import '../modules/notifications/bindings/notifications_binding.dart';
+import '../modules/notifications/views/notifications_view.dart';
+import '../modules/feelings/bindings/feelings_binding.dart';
+import '../modules/feelings/views/feelings_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -152,9 +156,24 @@ class AppPages {
       binding: RewardsBinding(),
     ),
     GetPage(
+      name: Routes.rewardDetails,
+      page: () => const RewardDetailsView(),
+      binding: RewardDetailsBinding(),
+    ),
+    GetPage(
+      name: Routes.notifications,
+      page: () => const NotificationsView(),
+      binding: NotificationsBinding(),
+    ),
+    GetPage(
       name: Routes.profile,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: Routes.feelingsBefore,
+      page: () => const FeelingsView(),
+      binding: FeelingsBinding(),
     ),
   ];
 }

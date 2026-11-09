@@ -160,7 +160,12 @@ class _SongCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(song.title, style: AppTextStyles.label),
+                      Text(
+                        song.title,
+                        style: AppTextStyles.label,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: AppDimens.space4),
                       Text(
                         '${controller.formatSeconds(song.durationSeconds)}'
@@ -168,6 +173,8 @@ class _SongCard extends StatelessWidget {
                         style: AppTextStyles.caption.copyWith(
                           color: AppColors.textMuted,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       if (isPlaying) ...<Widget>[
                         const SizedBox(height: AppDimens.space8),

@@ -54,9 +54,12 @@ then the child's space opens (feelings check-in, home, workshops).
 8. Keep the scope tight: do not refactor or change behavior outside what the task asks.
    Anything extra you notice goes to the "Notes" part of your final summary, not into the diff.
 9. **Legacy screens: visual freeze, limited scope.** `splash`, `onboarding` and `home` remain frozen.
-  For the current `docs/start-flow-task.md` task only, `auth` (login/register), `link_identity`,
-  `select_children`, `child_details`, `verification_rejected`, `privacy` and
-  `email_verification` are OPEN for UI fixes and flow logic. Outside this task, preserve the
+  For the `feature/notifications` task, the home bell icon and header are OPEN to open notifications and align the header layout.
+  For the `feature/feelings` task, the home mood card area is OPEN (display & navigation to feelings screen).
+  For the `feature/rewards` task, the home daily-challenge card and `main_shell` are
+  OPEN for UI polish. For the tab header consistency task, the home header area is OPEN to unify home and rewards tab headers. For the `refactor(workshops)` task, `workshops` (lib/app/modules/workshops) is OPEN. For the `docs/start-flow-task.md` task, `auth` (login/register),
+  `link_identity`, `select_children`, `child_details`, `verification_rejected`, `privacy` and
+  `email_verification` are OPEN for UI fixes and flow logic. Outside these tasks, preserve the
   existing visual freeze and touch these screens only when a prompt explicitly asks.
 10. New screens must feel consistent with the legacy ones (same purple, rounded fields and buttons,
    animation style) wherever the Figma does not say otherwise.
@@ -133,6 +136,7 @@ and update this table).
 | `inputBg` | `0xFFFAF9FC` | text field background |
 | `border` | `0xFFE0E0E0` | field and card borders |
 | `background` | `0xFFFAFAF2` (cream, approx.) | screen background in the new design |
+| `coolLavender` | `0xFFF8F5FC` | cool lavender background on Home and Rewards |
 | `lavender` | `0xFFF0E0F0` | soft purple surfaces, secondary button background |
 | `softYellow` | `0xFFF8F0C8` | warning / note banners |
 | `softMint` | `0xFFE0F0E0` | success banners, positive chips |
@@ -150,10 +154,19 @@ and update this table).
 Use `color.withValues(alpha: x)` — never `withOpacity` (deprecated).
 
 **Dimens (`AppDimens`)**: spacing scale `4, 8, 12, 16, 20, 24, 28, 32, 40`; screen horizontal
-padding `24`; radius `field 16`, `card 20`, `button 26`, `chip 12`; button height `52`.
+padding `24`; radius `field 16`, `card 20`, `button 26`, `pill 32`, `chip 12`; button height `52`.
 
-**Text styles (`AppTextStyles`)**: `h1` 27 bold, `h2` 22–24 bold, `title` 18 bold, `label` 14 bold,
-`body` 14, `bodySmall` 13, `caption` 12. Always `fontFamily` from the theme (do not set it per widget).
+**Text styles (`AppTextStyles`)**:
+- `tabTitle` / `display`: 24 bold — shell tab and top screen headers (Home, Rewards, Workshops, Profile, Notifications).
+- `tabSubtitle`: 14 — subtitle directly beneath tab header titles.
+- `sectionTitle` / `title`: 18 bold — major section and step titles.
+- `cardTitle`: 16 bold — card and list-tile headings (Home challenge & cards, workshops, rewards).
+- `buttonLabel`: 16 bold — buttons (AppButton).
+- `body`: 14 — standard body copy and text inputs.
+- `bodySmall`: 13 — secondary descriptions and info rows.
+- `chipLabel` / `label`: 13 bold — tags, badges, field labels, chips.
+- `caption`: 12 — metadata, timestamps, captions, small hints.
+Always `fontFamily` from the theme (do not set it per widget). Same family, weights, colors, and line heights everywhere. Hierarchy: header > section title > card title > body > caption.
 
 **Assets**: every path goes through `AppAssets` (`orchidSingle`, `orchidMascot`, `orchidOpen`,
 `orchidWink`, `leafCorner`, `welcome`, `q`). Existing files in `assets/images/`:
@@ -186,8 +199,17 @@ callbacks, never a controller.
 | `InfoRow` | Title + value row for read-only data cards (created in prompt C1). |
 | `AppCheckboxTile` | Labelled checkbox tile: `label`, `value`, `onChanged`, `tone` (lavender/mint/pink). Whole tile is tappable. |
 | `SectionCard` | Tinted tappable card: tone, icon/emoji, title, subtitle, arrow (created in prompt C6). |
+| `CoinBalanceCard` | Animated balance display with AnimatedOrchid, coin count, encouraging copy and daily cap progress bar. |
+| `HeroCardContainer` | Reusable tinted hero card shell with lavender/soft-mint surface, primary/success border tint, standard/completed variants, and card radius (CoinBalanceCard, Home challenge, Mood card). |
+| `RewardCard` | Card showing reward image, title, cost, and availability state (order button / progress / out-of-stock). |
+| `RequestStatusChip` | Status badge for reward requests mapping RewardRequestStatus to Arabic label and semantic tone. |
+| `ParentGateDialog` | Child-safe arithmetic parent gate dialog and `showParentGateDialog` helper before sensitive actions. |
+| `AppSegmentedTabs` | Segmented control with equal-width buttons (labels, selectedIndex, onChanged). |
 | `AppBottomNavBar` | Bottom navigation driven by a list of items (label, icon, activeIcon) (created in prompt C6). |
+| `NotificationCard` | Card displaying an AppNotification with category pastel tone, unread purple dot, and relative time. |
+| `FeelingCard` | Card representing a single feeling with a large emoji and an Arabic label. |
 | `AppHeaderBar` | Screen top bar: back button, optional caption above a bold title, optional trailing widget (e.g. sound toggle). |
+| `TabHeader` | Unified top header for shell tabs: title, subtitle, optional trailing action, and consistent spacing. |
 
 Helpers: `AppSnackbar.info/success/warning/error(message)`, `Validators.required/email/password/match/nationalId/phone`,
 `AppDateUtils.ageFrom(DateTime)`, `AppDateUtils.format(DateTime)`.
@@ -254,9 +276,10 @@ fixes and flow logic.
 | التحقق — رفض (age out of range 5–12) | `verification` | `Routes.verificationRejected` | 🔓 |
 | التسجيل — خصوصيتك أولاً (privacy & consent) | `privacy` | `Routes.privacy` | 🔓 |
 | التسجيل — تأكيد البريد الإلكتروني | `email_verification` | `Routes.emailVerification` | 🔓 |
-| المشاعر — قبل (how is your heart today) | `feelings` | not wired | ⬜ |
+| المشاعر — كيف قلبك اليوم؟ | feelings | Routes.feelingsBefore | ✅ |
 | الرئيسية (home) inside the bottom-nav shell | `main_shell`, `home` | `Routes.home` | ✅ built by teammate, frozen |
 | المكافآت والهدايا (rewards) inside the bottom-nav shell | `main_shell`, `rewards` | `Routes.rewards` | ✅ |
+| تفاصيل المكافأة (reward details) | `rewards` | `Routes.rewardDetails` | ✅ |
 | الملف الشخصي (profile) inside the bottom-nav shell | `main_shell`, `profile` | `Routes.profile` | ✅ |
 | حديقة الإبداع — عَبِّر عن نفسك | `express_yourself` | `Routes.expressYourself` (from home card "عَبِّر عن نفسك") | ✅ |
 | الرسم الحر — مرسمي الصغير (drawing canvas) | `drawing` | `Routes.drawing` (from express_yourself card "الرسم الحر") | ✅ |
@@ -266,7 +289,7 @@ fixes and flow logic.
 | الورشات — الرئيسية (workshops list) | `workshops` | `Routes.workshops` | ✅ |
 | الورشات — التفاصيل (workshop details + map) | `workshops` | `Routes.workshopDetails` | ✅ |
 | الورشات المسجلة (registered workshops) | `workshops` | `Routes.myWorkshops` | ✅ |
-| المشاعر — بعد (how do you feel now) | `feelings` | `Routes.feelingsAfter` | ⬜ |
+| الإشعارات (notifications) | `notifications` | `Routes.notifications` | ✅ |
 | Select children / Child details (current code, not in Figma set) | `select_children`, `child_details` | `Routes.selectChildren`, `Routes.childDetails` | 🔒 |
 
 Update this table in the same commit whenever a screen's status changes.
@@ -278,6 +301,32 @@ Out-of-range children route to `verificationRejected`.
 `childDetails` is the Figma "verification accepted" screen; its continue button completes registration and navigates to `Routes.home`.
 
 Shared app state (selected child, parent) lives in a `SessionService` (`GetxService`), never in constructor chains.
+
+## 9d. Rewards
+
+- Coins are earned only by completing daily activities: mood check-in, drawing,
+  guided coloring, singing/song recording, and attending a workshop.
+- Coins are spent on real rewards handed out by the charity. Redemption creates a
+  request and follows these statuses: `pending` ("طلب جديد"), `review` ("قيد
+  المراجعة"), `ready` ("جاهزة للاستلام"), and `received` ("تم الاستلام").
+- Every redemption requires parent confirmation through a child-safe parent gate.
+  No PIN is stored.
+- Rewards have limited stock. Out-of-stock and insufficient-coins are separate
+  states with friendly Arabic feedback.
+- A daily coin cap limits earning to support healthy screen habits.
+- Rewards data is mock-backed for now. Firebase implementations are selected in
+  bindings only when the persistence layer is introduced.
+
+## 9e. Feelings
+
+- 6 core feelings (happy, sad, worried, shy, angry, tired) represented with warm, supportive, child-safe Arabic copy. "كل المشاعر مقبولة".
+- The child records feelings ONCE per day, ONLY from the Home mood card. No second record the same day.
+- The Rewards tab never opens the feelings screen. The "mood check-in" activity row there is display-only: not tappable, no route.
+- When a record exists today, the Rewards activity row shows completed state: green (`AppColors.softMint` background, `AppColors.success` check icon and text) and updates immediately and reactively when the child records from Home.
+- Home mood card: if no record today -> invitation, opens the check-in screen (`Routes.feelingsBefore`). If a record exists today -> success state (`AppColors.softMint` background, `AppColors.success` check icon), not tappable.
+- The "after activity" check-in is REMOVED: creative activities (drawing, guided coloring, song recording) do not trigger feelings check-in.
+- Privacy rule: Records are only saved. They are NEVER shown to parents or to the charity anywhere in the UI (no history screen, no profile section). The only thing shown back to the child is today's last feeling on the Home card.
+- Coins: Awarded only on the first check-in of the day up to the daily coin cap through `RewardsRepository.completeActivity('act-mood')`.
 
 ## 9b. Session and first-launch logic
 

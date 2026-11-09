@@ -10,12 +10,14 @@ class SelectableCard extends StatelessWidget {
     required this.child,
     required this.selected,
     required this.onTap,
+    this.color = Colors.white,
     this.padding = const EdgeInsets.all(AppDimens.space16),
   });
 
   final Widget child;
   final bool selected;
   final VoidCallback onTap;
+  final Color color;
   final EdgeInsetsGeometry padding;
 
   @override
@@ -27,7 +29,7 @@ class SelectableCard extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: padding,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: color,
           borderRadius: BorderRadius.circular(AppDimens.radiusCard),
           border: Border.all(
             color: selected ? AppColors.primary : AppColors.border,

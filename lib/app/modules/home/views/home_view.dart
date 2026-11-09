@@ -1,174 +1,139 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_dimens.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widgets/animated_orchid.dart';
+import '../../../core/widgets/hero_card_container.dart';
+import '../../../core/widgets/tab_header.dart';
+import '../../../data/models/mood_record.dart';
 import '../controllers/home_controller.dart';
-import '../../../routes/app_routes.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const primaryPurple = Color(0xFF7B3FE4);
-    const textDark = Color(0xFF1A1A1A);
+    final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
+        MediaQuery.paddingOf(context).bottom +
+        AppDimens.space24;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F5FC),
+      backgroundColor: AppColors.coolLavender,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          padding: EdgeInsetsDirectional.fromSTEB(
+            AppDimens.screenHorizontalPadding,
+            0,
+            AppDimens.screenHorizontalPadding,
+            bottomScrollPadding,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. الشريط العلوي (زر الإشعارات فقط بدون زر الرجوع والدائرة)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+              // 1. الشريط العلوي المشترك
+              Obx(() {
+                final bool hasUnread =
+                    controller.unreadNotificationsCount.value > 0;
+                final String childName =
+                    controller.currentChild.value?.name ?? '';
+                return TabHeader(
+                  title: 'مرحباً، $childName 👋',
+                  subtitle:
+                      'أهلاً بك يا بطل في الأُوركيد! جاهز لمغامرة اليوم؟ ✨',
+                  trailing: _buildNotificationBell(hasUnread),
+                );
+              }),
+
+              // بطاقة مزاج اليوم
+              Obx(() {
+                final MoodRecord? record = controller.todayMoodRecord.value;
+                final bool hasRecord = record != null;
+
+                return InkWell(
+                  onTap: hasRecord ? null : controller.onMoodCardPressed,
+                  borderRadius: BorderRadius.circular(AppDimens.radiusCard),
+                  child: HeroCardContainer(
+                    variant: hasRecord
+                        ? HeroCardVariant.completed
+                        : HeroCardVariant.standard,
+                    padding: const EdgeInsets.all(AppDimens.space16),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: hasRecord
+                          ? _buildRecordedMoodContent(record)
+                          : _buildInvitationMoodContent(),
+                    ),
+                  ),
+                );
+              }),
+
+              const SizedBox(height: AppDimens.space16),
+
+              // 2. بطاقة التحدي الكبرى
+              HeroCardContainer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const AnimatedOrchid(size: 72, autoStart: true),
+                        const SizedBox(width: AppDimens.space16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'تحدي اليوم • 8-12 سنة',
+                                style: AppTextStyles.chipLabel.copyWith(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                              const SizedBox(height: AppDimens.space4),
+                              const Text(
+                                'اسمع، ثم اكتب كلمة',
+                                style: AppTextStyles.cardTitle,
+                              ),
+                              const SizedBox(height: AppDimens.space4),
+                              Text(
+                                'استمع للصوت واختر الحرف المناسب',
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.textSubtitle,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.notifications_active_rounded,
-                        color: primaryPurple,
-                        size: 22,
-                      ),
-                      onPressed: () => controller.onNotificationPressed(),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              // مرحباً باسم الطفل الحقيقي
-              Obx(
-                () => Text(
-                  'مرحباً، ${controller.currentChild.value?.name ?? ''} 👋',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: textDark,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 6),
-
-              // العنوان الترحيبي العريض
-              const Text(
-                'أهلاً بك يا بطل في الأُوركيد! جاهز لمغامرة اليوم؟ ✨',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // 2. بطاقة التحدي الكبرى
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFEDE3F8), Color(0xFFF7F2FC)],
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                  ),
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primaryPurple.withValues(alpha: 0.08),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'تحدي اليوم • 8-12 سنة',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: primaryPurple,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            'اسمع، ثم اكتب كلمة',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: textDark,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'استمع للصوت واختر الحرف المناسب',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          SizedBox(height: 14),
-                          LinearProgressIndicator(
-                            value: 0.6,
-                            backgroundColor: Colors.white,
-                            color: primaryPurple,
-                            minHeight: 8,
-                          ),
-                          SizedBox(height: 8),
-                          Text(
+                    const SizedBox(height: AppDimens.space16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
                             '6 من 10 محتويات مكتملة • التالي: G',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.black54,
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.textDark,
                               fontWeight: FontWeight.w500,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 14),
-                    Container(
-                      width: 75,
-                      height: 75,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.06),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: ClipOval(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/images/orchid_single.png',
-                            fit: BoxFit.cover,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: AppDimens.space8),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(AppDimens.radiusChip),
+                      child: const LinearProgressIndicator(
+                        value: 0.6,
+                        backgroundColor: AppColors.white,
+                        color: AppColors.primary,
+                        minHeight: 8,
                       ),
                     ),
                   ],
@@ -216,40 +181,6 @@ class HomeView extends GetView<HomeController> {
           ),
         ),
       ),
-
-      // شريط التنقل السفلي العصري العائم
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: primaryPurple.withOpacity(0.15),
-              blurRadius: 20,
-              offset: const Offset(0, 10),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.home_rounded, 'الرئيسية', true, primaryPurple),
-            _buildNavItem(Icons.card_giftcard_rounded, 'الهدايا', false, primaryPurple),
-            _buildNavItem(Icons.emoji_events_rounded, 'الإنجازات', false, primaryPurple),
-            GestureDetector(
-              onTap: () => Get.toNamed(Routes.profile),
-              child: _buildNavItem(
-                Icons.person_rounded,
-                'الملف',
-                false,
-                primaryPurple,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -265,7 +196,7 @@ class HomeView extends GetView<HomeController> {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(AppDimens.space16),
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(20),
@@ -301,20 +232,21 @@ class HomeView extends GetView<HomeController> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1A1A1A),
+                    style: AppTextStyles.cardTitle.copyWith(
+                      color: const Color(0xFF1A1A1A),
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      fontSize: 12,
+                    style: AppTextStyles.caption.copyWith(
                       color: Colors.black54,
                       fontWeight: FontWeight.w500,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -330,29 +262,154 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isSelected, Color activeColor) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
+  Widget _buildNotificationBell(bool hasUnread) {
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.08),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications_outlined,
+              color: AppColors.primary,
+              size: 22,
+            ),
+            onPressed: controller.onNotificationPressed,
+          ),
+          if (hasUnread)
+            PositionedDirectional(
+              top: 10,
+              end: 10,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInvitationMoodContent() {
+    return Row(
+      key: const ValueKey<String>('mood_invitation'),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
         Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: isSelected ? activeColor.withOpacity(0.12) : Colors.transparent,
+          width: AppDimens.buttonHeight,
+          height: AppDimens.buttonHeight,
+          decoration: const BoxDecoration(
+            color: AppColors.lavender,
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            icon,
-            color: isSelected ? activeColor : Colors.grey.shade400,
-            size: 24,
+          child: const Icon(
+            Icons.favorite_rounded,
+            color: AppColors.primary,
+            size: 26,
           ),
         ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? activeColor : Colors.grey.shade500,
+        const SizedBox(width: AppDimens.space16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text(
+                'كيف حالك اليوم؟',
+                style: AppTextStyles.cardTitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: AppDimens.space4),
+              Text(
+                'شاركنا ما تشعر به لتكسب عملاتك اليوم',
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textSubtitle,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
+        ),
+        const SizedBox(width: AppDimens.space8),
+        const Icon(
+          Icons.arrow_forward_ios_rounded,
+          size: 16,
+          color: AppColors.primary,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecordedMoodContent(MoodRecord record) {
+    return Row(
+      key: ValueKey<String>(
+        'mood_recorded_${record.id}_${record.feeling.name}',
+      ),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          width: AppDimens.buttonHeight,
+          height: AppDimens.buttonHeight,
+          decoration: const BoxDecoration(
+            color: AppColors.softMint,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.check_circle_rounded,
+            color: AppColors.success,
+            size: 26,
+          ),
+        ),
+        const SizedBox(width: AppDimens.space16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'أشعر بـ ${record.feeling.label}',
+                style: AppTextStyles.cardTitle.copyWith(
+                  color: AppColors.textDark,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: AppDimens.space4),
+              Text(
+                'تم تسجيل مشاعرك اليوم 🌸',
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textDark.withValues(alpha: 0.75),
+                  fontWeight: FontWeight.w500,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: AppDimens.space8),
+        const Icon(
+          Icons.check_circle_rounded,
+          size: 22,
+          color: AppColors.success,
         ),
       ],
     );

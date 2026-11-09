@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_back_button.dart';
 import '../controllers/select_children_controller.dart';
 
@@ -32,28 +33,23 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
               // 1. العنوان
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'الأبناء المسجلون',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: textDark,
-                    ),
+                    style: AppTextStyles.sectionTitle.copyWith(color: textDark),
                   ),
-                  SizedBox(width: 8),
-                  Text('👶', style: TextStyle(fontSize: 22)),
+                  const SizedBox(width: 8),
+                  const Text('👶', style: AppTextStyles.sectionTitle),
                 ],
               ),
 
               const SizedBox(height: 8),
 
               // 2. النص الفرعي
-              const Text(
+              Text(
                 'عثرنا على الأطفال التابعين لرقم الهوية المدخل. اختر الطفل الذي تود متابعة رحلته اليوم.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
+                style: AppTextStyles.bodySmall.copyWith(
                   color: Colors.black87,
                   height: 1.4,
                   fontWeight: FontWeight.w500,
@@ -154,17 +150,14 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                                     children: [
                                       Text(
                                         child.name,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
+                                        style: AppTextStyles.cardTitle.copyWith(
                                           color: textDark,
                                         ),
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
                                         child.grade,
-                                        style: const TextStyle(
-                                          fontSize: 12,
+                                        style: AppTextStyles.caption.copyWith(
                                           color: Colors.black54,
                                         ),
                                       ),
@@ -197,19 +190,17 @@ class SelectChildrenView extends GetView<SelectChildrenController> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         'متابعة',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                        style: AppTextStyles.buttonLabel.copyWith(
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Icon(
+                      const SizedBox(width: 8),
+                      const Icon(
                         Icons.arrow_forward_ios_rounded,
                         color: Colors.white,
                         size: 18,

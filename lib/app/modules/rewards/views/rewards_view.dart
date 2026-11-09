@@ -1,130 +1,433 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_dimens.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/utils/date_utils.dart';
+import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_scaffold.dart';
+import '../../../core/widgets/app_segmented_tabs.dart';
+import '../../../core/widgets/coin_balance_card.dart';
+import '../../../core/widgets/notice_banner.dart';
+import '../../../core/widgets/request_status_chip.dart';
+import '../../../core/widgets/reward_card.dart';
+import '../../../core/widgets/section_card.dart';
+import '../../../core/widgets/tab_header.dart';
+import '../../../data/models/daily_activity.dart';
+import '../../../data/models/reward_item.dart';
+import '../../../data/models/reward_request.dart';
+import '../../../routes/app_routes.dart';
+import '../controllers/rewards_controller.dart';
 
 class RewardsView extends StatelessWidget {
   const RewardsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      background: AppScaffoldBackground.cream,
-      body: const RewardsContent(),
+    return const AppScaffold(
+      background: AppScaffoldBackground.coolLavender,
+      scrollable: false,
+      padding: EdgeInsets.zero,
+      body: RewardsContent(),
     );
   }
 }
 
-class RewardsContent extends StatelessWidget {
+class RewardsContent extends GetView<RewardsController> {
   const RewardsContent({super.key});
 
+  static const List<String> _tabLabels = <String>[
+    'كيف أجمع؟',
+    'المكافآت',
+    'طلباتي',
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const Text('المكافآت والهدايا', style: AppTextStyles.h1),
-          const SizedBox(height: AppDimens.space8),
-          const Text(
-            'اجمع عملاتك وافتح مكافآت جديدة.',
-            style: AppTextStyles.body,
-          ),
-          const SizedBox(height: AppDimens.space24),
-          Container(
-            padding: const EdgeInsets.all(AppDimens.space24),
-            decoration: BoxDecoration(
-              color: AppColors.lavender,
-              borderRadius: BorderRadius.circular(AppDimens.radiusCard),
-            ),
-            child: const Row(
-              children: <Widget>[
-                Icon(
-                  Icons.monetization_on_rounded,
-                  color: AppColors.primary,
-                  size: 44,
-                ),
-                SizedBox(width: AppDimens.space16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('رصيد العملات', style: AppTextStyles.label),
-                    SizedBox(height: AppDimens.space4),
-                    Text('120 عملة', style: AppTextStyles.h2),
-                  ],
-                ),
-              ],
+    final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
+        MediaQuery.paddingOf(context).bottom +
+        AppDimens.space24;
+
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const ColoredBox(
+          color: AppColors.coolLavender,
+          child: Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
             ),
           ),
-          const SizedBox(height: AppDimens.space24),
-          const Text('مكافآتي', style: AppTextStyles.title),
-          const SizedBox(height: AppDimens.space12),
-          _RewardTile(
-            icon: Icons.card_giftcard_rounded,
-            title: 'هدية الأوركيد',
-            subtitle: 'افتحها عند جمع 200 عملة',
-            color: AppColors.softPink,
+        );
+      }
+
+      if (controller.errorMessage.value.isNotEmpty) {
+        return ColoredBox(
+          color: AppColors.coolLavender,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.symmetric(
+                horizontal: AppDimens.screenHorizontalPadding,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  NoticeBanner(
+                    tone: NoticeBannerTone.danger,
+                    text: controller.errorMessage.value,
+                  ),
+                  const SizedBox(height: AppDimens.space16),
+                  AppButton(
+                    label: 'إعادة المحاولة',
+                    onPressed: controller.loadRewardsData,
+                    fullWidth: false,
+                  ),
+                ],
+              ),
+            ),
           ),
-          const SizedBox(height: AppDimens.space12),
-          _RewardTile(
-            icon: Icons.local_activity_rounded,
-            title: 'قسيمة نشاط ممتع',
-            subtitle: 'متاحة عند جمع 300 عملة',
-            color: AppColors.softYellow,
+        );
+      }
+
+      return ColoredBox(
+        color: AppColors.coolLavender,
+        child: SafeArea(
+        top: true,
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsetsDirectional.symmetric(
+            horizontal: AppDimens.screenHorizontalPadding,
           ),
-        ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              // Fixed Top: Unified Tab Header
+              const TabHeader(
+                title: 'المكافآت والهدايا',
+                subtitle: 'اجمع عملاتك وافتح مكافآت جديدة.',
+              ),
+
+              // Fixed Top: Balance Card
+              CoinBalanceCard(
+                balance: controller.balance.value,
+                todayEarned: controller.todayEarned.value,
+                dailyCap: controller.dailyCap,
+              ),
+              const SizedBox(height: AppDimens.space16),
+
+              // Fixed Top: Segmented Tabs (3 equal-width buttons)
+              AppSegmentedTabs(
+                labels: _tabLabels,
+                selectedIndex: controller.selectedTab.value,
+                onChanged: (int index) => controller.selectedTab.value = index,
+              ),
+              const SizedBox(height: AppDimens.space16),
+
+              // Expanded: Content of selected tab with smooth fade
+              Expanded(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  child: _buildTabContent(
+                    context,
+                    controller.selectedTab.value,
+                    bottomScrollPadding,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
-  }
-}
-
-class _RewardTile extends StatelessWidget {
-  const _RewardTile({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.color,
   });
+  }
 
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final Color color;
+  Widget _buildTabContent(
+    BuildContext context,
+    int tabIndex,
+    double bottomScrollPadding,
+  ) {
+    switch (tabIndex) {
+      case 0:
+        return _buildActivitiesTab(bottomScrollPadding);
+      case 1:
+        return _buildRewardsTab(context, bottomScrollPadding);
+      case 2:
+      default:
+        return _buildRequestsTab(bottomScrollPadding);
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildActivitiesTab(double bottomScrollPadding) {
+    if (controller.dailyActivities.isEmpty) {
+      return const Center(
+        key: ValueKey<int>(0),
+        child: NoticeBanner(
+          tone: NoticeBannerTone.info,
+          text: 'لا توجد أنشطة متاحة اليوم.',
+        ),
+      );
+    }
+
+    return ListView.separated(
+      key: const ValueKey<int>(0),
+      padding: EdgeInsetsDirectional.only(
+        top: AppDimens.space4,
+        bottom: bottomScrollPadding,
+      ),
+      itemCount: controller.dailyActivities.length,
+      separatorBuilder: (BuildContext context, int index) =>
+          const SizedBox(height: AppDimens.space12),
+      itemBuilder: (BuildContext context, int index) {
+        return _DailyActivityItem(
+          activity: controller.dailyActivities[index],
+        );
+      },
+    );
+  }
+
+  Widget _buildRewardsTab(
+    BuildContext context,
+    double bottomScrollPadding,
+  ) {
+    if (controller.rewards.isEmpty) {
+      return const Center(
+        key: ValueKey<int>(1),
+        child: NoticeBanner(
+          tone: NoticeBannerTone.info,
+          text: 'لا توجد مكافآت معروضة حالياً. تابعنا قريباً!',
+        ),
+      );
+    }
+
+    final double textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final double mainAxisExtent =
+        240.0 + (textScale > 1.0 ? (textScale - 1.0) * 90.0 : 0.0);
+
+    return GridView.builder(
+      key: const ValueKey<int>(1),
+      padding: EdgeInsetsDirectional.only(
+        top: AppDimens.space4,
+        bottom: bottomScrollPadding,
+      ),
+      itemCount: controller.rewards.length,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 220,
+        mainAxisExtent: mainAxisExtent,
+        mainAxisSpacing: AppDimens.space12,
+        crossAxisSpacing: AppDimens.space12,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        final RewardItem item = controller.rewards[index];
+        return RewardCard(
+          item: item,
+          index: index,
+          currentBalance: controller.balance.value,
+          onTap: () {
+            Get.toNamed(Routes.rewardDetails, arguments: item);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildRequestsTab(double bottomScrollPadding) {
+    if (controller.requests.isEmpty) {
+      return Center(
+        key: const ValueKey<int>(2),
+        child: Container(
+          padding: const EdgeInsets.all(AppDimens.space16),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(AppDimens.radiusCard),
+            border: Border.all(color: AppColors.border),
+          ),
+          child: Row(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(AppDimens.space12),
+                decoration: BoxDecoration(
+                  color: AppColors.lavender,
+                  borderRadius: BorderRadius.circular(AppDimens.radiusField),
+                ),
+                child: const Icon(
+                  Icons.card_giftcard_rounded,
+                  color: AppColors.primary,
+                ),
+              ),
+              const SizedBox(width: AppDimens.space12),
+              const Expanded(
+                child: Text(
+                  'لم تطلب أي مكافأة بعد. اجمع العملات واطلب هديتك الأولى!',
+                  style: AppTextStyles.bodySmall,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return ListView.separated(
+      key: const ValueKey<int>(2),
+      padding: EdgeInsetsDirectional.only(
+        top: AppDimens.space4,
+        bottom: bottomScrollPadding,
+      ),
+      itemCount: controller.requests.length,
+      separatorBuilder: (BuildContext context, int index) =>
+          const SizedBox(height: AppDimens.space12),
+      itemBuilder: (BuildContext context, int index) {
+        final RewardRequest request = controller.requests[index];
+        return _buildRequestCard(request);
+      },
+    );
+  }
+
+  Widget _buildRequestCard(RewardRequest request) {
+    final bool isReady = request.status == RewardRequestStatus.ready;
+
     return Container(
       padding: const EdgeInsets.all(AppDimens.space16),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(AppDimens.radiusCard),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(
+          color: isReady
+              ? AppColors.primary.withValues(alpha: 0.3)
+              : AppColors.border,
+          width: isReady ? 1.5 : 1,
+        ),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(AppDimens.space12),
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(AppDimens.radiusField),
-            ),
-            child: Icon(icon, color: AppColors.primary),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: Text(
+                  request.rewardTitle,
+                  style: AppTextStyles.cardTitle,
+                ),
+              ),
+              const SizedBox(width: AppDimens.space8),
+              RequestStatusChip(status: request.status),
+            ],
           ),
-          const SizedBox(width: AppDimens.space12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(title, style: AppTextStyles.label),
-                const SizedBox(height: AppDimens.space4),
-                Text(subtitle, style: AppTextStyles.caption),
-              ],
-            ),
+          const SizedBox(height: AppDimens.space8),
+          Row(
+            children: <Widget>[
+              const Icon(
+                Icons.monetization_on_rounded,
+                color: AppColors.primary,
+                size: 16,
+              ),
+              const SizedBox(width: AppDimens.space4),
+              Text(
+                '${request.cost} عملة',
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Spacer(),
+              const Icon(
+                Icons.calendar_today_rounded,
+                color: AppColors.textMuted,
+                size: 14,
+              ),
+              const SizedBox(width: AppDimens.space4),
+              Text(
+                AppDateUtils.format(request.createdAt),
+                style: AppTextStyles.caption.copyWith(
+                  color: AppColors.textMuted,
+                ),
+              ),
+            ],
           ),
+          if (request.status == RewardRequestStatus.ready) ...<Widget>[
+            const SizedBox(height: AppDimens.space12),
+            NoticeBanner(
+              tone: NoticeBannerTone.success,
+              icon: const Icon(
+                Icons.celebration_rounded,
+                color: AppColors.success,
+              ),
+              text: 'المكافأة جاهزة للاستلام! 🎉\n${request.pickupInstructions}',
+            ),
+          ] else if (request.status == RewardRequestStatus.review) ...<Widget>[
+            const SizedBox(height: AppDimens.space12),
+            const NoticeBanner(
+              tone: NoticeBannerTone.warning,
+              icon: Icon(
+                Icons.hourglass_top_rounded,
+                color: AppColors.primary,
+              ),
+              text: 'طلبك قيد المراجعة حالياً من قبل فريق مركز الأوركيد.',
+            ),
+          ] else if (request.status == RewardRequestStatus.pending) ...<Widget>[
+            const SizedBox(height: AppDimens.space12),
+            const NoticeBanner(
+              tone: NoticeBannerTone.info,
+              icon: Icon(
+                Icons.access_time_rounded,
+                color: AppColors.primary,
+              ),
+              text: 'تم استلام طلبك وبانتظار المراجعة.',
+            ),
+          ] else if (request.status == RewardRequestStatus.received) ...<Widget>[
+            const SizedBox(height: AppDimens.space12),
+            const NoticeBanner(
+              tone: NoticeBannerTone.info,
+              icon: Icon(
+                Icons.check_circle_outline_rounded,
+                color: AppColors.success,
+              ),
+              text: 'تم استلام المكافأة بنجاح. نرجو أن تسعدك!',
+            ),
+          ],
         ],
       ),
+    );
+  }
+}
+
+class _DailyActivityItem extends StatelessWidget {
+  const _DailyActivityItem({required this.activity});
+
+  final DailyActivity activity;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isMood = activity.id == 'act-mood';
+    final bool isDone = activity.isCompleted;
+    final bool hasRoute = !isMood && activity.route != null && !isDone;
+
+    return SectionCard(
+      tone: isDone ? SectionCardTone.softMint : SectionCardTone.white,
+      icon: Container(
+        padding: const EdgeInsets.all(AppDimens.space8),
+        decoration: BoxDecoration(
+          color: isDone ? AppColors.softMint : AppColors.inputBg,
+          borderRadius: BorderRadius.circular(AppDimens.radiusChip),
+        ),
+        child: Icon(
+          isDone ? Icons.check_circle_rounded : Icons.stars_rounded,
+          color: isDone ? AppColors.success : AppColors.primary,
+          size: 20,
+        ),
+      ),
+      title: activity.title,
+      subtitle: isDone
+          ? 'تم الحصول على +${activity.coins} عملة'
+          : '+${activity.coins} عملة',
+      showArrow: hasRoute,
+      onTap: hasRoute
+          ? () {
+              Get.toNamed(activity.route!);
+            }
+          : null,
     );
   }
 }

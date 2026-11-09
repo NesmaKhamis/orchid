@@ -138,9 +138,13 @@ class _StatusPill extends StatelessWidget {
         children: <Widget>[
           Icon(icon, size: 14, color: iconColor),
           const SizedBox(width: AppDimens.space4),
-          Text(
-            label,
-            style: AppTextStyles.caption.copyWith(color: labelColor),
+          Flexible(
+            child: Text(
+              label,
+              style: AppTextStyles.caption.copyWith(color: labelColor),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
