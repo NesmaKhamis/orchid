@@ -64,7 +64,7 @@ then the child's space opens (feelings check-in, home, workshops).
 10. New screens must feel consistent with the legacy ones (same purple, rounded fields and buttons,
    animation style) wherever the Figma does not say otherwise.
 11. Available packages only: `get`, `flutter_animate`, `audioplayers`, `firebase_core`,
-   `cloud_firestore`, `firebase_auth`, `cupertino_icons`, `shared_preferences`.
+   `cloud_firestore`, `firebase_auth`, `cupertino_icons`, `shared_preferences`, `image_picker`.
 
 ## 3. Tech stack
 

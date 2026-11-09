@@ -21,6 +21,10 @@ class AppDimens {
   static const double radiusChip = 12;
 
   static const double buttonHeight = 52;
+  static const double profileAvatarEditOffset = -2;
+  static const double profileAvatarEditSize = 22;
+  static const double profileHeaderHeight = 208;
+  static const double profileAvatarSize = 104;
 
   /// Total height of the floating bottom navigation bar (bar height 68 + bottom margin 16).
   static const double floatingNavBarTotalHeight = 84;
