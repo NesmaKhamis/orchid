@@ -15,6 +15,7 @@ class AppColors {
   static const Color inputBg = Color(0xFFFAF9FC);
   static const Color border = Color(0xFFE0E0E0);
   static const Color background = Color(0xFFFAFAF2);
+  static const Color coolLavender = Color(0xFFF8F5FC);
   static const Color lavender = Color(0xFFF0E0F0);
   static const Color softYellow = Color(0xFFF8F0C8);
   static const Color softMint = Color(0xFFE0F0E0);

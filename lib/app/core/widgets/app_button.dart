@@ -44,7 +44,15 @@ class AppButton extends StatelessWidget {
                 icon!,
                 const SizedBox(width: AppDimens.space8),
               ],
-              Text(label),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                  ),
+                ),
+              ),
             ],
           );
 
@@ -81,7 +89,7 @@ class AppButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimens.radiusButton),
           ),
-          textStyle: AppTextStyles.label,
+          textStyle: AppTextStyles.buttonLabel,
         );
       case AppButtonVariant.soft:
         return ElevatedButton.styleFrom(
@@ -93,7 +101,7 @@ class AppButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimens.radiusButton),
           ),
-          textStyle: AppTextStyles.label,
+          textStyle: AppTextStyles.buttonLabel,
         );
       case AppButtonVariant.text:
         return TextButton.styleFrom(
@@ -101,7 +109,7 @@ class AppButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimens.radiusButton),
           ),
-          textStyle: AppTextStyles.label,
+          textStyle: AppTextStyles.buttonLabel,
         );
     }
   }

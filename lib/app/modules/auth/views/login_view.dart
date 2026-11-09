@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/theme/app_text_styles.dart';
 import '../controllers/auth_controller.dart';
 
 class LoginView extends GetView<AuthController> {
@@ -42,28 +43,23 @@ class LoginView extends GetView<AuthController> {
               // 2. ترويسة أهلاً بك
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'أهلاً بك من جديد',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: textDark,
-                    ),
+                    style: AppTextStyles.sectionTitle.copyWith(color: textDark),
                   ),
-                  SizedBox(width: 8),
-                  Text('🌸', style: TextStyle(fontSize: 20)),
+                  const SizedBox(width: 8),
+                  const Text('🌸', style: AppTextStyles.sectionTitle),
                 ],
               ),
 
               const SizedBox(height: 8),
 
               // 3. النص الفرعي
-              const Text(
+              Text(
                 'سعداء بعودتك، تابع مسيرة طفلك بكل حب وسهولة.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
+                style: AppTextStyles.bodySmall.copyWith(
                   color: Colors.black87,
                   height: 1.4,
                   fontWeight: FontWeight.w500,
@@ -75,13 +71,9 @@ class LoginView extends GetView<AuthController> {
               // 4. حقل البريد الإلكتروني
               Align(
                 alignment: Alignment.centerRight,
-                child: const Text(
+                child: Text(
                   'البريد الالكتروني',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: textDark,
-                  ),
+                  style: AppTextStyles.label.copyWith(color: textDark),
                 ),
               ),
               const SizedBox(height: 8),
@@ -95,16 +87,16 @@ class LoginView extends GetView<AuthController> {
                   controller: controller.emailController,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.right,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
-                  decoration: const InputDecoration(
+                  style: AppTextStyles.body.copyWith(color: Colors.black87),
+                  decoration: InputDecoration(
                     hintText: 'nesma@gmail.com',
-                    hintStyle: TextStyle(color: Colors.black38, fontSize: 13),
-                    contentPadding: EdgeInsets.symmetric(
+                    hintStyle: AppTextStyles.bodySmall.copyWith(color: Colors.black38),
+                    contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 14,
                     ),
                     border: InputBorder.none,
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.email_outlined,
                       color: primaryPurple,
                       size: 20,
@@ -118,13 +110,9 @@ class LoginView extends GetView<AuthController> {
               // 5. حقل كلمة المرور
               Align(
                 alignment: Alignment.centerRight,
-                child: const Text(
+                child: Text(
                   'كلمة المرور',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: textDark,
-                  ),
+                  style: AppTextStyles.label.copyWith(color: textDark),
                 ),
               ),
               const SizedBox(height: 8),
@@ -141,10 +129,7 @@ class LoginView extends GetView<AuthController> {
                       controller: controller.passwordController,
                       obscureText: controller.isPasswordHidden.value,
                       textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                      ),
+                      style: AppTextStyles.body.copyWith(color: Colors.black87),
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -174,10 +159,9 @@ class LoginView extends GetView<AuthController> {
                   onPressed: () {
                     // منطق استعادة كلمة المرور
                   },
-                  child: const Text(
+                  child: Text(
                     'نسيت كلمة المرور؟',
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: AppTextStyles.caption.copyWith(
                       color: primaryPurple,
                       fontWeight: FontWeight.w500,
                     ),
@@ -213,11 +197,9 @@ class LoginView extends GetView<AuthController> {
                               strokeWidth: 2,
                             ),
                           )
-                        : const Text(
+                        : Text(
                             'تسجيل الدخول',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                            style: AppTextStyles.buttonLabel.copyWith(
                               color: Colors.white,
                             ),
                           ),
@@ -231,16 +213,15 @@ class LoginView extends GetView<AuthController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'ليس لديك حساب؟ ',
-                    style: TextStyle(fontSize: 13, color: Colors.black54),
+                    style: AppTextStyles.bodySmall.copyWith(color: Colors.black54),
                   ),
                   GestureDetector(
                     onTap: controller.goToRegister,
-                    child: const Text(
+                    child: Text(
                       'إنشاء حساب جديد',
-                      style: TextStyle(
-                        fontSize: 13,
+                      style: AppTextStyles.bodySmall.copyWith(
                         fontWeight: FontWeight.bold,
                         color: primaryPurple,
                         decoration: TextDecoration.underline,

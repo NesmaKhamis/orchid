@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../../home/bindings/home_binding.dart';
 import '../../profile/bindings/profile_binding.dart';
+import '../../rewards/bindings/rewards_binding.dart';
 import '../controllers/main_shell_controller.dart';
 
 class MainShellBinding extends Bindings {
@@ -9,6 +10,7 @@ class MainShellBinding extends Bindings {
   void dependencies() {
     HomeBinding().dependencies();
     ProfileBinding().dependencies();
+    RewardsBinding().dependencies();
     Get.lazyPut<MainShellController>(() => MainShellController());
   }
 }

@@ -5,79 +5,124 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_dimens.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/animated_entrance.dart';
+import '../../../core/widgets/app_back_button.dart';
 import '../../../core/widgets/app_button.dart';
-import '../../../core/widgets/app_header_bar.dart';
 import '../../../core/widgets/app_scaffold.dart';
+import '../../../core/widgets/app_segmented_tabs.dart';
+import '../../../core/widgets/tab_header.dart';
 import '../../../data/models/workshop_model.dart';
 import '../controllers/workshop_list_controller.dart';
+import '../widgets/my_bookings_section.dart';
 
 class WorkshopListView extends GetView<WorkshopListController> {
   const WorkshopListView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final double bottomScrollPadding = AppDimens.floatingNavBarTotalHeight +
+        MediaQuery.paddingOf(context).bottom +
+        AppDimens.space24;
+
     return AppScaffold(
       background: AppScaffoldBackground.cream,
       padding: EdgeInsets.zero,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          AppHeaderBar(
-            title: 'ورش الدعم النفسي والاجتماعي',
-            onBackPressed: Get.back,
-          ),
+          // Fixed Top: TabHeader
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(
-              AppDimens.screenHorizontalPadding,
-              0,
-              AppDimens.screenHorizontalPadding,
-              AppDimens.space8,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimens.screenHorizontalPadding,
             ),
-            child: AppButton(
-              label: 'ورشاتي المسجلة',
-              variant: AppButtonVariant.soft,
-              icon: const Icon(Icons.event_available_rounded, size: 20),
-              onPressed: controller.openMyWorkshops,
+            child: const TabHeader(
+              title: 'ورش الدعم النفسي والاجتماعي',
+              trailing: AppBackButton(),
             ),
           ),
+
+          // Fixed Top: AppSegmentedTabs (2 buttons)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimens.screenHorizontalPadding,
+            ),
+            child: Obx(
+              () => AppSegmentedTabs(
+                labels: const <String>['الورشات المتاحة', 'ورشاتي المسجلة'],
+                selectedIndex: controller.selectedTab.value,
+                onChanged: controller.selectTab,
+              ),
+            ),
+          ),
+          const SizedBox(height: AppDimens.space16),
+
+          // Scrollable content inside Expanded
           Expanded(
             child: Obx(() {
-              if (controller.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (controller.hasError.value) {
-                return _WorkshopError(
-                  onRetry: controller.loadWorkshops,
-                  onErrorShown: controller.showLoadError,
-                );
-              }
-              if (controller.workshops.isEmpty) {
-                return const _EmptyWorkshops();
-              }
-
-              return ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsetsDirectional.fromSTEB(
-                  AppDimens.screenHorizontalPadding,
-                  AppDimens.space8,
-                  AppDimens.screenHorizontalPadding,
-                  AppDimens.space24,
-                ),
-                itemCount: controller.workshops.length,
-                separatorBuilder: (_, _) =>
-                    const SizedBox(height: AppDimens.space16),
-                itemBuilder: (BuildContext context, int index) {
-                  final WorkshopModel workshop = controller.workshops[index];
-                  return WorkshopCard(
-                    workshop: workshop,
-                    onPressed: () => controller.openDetails(workshop),
-                  ).animatedEntrance(delay: Duration(milliseconds: index * 80));
-                },
+              final int currentTab = controller.selectedTab.value;
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: currentTab == 0
+                    ? _buildAvailableSection(bottomScrollPadding)
+                    : _buildMyBookingsSection(bottomScrollPadding),
               );
             }),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAvailableSection(double bottomScrollPadding) {
+    if (controller.isLoading.value) {
+      return const Center(
+        key: ValueKey<String>('available_loading'),
+        child: CircularProgressIndicator(),
+      );
+    }
+    if (controller.hasError.value) {
+      return _WorkshopError(
+        key: const ValueKey<String>('available_error'),
+        onRetry: controller.loadWorkshops,
+        onErrorShown: controller.showLoadError,
+      );
+    }
+    if (controller.workshops.isEmpty) {
+      return const _EmptyWorkshops(key: ValueKey<String>('available_empty'));
+    }
+
+    return ListView.separated(
+      key: const ValueKey<String>('available_list'),
+      physics: const BouncingScrollPhysics(),
+      padding: EdgeInsetsDirectional.fromSTEB(
+        AppDimens.screenHorizontalPadding,
+        0,
+        AppDimens.screenHorizontalPadding,
+        bottomScrollPadding,
+      ),
+      itemCount: controller.workshops.length,
+      separatorBuilder: (_, _) =>
+          const SizedBox(height: AppDimens.space16),
+      itemBuilder: (BuildContext context, int index) {
+        final WorkshopModel workshop = controller.workshops[index];
+        return WorkshopCard(
+          workshop: workshop,
+          onPressed: () => controller.openDetails(workshop),
+        ).animatedEntrance(delay: Duration(milliseconds: index * 80));
+      },
+    );
+  }
+
+  Widget _buildMyBookingsSection(double bottomScrollPadding) {
+    return MyBookingsSection(
+      key: const ValueKey<String>('my_bookings_section'),
+      workshops: controller.bookedWorkshops,
+      isLoading: controller.isBookedLoading.value,
+      hasError: controller.hasBookedError.value,
+      cancellingWorkshopId: controller.cancellingWorkshopId.value,
+      onRetry: controller.loadBookedWorkshops,
+      onDetailsPressed: controller.openDetails,
+      onCancelPressed: controller.cancelBooking,
+      bottomScrollPadding: bottomScrollPadding,
     );
   }
 }
@@ -137,8 +182,12 @@ class WorkshopCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(workshop.title, style: AppTextStyles.title),
-                        const SizedBox(height: AppDimens.space4),
+                        Text(
+                          workshop.title,
+                          style: AppTextStyles.cardTitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         const SizedBox(height: AppDimens.space8),
                         Wrap(
                           spacing: AppDimens.space8,
@@ -224,7 +273,14 @@ class _WorkshopBadge extends StatelessWidget {
         children: <Widget>[
           Icon(icon, size: 15, color: AppColors.textSubtitle),
           const SizedBox(width: AppDimens.space4),
-          Text(label, style: AppTextStyles.caption),
+          Flexible(
+            child: Text(
+              label,
+              style: AppTextStyles.caption,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );
@@ -250,7 +306,11 @@ class _WorkshopInfoRow extends StatelessWidget {
 }
 
 class _WorkshopError extends StatelessWidget {
-  const _WorkshopError({required this.onRetry, required this.onErrorShown});
+  const _WorkshopError({
+    super.key,
+    required this.onRetry,
+    required this.onErrorShown,
+  });
 
   final VoidCallback onRetry;
   final VoidCallback onErrorShown;
@@ -290,7 +350,7 @@ class _WorkshopError extends StatelessWidget {
 }
 
 class _EmptyWorkshops extends StatelessWidget {
-  const _EmptyWorkshops();
+  const _EmptyWorkshops({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +358,7 @@ class _EmptyWorkshops extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(AppDimens.space24),
         child: Text(
-          'لا توجد ورشات متاحة حالياً',
+          'ما في ورشات متاحة حالياً',
           style: AppTextStyles.body,
           textAlign: TextAlign.center,
         ),

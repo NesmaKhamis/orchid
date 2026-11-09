@@ -23,7 +23,10 @@ class WorkshopDetailsView extends GetView<WorkshopDetailsController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          AppHeaderBar(title: 'تفاصيل الورشة', onBackPressed: Get.back),
+          AppHeaderBar(
+            title: 'تفاصيل الورشة',
+            onBackPressed: () => Get.back(result: controller.isBooked.value),
+          ),
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -89,8 +92,17 @@ class WorkshopDetailsView extends GetView<WorkshopDetailsController> {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (BuildContext context) => const _BookingSuccessSheet(),
+      builder: (BuildContext context) => _BookingSuccessSheet(
+        onDismiss: () {
+          Get.back();
+          Get.back(result: true);
+        },
+      ),
     );
+
+    if (context.mounted && controller.isBooked.value) {
+      Get.back(result: true);
+    }
   }
 }
 
@@ -296,7 +308,7 @@ class _DetailsSection extends StatelessWidget {
             children: <Widget>[
               Icon(icon, color: AppColors.primary, size: 22),
               const SizedBox(width: AppDimens.space8),
-              Text(title, style: AppTextStyles.title),
+              Expanded(child: Text(title, style: AppTextStyles.cardTitle)),
             ],
           ),
           const SizedBox(height: AppDimens.space16),
@@ -338,7 +350,9 @@ class _DetailRow extends StatelessWidget {
 }
 
 class _BookingSuccessSheet extends StatelessWidget {
-  const _BookingSuccessSheet();
+  const _BookingSuccessSheet({this.onDismiss});
+
+  final VoidCallback? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -383,7 +397,7 @@ class _BookingSuccessSheet extends StatelessWidget {
             const SizedBox(height: AppDimens.space20),
             AppButton(
               label: 'حسناً',
-              onPressed: Get.back,
+              onPressed: onDismiss ?? Get.back,
               icon: const Icon(Icons.check_rounded, size: 20),
             ),
           ],

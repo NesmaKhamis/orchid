@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/constants/app_assets.dart';
 import '../../../core/services/session_service.dart';
@@ -21,6 +22,7 @@ class ProfileController extends GetxController {
   final ProfileRepository _repository;
   final SessionService _sessionService;
   final ChildrenRepository _childrenRepository;
+  final ImagePicker _imagePicker = ImagePicker();
 
   final profile = Rxn<ProfileModel>();
   final activeChild = Rxn<ChildModel>();
@@ -57,8 +59,7 @@ class ProfileController extends GetxController {
             break;
           }
         }
-        activeChild.value =
-            child ?? (children.isEmpty ? null : children.first);
+        activeChild.value = child ?? (children.isEmpty ? null : children.first);
       } catch (error) {
         Get.log('Could not resolve the active child profile: $error');
       }
@@ -96,6 +97,19 @@ class ProfileController extends GetxController {
       profileUpdate: (current) => current.copyWith(avatarPath: path),
       successMessage: 'تم تحديث الصورة',
     );
+  }
+
+  Future<String?> pickAvatarFromGallery() async {
+    try {
+      final XFile? image = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+      );
+      return image?.path;
+    } on PlatformException catch (error) {
+      Get.log('Could not pick a profile image: ${error.message}');
+      AppSnackbar.error('تعذر اختيار الصورة، حاول مجدداً');
+      return null;
+    }
   }
 
   Future<void> _updateProfile({

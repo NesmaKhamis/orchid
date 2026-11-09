@@ -37,7 +37,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppDimens.radiusButton),
           ),
-          textStyle: AppTextStyles.label,
+          textStyle: AppTextStyles.buttonLabel,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
