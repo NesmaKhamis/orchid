@@ -37,11 +37,7 @@ class MainShellView extends GetView<MainShellController> {
         backgroundColor: AppColors.coolLavender,
         body: IndexedStack(
           index: controller.selectedIndex.value,
-          children: const <Widget>[
-            HomeView(),
-            RewardsContent(),
-            ProfileContent(),
-          ],
+          children: const <Widget>[HomeView(), RewardsContent(), ProfileView()],
         ),
         bottomNavigationBar: AppBottomNavBar(
           items: _tabs,
