@@ -128,6 +128,7 @@ class RewardsContent extends GetView<RewardsController> {
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 250),
                   child: _buildTabContent(
+                    context,
                     controller.selectedTab.value,
                     bottomScrollPadding,
                   ),
@@ -141,12 +142,16 @@ class RewardsContent extends GetView<RewardsController> {
   });
   }
 
-  Widget _buildTabContent(int tabIndex, double bottomScrollPadding) {
+  Widget _buildTabContent(
+    BuildContext context,
+    int tabIndex,
+    double bottomScrollPadding,
+  ) {
     switch (tabIndex) {
       case 0:
         return _buildActivitiesTab(bottomScrollPadding);
       case 1:
-        return _buildRewardsTab(bottomScrollPadding);
+        return _buildRewardsTab(context, bottomScrollPadding);
       case 2:
       default:
         return _buildRequestsTab(bottomScrollPadding);
@@ -181,7 +186,10 @@ class RewardsContent extends GetView<RewardsController> {
     );
   }
 
-  Widget _buildRewardsTab(double bottomScrollPadding) {
+  Widget _buildRewardsTab(
+    BuildContext context,
+    double bottomScrollPadding,
+  ) {
     if (controller.rewards.isEmpty) {
       return const Center(
         key: ValueKey<int>(1),
@@ -192,6 +200,10 @@ class RewardsContent extends GetView<RewardsController> {
       );
     }
 
+    final double textScale = MediaQuery.textScalerOf(context).scale(1.0);
+    final double mainAxisExtent =
+        240.0 + (textScale > 1.0 ? (textScale - 1.0) * 90.0 : 0.0);
+
     return GridView.builder(
       key: const ValueKey<int>(1),
       padding: EdgeInsetsDirectional.only(
@@ -199,9 +211,9 @@ class RewardsContent extends GetView<RewardsController> {
         bottom: bottomScrollPadding,
       ),
       itemCount: controller.rewards.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.72,
+      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 220,
+        mainAxisExtent: mainAxisExtent,
         mainAxisSpacing: AppDimens.space12,
         crossAxisSpacing: AppDimens.space12,
       ),

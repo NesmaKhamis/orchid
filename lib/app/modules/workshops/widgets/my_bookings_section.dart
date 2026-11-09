@@ -114,8 +114,14 @@ class RegisteredWorkshopCard extends StatelessWidget {
                 ),
                 const SizedBox(width: AppDimens.space12),
                 Expanded(
-                  child: Text(workshop.title, style: AppTextStyles.title),
+                  child: Text(
+                    workshop.title,
+                    style: AppTextStyles.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
+                const SizedBox(width: AppDimens.space8),
                 const StatusChip(label: 'حجز مؤكد'),
               ],
             ),

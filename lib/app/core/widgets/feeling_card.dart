@@ -34,21 +34,28 @@ class FeelingCard extends StatelessWidget {
         vertical: AppDimens.space12,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           // Large emoji placeholder for orchid face
           // TODO: replace emoji with orchid face asset
-          Text(
-            feeling.emoji,
-            style: const TextStyle(fontSize: 38),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              feeling.emoji,
+              style: const TextStyle(fontSize: 36),
+            ),
           ),
           const SizedBox(height: AppDimens.space4),
-          Text(
-            feeling.label,
-            textAlign: TextAlign.center,
-            style: AppTextStyles.label.copyWith(
-              color: isSelected ? AppColors.primary : AppColors.textDark,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              feeling.label,
+              textAlign: TextAlign.center,
+              style: AppTextStyles.label.copyWith(
+                color: isSelected ? AppColors.primary : AppColors.textDark,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+              ),
             ),
           ),
         ],

@@ -52,18 +52,24 @@ class CoinBalanceCard extends StatelessWidget {
                           size: 28,
                         ),
                         const SizedBox(width: AppDimens.space8),
-                        Text(
-                          '$balance عملة',
-                          style: AppTextStyles.h1.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        )
-                            .animate(key: ValueKey<int>(balance))
-                            .scale(
-                              duration: 350.ms,
-                              curve: Curves.easeOutBack,
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(
+                              '$balance عملة',
+                              style: AppTextStyles.h1.copyWith(
+                                color: AppColors.primary,
+                              ),
                             )
-                            .fadeIn(),
+                                .animate(key: ValueKey<int>(balance))
+                                .scale(
+                                  duration: 350.ms,
+                                  curve: Curves.easeOutBack,
+                                )
+                                .fadeIn(),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: AppDimens.space4),
@@ -72,6 +78,8 @@ class CoinBalanceCard extends StatelessWidget {
                       style: AppTextStyles.caption.copyWith(
                         color: AppColors.textSubtitle,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -81,22 +89,31 @@ class CoinBalanceCard extends StatelessWidget {
           const SizedBox(height: AppDimens.space16),
           // Soft progress bar for today's coins vs cap
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                'عملات اليوم ($todayEarned / $dailyCap)',
-                style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textDark,
+              Expanded(
+                child: Text(
+                  'عملات اليوم ($todayEarned / $dailyCap)',
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textDark,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (todayEarned >= dailyCap)
-                Text(
-                  'وصلت للحد اليومي! 🌟',
-                  style: AppTextStyles.caption.copyWith(
-                    color: AppColors.success,
-                    fontWeight: FontWeight.bold,
+              if (todayEarned >= dailyCap) ...<Widget>[
+                const SizedBox(width: AppDimens.space8),
+                Flexible(
+                  child: Text(
+                    'وصلت للحد اليومي! 🌟',
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.success,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
+              ],
             ],
           ),
           const SizedBox(height: AppDimens.space8),

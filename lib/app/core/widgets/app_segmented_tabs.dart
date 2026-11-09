@@ -33,22 +33,25 @@ class AppSegmentedTabs extends StatelessWidget {
                 onTap: () => onChanged(i),
                 borderRadius: BorderRadius.circular(AppDimens.radiusButton),
                 child: Container(
-                  height: 42,
-                  alignment: Alignment.center,
+                  constraints: const BoxConstraints(minHeight: 42),
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppDimens.space4,
+                    vertical: AppDimens.space8,
                   ),
-                  child: Text(
-                    labels[i],
-                    style: AppTextStyles.label.copyWith(
-                      color: i == selectedIndex
-                          ? AppColors.white
-                          : AppColors.textDark,
-                      fontSize: 13,
+                  alignment: Alignment.center,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      labels[i],
+                      style: AppTextStyles.label.copyWith(
+                        color: i == selectedIndex
+                            ? AppColors.white
+                            : AppColors.textDark,
+                        fontSize: 13,
+                      ),
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
                   ),
                 ),
               ),

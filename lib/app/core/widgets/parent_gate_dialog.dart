@@ -72,12 +72,13 @@ class _ParentGateDialogState extends State<ParentGateDialog> {
         insetPadding: const EdgeInsets.symmetric(
           horizontal: AppDimens.screenHorizontalPadding,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(AppDimens.space24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(AppDimens.space24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
               // Header icon
               Center(
                 child: Container(
@@ -206,6 +207,7 @@ class _ParentGateDialogState extends State<ParentGateDialog> {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 }

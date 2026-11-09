@@ -156,13 +156,15 @@ class _CategoryChip extends StatelessWidget {
             color: isSelected ? AppColors.primary : AppColors.border,
           ),
         ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.caption.copyWith(
-            color: isSelected ? Colors.white : AppColors.textDark,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            style: AppTextStyles.caption.copyWith(
+              color: isSelected ? Colors.white : AppColors.textDark,
+            ),
           ),
         ),
       ),

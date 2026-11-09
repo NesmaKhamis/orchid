@@ -147,6 +147,8 @@ class _RewardRequestCard extends StatelessWidget {
                 child: Text(
                   request.rewardTitle,
                   style: AppTextStyles.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(width: AppDimens.space12),
@@ -164,11 +166,15 @@ class _RewardRequestCard extends StatelessWidget {
                 size: 16,
               ),
               const SizedBox(width: AppDimens.space4),
-              Text(
-                '${request.cost} عملة',
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.bold,
+              Flexible(
+                child: Text(
+                  '${request.cost} عملة',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const Spacer(),
@@ -178,10 +184,14 @@ class _RewardRequestCard extends StatelessWidget {
                 size: 14,
               ),
               const SizedBox(width: AppDimens.space4),
-              Text(
-                AppDateUtils.format(request.createdAt),
-                style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textMuted,
+              Flexible(
+                child: Text(
+                  AppDateUtils.format(request.createdAt),
+                  style: AppTextStyles.caption.copyWith(
+                    color: AppColors.textMuted,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

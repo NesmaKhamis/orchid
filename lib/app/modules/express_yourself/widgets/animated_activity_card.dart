@@ -139,13 +139,20 @@ class _AnimatedActivityCardState extends State<AnimatedActivityCard>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(widget.title, style: AppTextStyles.label),
+                      Text(
+                        widget.title,
+                        style: AppTextStyles.label,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       const SizedBox(height: AppDimens.space4),
                       Text(
                         widget.subtitle,
                         style: AppTextStyles.caption.copyWith(
                           color: AppColors.textMuted,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

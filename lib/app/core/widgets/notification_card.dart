@@ -95,6 +95,7 @@ class NotificationCard extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Expanded(
+                          flex: 2,
                           child: Row(
                             children: <Widget>[
                               Flexible(
@@ -124,10 +125,14 @@ class NotificationCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: AppDimens.space8),
-                        Text(
-                          AppDateUtils.relativeTime(notification.createdAt),
-                          style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textMuted,
+                        Flexible(
+                          child: Text(
+                            AppDateUtils.relativeTime(notification.createdAt),
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.textMuted,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

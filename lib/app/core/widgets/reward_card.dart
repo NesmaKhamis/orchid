@@ -53,20 +53,26 @@ class RewardCard extends StatelessWidget {
             border: Border.all(color: AppColors.border),
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Reward placeholder with large emoji on rotated pastel background
-              Container(
-                height: 80,
-                decoration: BoxDecoration(
-                  color: toneColor,
-                  borderRadius: BorderRadius.circular(AppDimens.radiusField),
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: toneColor,
+                    borderRadius: BorderRadius.circular(AppDimens.radiusField),
+                  ),
+                  alignment: Alignment.center,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      item.emoji,
+                      style: const TextStyle(fontSize: 34),
+                    ),
+                  ), // TODO: replace emoji with final reward image
                 ),
-                alignment: Alignment.center,
-                child: Text(
-                  item.emoji,
-                  style: const TextStyle(fontSize: 36),
-                ), // TODO: replace emoji with final reward image
               ),
               const SizedBox(height: AppDimens.space8),
               // Title
@@ -86,16 +92,20 @@ class RewardCard extends StatelessWidget {
                     size: 16,
                   ),
                   const SizedBox(width: AppDimens.space4),
-                  Text(
-                    '${item.cost} عملة',
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Text(
+                      '${item.cost} عملة',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
               ),
-              const Spacer(),
+              const SizedBox(height: AppDimens.space12),
               // Status / Action
               if (isOutOfStock)
                 const Center(
@@ -114,6 +124,8 @@ class RewardCard extends StatelessWidget {
                         color: AppColors.textMuted,
                       ),
                       textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: AppDimens.space4),
                     ClipRRect(
@@ -139,11 +151,19 @@ class RewardCard extends StatelessWidget {
                     borderRadius:
                         BorderRadius.circular(AppDimens.radiusButton),
                   ),
-                  child: Text(
-                    'أطلبها',
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.white,
-                      fontWeight: FontWeight.bold,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppDimens.space12,
+                      ),
+                      child: Text(
+                        'أطلبها',
+                        style: AppTextStyles.caption.copyWith(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                 ),

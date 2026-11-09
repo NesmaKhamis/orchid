@@ -40,12 +40,12 @@ class FeelingsView extends GetView<FeelingsController> {
         if (controller.isSubmitted.value) {
           return _buildResultStep();
         }
-        return _buildCheckInStep();
+        return _buildCheckInStep(context);
       }),
     );
   }
 
-  Widget _buildCheckInStep() {
+  Widget _buildCheckInStep(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
@@ -99,9 +99,10 @@ class FeelingsView extends GetView<FeelingsController> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: Feeling.values.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 1.35,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            mainAxisExtent: 110.0 *
+                MediaQuery.textScalerOf(context).scale(1.0).clamp(1.0, 1.4),
             mainAxisSpacing: AppDimens.space12,
             crossAxisSpacing: AppDimens.space12,
           ),

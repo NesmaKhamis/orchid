@@ -114,14 +114,17 @@ class HomeView extends GetView<HomeController> {
                     ),
                     const SizedBox(height: AppDimens.space16),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
-                        Text(
-                          '6 من 10 محتويات مكتملة • التالي: G',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textDark,
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: Text(
+                            '6 من 10 محتويات مكتملة • التالي: G',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textDark,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],
@@ -238,6 +241,8 @@ class HomeView extends GetView<HomeController> {
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF1A1A1A),
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -247,6 +252,8 @@ class HomeView extends GetView<HomeController> {
                       color: Colors.black54,
                       fontWeight: FontWeight.w500,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
@@ -328,6 +335,8 @@ class HomeView extends GetView<HomeController> {
               Text(
                 'كيف قلبك اليوم؟',
                 style: AppTextStyles.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: AppDimens.space4),
               Text(
@@ -336,6 +345,8 @@ class HomeView extends GetView<HomeController> {
                   fontSize: 12,
                   color: AppColors.textSubtitle,
                 ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
@@ -409,11 +420,15 @@ class HomeView extends GetView<HomeController> {
                     color: AppColors.success,
                   ),
                   const SizedBox(width: AppDimens.space4),
-                  Text(
-                    'مزاج اليوم • تم التسجيل',
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.success,
-                      fontWeight: FontWeight.bold,
+                  Flexible(
+                    child: Text(
+                      'مزاج اليوم • تم التسجيل',
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.success,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -424,6 +439,8 @@ class HomeView extends GetView<HomeController> {
                 style: AppTextStyles.title.copyWith(
                   color: AppColors.textDark,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: AppDimens.space4),
               Text(
@@ -432,6 +449,8 @@ class HomeView extends GetView<HomeController> {
                   color: AppColors.textDark.withValues(alpha: 0.75),
                   fontWeight: FontWeight.w500,
                 ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

@@ -35,11 +35,12 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
             insetPadding: const EdgeInsets.symmetric(
               horizontal: AppDimens.screenHorizontalPadding,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(AppDimens.space24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(AppDimens.space24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
                   Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
@@ -114,7 +115,8 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
               ),
             ),
           ),
-        );
+        ),
+      );
       },
     );
   }
@@ -185,37 +187,51 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          const Icon(
-                            Icons.monetization_on_rounded,
-                            color: AppColors.primary,
-                            size: 26,
-                          ),
-                          const SizedBox(width: AppDimens.space8),
-                          Text(
-                            '${controller.reward.cost} عملة',
-                            style: AppTextStyles.h1.copyWith(
+                      Flexible(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const Icon(
+                              Icons.monetization_on_rounded,
                               color: AppColors.primary,
+                              size: 26,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: AppDimens.space8),
+                            Flexible(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Text(
+                                  '${controller.reward.cost} عملة',
+                                  style: AppTextStyles.h1.copyWith(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: AppDimens.space12,
-                          vertical: AppDimens.space4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.lavender,
-                          borderRadius:
-                              BorderRadius.circular(AppDimens.radiusChip),
-                        ),
-                        child: Text(
-                          'رصيدك: ${controller.balance.value} عملة',
-                          style: AppTextStyles.caption.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.bold,
+                      const SizedBox(width: AppDimens.space8),
+                      Flexible(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppDimens.space12,
+                            vertical: AppDimens.space4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.lavender,
+                            borderRadius:
+                                BorderRadius.circular(AppDimens.radiusChip),
+                          ),
+                          child: Text(
+                            'رصيدك: ${controller.balance.value} عملة',
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),

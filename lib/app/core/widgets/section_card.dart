@@ -61,10 +61,20 @@ class SectionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(title, style: AppTextStyles.label),
+                Text(
+                  title,
+                  style: AppTextStyles.label,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 if (subtitle != null) ...<Widget>[
                   const SizedBox(height: AppDimens.space4),
-                  Text(subtitle!, style: AppTextStyles.caption),
+                  Text(
+                    subtitle!,
+                    style: AppTextStyles.caption,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ],
             ),

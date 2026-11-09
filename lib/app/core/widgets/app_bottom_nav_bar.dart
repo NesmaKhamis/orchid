@@ -118,16 +118,20 @@ class _NavBarItem extends StatelessWidget {
                 color: isSelected ? AppColors.primary : AppColors.textMuted,
                 size: 22,
               ),
-              const SizedBox(height: AppDimens.space4),
-              Text(
-                item.label,
-                style: AppTextStyles.caption.copyWith(
-                  color: isSelected ? AppColors.primary : AppColors.textMuted,
-                  fontWeight:
-                      isSelected ? FontWeight.bold : FontWeight.normal,
+              const SizedBox(height: 2),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    item.label,
+                    style: AppTextStyles.caption.copyWith(
+                      color: isSelected ? AppColors.primary : AppColors.textMuted,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                    maxLines: 1,
+                  ),
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

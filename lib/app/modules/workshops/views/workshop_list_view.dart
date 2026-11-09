@@ -177,7 +177,12 @@ class WorkshopCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(workshop.title, style: AppTextStyles.title),
+                        Text(
+                          workshop.title,
+                          style: AppTextStyles.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         const SizedBox(height: AppDimens.space8),
                         Wrap(
                           spacing: AppDimens.space8,
@@ -263,7 +268,14 @@ class _WorkshopBadge extends StatelessWidget {
         children: <Widget>[
           Icon(icon, size: 15, color: AppColors.textSubtitle),
           const SizedBox(width: AppDimens.space4),
-          Text(label, style: AppTextStyles.caption),
+          Flexible(
+            child: Text(
+              label,
+              style: AppTextStyles.caption,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );
