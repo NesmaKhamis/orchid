@@ -37,7 +37,7 @@ class TabHeader extends StatelessWidget {
               children: <Widget>[
                 Text(
                   title,
-                  style: AppTextStyles.display,
+                  style: AppTextStyles.tabTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   softWrap: false,

@@ -157,7 +157,7 @@ Use `color.withValues(alpha: x)` — never `withOpacity` (deprecated).
 padding `24`; radius `field 16`, `card 20`, `button 26`, `pill 32`, `chip 12`; button height `52`.
 
 **Text styles (`AppTextStyles`)**:
-- `tabTitle` / `display`: 28 bold — shell tab and top screen headers (Home, Rewards, Workshops, Profile, Notifications).
+- `tabTitle` / `display`: 24 bold — shell tab and top screen headers (Home, Rewards, Workshops, Profile, Notifications).
 - `tabSubtitle`: 14 — subtitle directly beneath tab header titles.
 - `sectionTitle` / `title`: 18 bold — major section and step titles.
 - `cardTitle`: 16 bold — card and list-tile headings (Home challenge & cards, workshops, rewards).

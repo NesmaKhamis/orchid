@@ -8,7 +8,7 @@ class AppTextStyles {
 
   /// Tab and top-level screen header titles (Home, Rewards, Workshops, Profile, Notifications).
   static const TextStyle tabTitle = TextStyle(
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: FontWeight.bold,
     color: AppColors.textDark,
   );
