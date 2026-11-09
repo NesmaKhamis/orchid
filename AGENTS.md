@@ -156,8 +156,17 @@ Use `color.withValues(alpha: x)` — never `withOpacity` (deprecated).
 **Dimens (`AppDimens`)**: spacing scale `4, 8, 12, 16, 20, 24, 28, 32, 40`; screen horizontal
 padding `24`; radius `field 16`, `card 20`, `button 26`, `pill 32`, `chip 12`; button height `52`.
 
-**Text styles (`AppTextStyles`)**: `h1` 27 bold, `h2` 22–24 bold, `title` 18 bold, `label` 14 bold,
-`body` 14, `bodySmall` 13, `caption` 12. Always `fontFamily` from the theme (do not set it per widget).
+**Text styles (`AppTextStyles`)**:
+- `tabTitle` / `display`: 28 bold — shell tab and top screen headers (Home, Rewards, Workshops, Profile, Notifications).
+- `tabSubtitle`: 14 — subtitle directly beneath tab header titles.
+- `sectionTitle` / `title`: 18 bold — major section and step titles.
+- `cardTitle`: 16 bold — card and list-tile headings (Home challenge & cards, workshops, rewards).
+- `buttonLabel`: 16 bold — buttons (AppButton).
+- `body`: 14 — standard body copy and text inputs.
+- `bodySmall`: 13 — secondary descriptions and info rows.
+- `chipLabel` / `label`: 13 bold — tags, badges, field labels, chips.
+- `caption`: 12 — metadata, timestamps, captions, small hints.
+Always `fontFamily` from the theme (do not set it per widget). Same family, weights, colors, and line heights everywhere. Hierarchy: header > section title > card title > body > caption.
 
 **Assets**: every path goes through `AppAssets` (`orchidSingle`, `orchidMascot`, `orchidOpen`,
 `orchidWink`, `leafCorner`, `welcome`, `q`). Existing files in `assets/images/`:
