@@ -5,6 +5,7 @@ class AppColors {
   AppColors._();
 
   static const Color primary = Color(0xFF8B53A8);
+  static const Color primaryDark = Color(0xFF9E65C4);
   static const Color profilePrimary = Color(0xFF7B3FE4);
   static const Color profileBackground = Color(0xFFF8F5FC);
   static const Color profileTextDark = Color(0xFF1A1A1A);

@@ -163,7 +163,7 @@ class _ProfileHeader extends StatelessWidget {
         height: AppDimens.profileHeaderHeight,
         width: double.infinity,
         child: ColoredBox(
-          color: AppColors.profilePrimary,
+          color: AppColors.primaryDark,
           child: Align(
             alignment: AlignmentDirectional.topCenter,
             child: Padding(
@@ -315,7 +315,7 @@ class _ChildAvatar extends StatelessWidget {
               bottom: AppDimens.profileAvatarEditOffset,
               end: AppDimens.profileAvatarEditOffset,
               child: Material(
-                color: AppColors.profilePrimary,
+                color: AppColors.primaryDark,
                 shape: const CircleBorder(),
                 child: IconButton(
                   onPressed: isUpdating ? null : onEditProfile,
