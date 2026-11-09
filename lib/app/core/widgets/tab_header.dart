@@ -38,8 +38,9 @@ class TabHeader extends StatelessWidget {
                 Text(
                   title,
                   style: AppTextStyles.display,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  softWrap: false,
                 ),
                 if (subtitle != null && subtitle!.isNotEmpty) ...<Widget>[
                   const SizedBox(height: AppDimens.space4),
