@@ -42,8 +42,13 @@ class AppTextStyles {
     color: AppColors.textDark,
   );
 
+  static const TextStyle tabSubtitle = TextStyle(
+    fontSize: 14,
+    color: AppColors.textDark,
+  );
+
   static const TextStyle subtitle = TextStyle(
-    fontSize: 16,
+    fontSize: 14,
     color: AppColors.textDark,
   );
 
