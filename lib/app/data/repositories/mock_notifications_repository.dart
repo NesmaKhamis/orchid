@@ -24,7 +24,7 @@ class MockNotificationsRepository implements NotificationsRepository {
         body: 'طلب مكافأتك أصبح جاهزاً للاستلام من مركز الأوركيد.',
         createdAt: now.subtract(const Duration(hours: 5)),
         isRead: false,
-        route: Routes.myRewardRequests,
+        route: Routes.rewards,
       ),
       AppNotification(
         id: 'notif-3',

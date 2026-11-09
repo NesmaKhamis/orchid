@@ -15,6 +15,7 @@ import '../../../core/widgets/parent_gate_dialog.dart';
 import '../../../core/widgets/status_chip.dart';
 import '../../../data/models/reward_request.dart';
 import '../../../routes/app_routes.dart';
+import '../../main_shell/controllers/main_shell_controller.dart';
 import '../controllers/reward_details_controller.dart';
 
 class RewardDetailsView extends GetView<RewardDetailsController> {
@@ -99,7 +100,7 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
                     variant: AppButtonVariant.primary,
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
-                      Get.offNamed(Routes.myRewardRequests);
+                      MainShellController.openRewardsRequests();
                     },
                   ),
                   const SizedBox(height: AppDimens.space8),
@@ -108,7 +109,15 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
                     variant: AppButtonVariant.soft,
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
-                      Get.back();
+                      Get.until(
+                        (route) =>
+                            route.settings.name == Routes.home || route.isFirst,
+                      );
+                      if (Get.isRegistered<MainShellController>()) {
+                        Get.find<MainShellController>().changeTab(
+                          MainShellController.rewardsTabIndex,
+                        );
+                      }
                     },
                   ),
                 ],

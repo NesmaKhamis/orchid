@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import '../../../data/models/app_notification.dart';
 import '../../../data/repositories/notifications_repository.dart';
+import '../../../routes/app_routes.dart';
+import '../../main_shell/controllers/main_shell_controller.dart';
 
 class NotificationGroup {
   const NotificationGroup({
@@ -104,6 +106,12 @@ class NotificationsController extends GetxController {
   Future<void> onNotificationTapped(AppNotification item) async {
     if (!item.isRead) {
       await markAsRead(item.id);
+    }
+    if (item.category == NotificationCategory.rewards ||
+        item.route == Routes.rewards ||
+        item.route == '/my-reward-requests') {
+      MainShellController.openRewardsRequests();
+      return;
     }
     if (item.route != null) {
       Get.toNamed(item.route!, arguments: item.arguments);

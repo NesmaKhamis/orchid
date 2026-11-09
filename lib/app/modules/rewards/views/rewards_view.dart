@@ -356,6 +356,36 @@ class RewardsContent extends GetView<RewardsController> {
               ),
               text: 'المكافأة جاهزة للاستلام! 🎉\n${request.pickupInstructions}',
             ),
+          ] else if (request.status == RewardRequestStatus.review) ...<Widget>[
+            const SizedBox(height: AppDimens.space12),
+            const NoticeBanner(
+              tone: NoticeBannerTone.warning,
+              icon: Icon(
+                Icons.hourglass_top_rounded,
+                color: AppColors.primary,
+              ),
+              text: 'طلبك قيد المراجعة حالياً من قبل فريق مركز الأوركيد.',
+            ),
+          ] else if (request.status == RewardRequestStatus.pending) ...<Widget>[
+            const SizedBox(height: AppDimens.space12),
+            const NoticeBanner(
+              tone: NoticeBannerTone.info,
+              icon: Icon(
+                Icons.access_time_rounded,
+                color: AppColors.primary,
+              ),
+              text: 'تم استلام طلبك وبانتظار المراجعة.',
+            ),
+          ] else if (request.status == RewardRequestStatus.received) ...<Widget>[
+            const SizedBox(height: AppDimens.space12),
+            const NoticeBanner(
+              tone: NoticeBannerTone.info,
+              icon: Icon(
+                Icons.check_circle_outline_rounded,
+                color: AppColors.success,
+              ),
+              text: 'تم استلام المكافأة بنجاح. نرجو أن تسعدك!',
+            ),
           ],
         ],
       ),
