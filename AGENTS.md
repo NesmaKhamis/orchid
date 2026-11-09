@@ -57,7 +57,7 @@ then the child's space opens (feelings check-in, home, workshops).
   For the `feature/notifications` task, the home bell icon and header are OPEN to open notifications and align the header layout.
   For the `feature/feelings` task, the home mood card area is OPEN (display & navigation to feelings screen).
   For the `feature/rewards` task, the home daily-challenge card and `main_shell` are
-  OPEN for UI polish. For the tab header consistency task, the home header area is OPEN to unify home and rewards tab headers. For the `docs/start-flow-task.md` task, `auth` (login/register),
+  OPEN for UI polish. For the tab header consistency task, the home header area is OPEN to unify home and rewards tab headers. For the `refactor(workshops)` task, `workshops` (lib/app/modules/workshops) is OPEN. For the `docs/start-flow-task.md` task, `auth` (login/register),
   `link_identity`, `select_children`, `child_details`, `verification_rejected`, `privacy` and
   `email_verification` are OPEN for UI fixes and flow logic. Outside these tasks, preserve the
   existing visual freeze and touch these screens only when a prompt explicitly asks.

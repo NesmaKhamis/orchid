@@ -13,12 +13,12 @@ class TabHeader extends StatelessWidget {
   const TabHeader({
     super.key,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     this.trailing,
   });
 
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final Widget? trailing;
 
   @override
@@ -40,18 +40,20 @@ class TabHeader extends StatelessWidget {
                   Text(
                     title,
                     style: AppTextStyles.display,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: AppDimens.space4),
-                  Text(
-                    subtitle,
-                    style: AppTextStyles.subtitle.copyWith(
-                      color: AppColors.textSubtitle,
-                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  if (subtitle != null && subtitle!.isNotEmpty) ...<Widget>[
+                    const SizedBox(height: AppDimens.space4),
+                    Text(
+                      subtitle!,
+                      style: AppTextStyles.subtitle.copyWith(
+                        color: AppColors.textSubtitle,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ],
               ),
             ),
