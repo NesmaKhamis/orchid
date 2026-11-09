@@ -79,31 +79,28 @@ class HomeView extends GetView<HomeController> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
-                      children: const [
-                        AnimatedOrchid(size: 72, autoStart: true),
-                        SizedBox(width: AppDimens.space16),
+                      children: [
+                        const AnimatedOrchid(size: 72, autoStart: true),
+                        const SizedBox(width: AppDimens.space16),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 'تحدي اليوم • 8-12 سنة',
-                                style: TextStyle(
-                                  fontSize: 12,
+                                style: AppTextStyles.chipLabel.copyWith(
                                   color: AppColors.primary,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: AppDimens.space4),
-                              Text(
+                              const SizedBox(height: AppDimens.space4),
+                              const Text(
                                 'اسمع، ثم اكتب كلمة',
-                                style: AppTextStyles.title,
+                                style: AppTextStyles.cardTitle,
                               ),
-                              SizedBox(height: AppDimens.space4),
+                              const SizedBox(height: AppDimens.space4),
                               Text(
                                 'استمع للصوت واختر الحرف المناسب',
-                                style: TextStyle(
-                                  fontSize: 12,
+                                style: AppTextStyles.caption.copyWith(
                                   color: AppColors.textSubtitle,
                                 ),
                               ),
@@ -114,12 +111,11 @@ class HomeView extends GetView<HomeController> {
                     ),
                     const SizedBox(height: AppDimens.space16),
                     Row(
-                      children: const [
+                      children: [
                         Expanded(
                           child: Text(
                             '6 من 10 محتويات مكتملة • التالي: G',
-                            style: TextStyle(
-                              fontSize: 11,
+                            style: AppTextStyles.caption.copyWith(
                               color: AppColors.textDark,
                               fontWeight: FontWeight.w500,
                             ),
@@ -200,7 +196,7 @@ class HomeView extends GetView<HomeController> {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(AppDimens.space16),
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(20),
@@ -236,10 +232,8 @@ class HomeView extends GetView<HomeController> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1A1A1A),
+                    style: AppTextStyles.cardTitle.copyWith(
+                      color: const Color(0xFF1A1A1A),
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -247,8 +241,7 @@ class HomeView extends GetView<HomeController> {
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      fontSize: 12,
+                    style: AppTextStyles.caption.copyWith(
                       color: Colors.black54,
                       fontWeight: FontWeight.w500,
                     ),
@@ -336,18 +329,17 @@ class HomeView extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: const <Widget>[
-              Text(
+            children: <Widget>[
+              const Text(
                 'كيف حالك اليوم؟',
-                style: AppTextStyles.title,
+                style: AppTextStyles.cardTitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: AppDimens.space4),
+              const SizedBox(height: AppDimens.space4),
               Text(
                 'شاركنا ما تشعر به لتكسب عملاتك اليوم',
-                style: TextStyle(
-                  fontSize: 12,
+                style: AppTextStyles.caption.copyWith(
                   color: AppColors.textSubtitle,
                 ),
                 maxLines: 1,
@@ -394,7 +386,7 @@ class HomeView extends GetView<HomeController> {
             children: <Widget>[
               Text(
                 'أشعر بـ ${record.feeling.label}',
-                style: AppTextStyles.title.copyWith(
+                style: AppTextStyles.cardTitle.copyWith(
                   color: AppColors.textDark,
                 ),
                 maxLines: 1,

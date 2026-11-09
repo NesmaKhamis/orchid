@@ -5,11 +5,12 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_dimens.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/animated_orchid.dart';
+import '../../../core/widgets/app_back_button.dart';
 import '../../../core/widgets/app_button.dart';
-import '../../../core/widgets/app_header_bar.dart';
 import '../../../core/widgets/app_scaffold.dart';
 import '../../../core/widgets/notice_banner.dart';
 import '../../../core/widgets/notification_card.dart';
+import '../../../core/widgets/tab_header.dart';
 import '../../../data/models/app_notification.dart';
 import '../controllers/notifications_controller.dart';
 
@@ -25,34 +26,49 @@ class NotificationsView extends GetView<NotificationsController> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           // Header Bar with Title, Back Button, and Mark All As Read Action
-          Obx(
-            () => AppHeaderBar(
+          const Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppDimens.screenHorizontalPadding,
+            ),
+            child: TabHeader(
               title: 'الإشعارات',
-              onBackPressed: Get.back,
-              trailing: TextButton(
-                onPressed: controller.unreadCount.value > 0
-                    ? controller.markAllAsRead
-                    : null,
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimens.space8,
+              trailing: AppBackButton(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.only(
+              start: AppDimens.screenHorizontalPadding,
+              end: AppDimens.screenHorizontalPadding,
+              bottom: AppDimens.space8,
+            ),
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Obx(
+                () => TextButton(
+                  onPressed: controller.unreadCount.value > 0
+                      ? controller.markAllAsRead
+                      : null,
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppDimens.space8,
+                      vertical: AppDimens.space4,
+                    ),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                child: Text(
-                  'تعليم الكل كمقروء',
-                  style: AppTextStyles.caption.copyWith(
-                    color: controller.unreadCount.value > 0
-                        ? AppColors.primary
-                        : AppColors.textMuted,
-                    fontWeight: FontWeight.bold,
+                  child: Text(
+                    'تعليم الكل كمقروء',
+                    style: AppTextStyles.caption.copyWith(
+                      color: controller.unreadCount.value > 0
+                          ? AppColors.primary
+                          : AppColors.textMuted,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: AppDimens.space8),
 
           // Main Content
           Expanded(
@@ -114,7 +130,7 @@ class NotificationsView extends GetView<NotificationsController> {
             const SizedBox(height: AppDimens.space20),
             Text(
               'ما في إشعارات هلق، وردتك بتستناك 🌸',
-              style: AppTextStyles.title.copyWith(
+              style: AppTextStyles.sectionTitle.copyWith(
                 color: AppColors.textDark,
               ),
               textAlign: TextAlign.center,

@@ -43,11 +43,10 @@ class AppSegmentedTabs extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     child: Text(
                       labels[i],
-                      style: AppTextStyles.label.copyWith(
+                      style: AppTextStyles.chipLabel.copyWith(
                         color: i == selectedIndex
                             ? AppColors.white
                             : AppColors.textDark,
-                        fontSize: 13,
                       ),
                       maxLines: 1,
                       textAlign: TextAlign.center,

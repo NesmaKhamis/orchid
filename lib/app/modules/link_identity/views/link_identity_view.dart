@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_back_button.dart';
 import '../controllers/link_identity_controller.dart';
 
@@ -49,28 +50,23 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
               // 2. العنوان
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
                     'التحقق من هوية الأسرة',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: textDark,
-                    ),
+                    style: AppTextStyles.sectionTitle.copyWith(color: textDark),
                   ),
-                  SizedBox(width: 8),
-                  Text('🛡️', style: TextStyle(fontSize: 20)),
+                  const SizedBox(width: 8),
+                  const Text('🛡️', style: AppTextStyles.sectionTitle),
                 ],
               ),
 
               const SizedBox(height: 10),
 
               // 3. الشرح
-              const Text(
+              Text(
                 'يرجى إدخال البيانات المعتمدة في النظام لنتمكن من عرض ملفات أبنائك المسجلين لدينا.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
+                style: AppTextStyles.bodySmall.copyWith(
                   color: Colors.black87,
                   height: 1.5,
                   fontWeight: FontWeight.w500,
@@ -82,13 +78,9 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
               // 4. حقل رقم الهوية
               Align(
                 alignment: Alignment.centerRight,
-                child: const Text(
+                child: Text(
                   'رقم هوية ولي الأمر',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: textDark,
-                  ),
+                  style: AppTextStyles.label.copyWith(color: textDark),
                 ),
               ),
               const SizedBox(height: 8),
@@ -104,12 +96,11 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.right,
                     onChanged: controller.onIdentityChanged,
-                    style: const TextStyle(fontSize: 14, color: Colors.black87),
+                    style: AppTextStyles.body.copyWith(color: Colors.black87),
                     decoration: InputDecoration(
                       hintText: 'مثال: 900123456',
-                      hintStyle: const TextStyle(
+                      hintStyle: AppTextStyles.bodySmall.copyWith(
                         color: Colors.black38,
-                        fontSize: 13,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -134,13 +125,9 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
               // 5. حقل تاريخ الميلاد (تحقق أمني)
               Align(
                 alignment: Alignment.centerRight,
-                child: const Text(
+                child: Text(
                   'تاريخ الميلاد (رمز الأمان)',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: textDark,
-                  ),
+                  style: AppTextStyles.label.copyWith(color: textDark),
                 ),
               ),
               const SizedBox(height: 8),
@@ -157,15 +144,13 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                       () => TextField(
                         controller: controller.birthDateController,
                         textAlign: TextAlign.right,
-                        style: const TextStyle(
-                          fontSize: 14,
+                        style: AppTextStyles.body.copyWith(
                           color: Colors.black87,
                         ),
                         decoration: InputDecoration(
                           hintText: 'السنة - الشهر - اليوم',
-                          hintStyle: const TextStyle(
+                          hintStyle: AppTextStyles.bodySmall.copyWith(
                             color: Colors.black38,
-                            fontSize: 13,
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16,
@@ -215,19 +200,17 @@ class LinkIdentityView extends GetView<LinkIdentityController> {
                               strokeWidth: 2,
                             ),
                           )
-                        : const Row(
+                        : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 'التحقق والعثور على الأبناء',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
+                                style: AppTextStyles.buttonLabel.copyWith(
                                   color: Colors.white,
                                 ),
                               ),
-                              SizedBox(width: 8),
-                              Icon(
+                              const SizedBox(width: 8),
+                              const Icon(
                                 Icons.search_rounded,
                                 color: Colors.white,
                                 size: 20,

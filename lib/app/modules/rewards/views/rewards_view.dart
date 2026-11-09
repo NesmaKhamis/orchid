@@ -308,7 +308,7 @@ class RewardsContent extends GetView<RewardsController> {
               Expanded(
                 child: Text(
                   request.rewardTitle,
-                  style: AppTextStyles.title,
+                  style: AppTextStyles.cardTitle,
                 ),
               ),
               const SizedBox(width: AppDimens.space8),

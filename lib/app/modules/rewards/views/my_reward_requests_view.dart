@@ -146,7 +146,7 @@ class _RewardRequestCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   request.rewardTitle,
-                  style: AppTextStyles.title,
+                  style: AppTextStyles.cardTitle,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

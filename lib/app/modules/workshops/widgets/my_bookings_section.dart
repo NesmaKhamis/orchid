@@ -116,7 +116,7 @@ class RegisteredWorkshopCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     workshop.title,
-                    style: AppTextStyles.title,
+                    style: AppTextStyles.cardTitle,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

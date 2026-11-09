@@ -141,7 +141,7 @@ class _AnimatedActivityCardState extends State<AnimatedActivityCard>
                     children: <Widget>[
                       Text(
                         widget.title,
-                        style: AppTextStyles.label,
+                        style: AppTextStyles.cardTitle,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),

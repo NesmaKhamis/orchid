@@ -19,7 +19,7 @@ class HeroCardContainer extends StatelessWidget {
     super.key,
     required this.child,
     this.variant = HeroCardVariant.standard,
-    this.padding = const EdgeInsets.all(AppDimens.space20),
+    this.padding = const EdgeInsets.all(AppDimens.space16),
   });
 
   final Widget child;

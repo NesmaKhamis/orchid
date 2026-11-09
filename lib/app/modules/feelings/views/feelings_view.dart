@@ -186,7 +186,7 @@ class FeelingsView extends GetView<FeelingsController> {
                   const SizedBox(width: AppDimens.space8),
                   Text(
                     feeling.label,
-                    style: AppTextStyles.title.copyWith(
+                    style: AppTextStyles.cardTitle.copyWith(
                       color: AppColors.primary,
                     ),
                   ),
@@ -199,7 +199,7 @@ class FeelingsView extends GetView<FeelingsController> {
 
         // Supportive message card
         Container(
-          padding: const EdgeInsets.all(AppDimens.space20),
+          padding: const EdgeInsets.all(AppDimens.space16),
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(AppDimens.radiusCard),

@@ -4,6 +4,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_dimens.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_scaffold.dart';
+import '../../../core/widgets/tab_header.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -12,6 +13,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       background: AppScaffoldBackground.cream,
+      padding: EdgeInsets.zero,
       body: const ProfileContent(),
     );
   }
@@ -28,16 +30,18 @@ class ProfileContent extends StatelessWidget {
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsetsDirectional.only(
-        bottom: bottomScrollPadding,
+      padding: EdgeInsetsDirectional.fromSTEB(
+        AppDimens.screenHorizontalPadding,
+        0,
+        AppDimens.screenHorizontalPadding,
+        bottomScrollPadding,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const Text('الملف الشخصي', style: AppTextStyles.h1),
-          const SizedBox(height: AppDimens.space24),
+          const TabHeader(title: 'الملف الشخصي'),
           Container(
-            padding: const EdgeInsets.all(AppDimens.space20),
+            padding: const EdgeInsets.all(AppDimens.space16),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(AppDimens.radiusCard),
@@ -55,9 +59,9 @@ class ProfileContent extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: AppDimens.space12),
-                Text('ملف الطفل', style: AppTextStyles.title),
+                Text('ملف الطفل', style: AppTextStyles.cardTitle),
                 SizedBox(height: AppDimens.space4),
-                Text('إدارة الصورة والإعدادات', style: AppTextStyles.body),
+                Text('إدارة الصورة والإعدادات', style: AppTextStyles.bodySmall),
               ],
             ),
           ),
@@ -97,7 +101,7 @@ class _ProfileOption extends StatelessWidget {
             children: <Widget>[
               Icon(icon, color: AppColors.primary),
               const SizedBox(width: AppDimens.space12),
-              Expanded(child: Text(title, style: AppTextStyles.label)),
+              Expanded(child: Text(title, style: AppTextStyles.cardTitle)),
               const Icon(Icons.arrow_back_ios_rounded, size: 16),
             ],
           ),

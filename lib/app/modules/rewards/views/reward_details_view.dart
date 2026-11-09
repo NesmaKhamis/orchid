@@ -170,7 +170,7 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
 
             // Title & Cost Card
             Container(
-              padding: const EdgeInsets.all(AppDimens.space20),
+              padding: const EdgeInsets.all(AppDimens.space16),
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(AppDimens.radiusCard),
@@ -181,7 +181,7 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
                 children: <Widget>[
                   Text(
                     controller.reward.title,
-                    style: AppTextStyles.h2,
+                    style: AppTextStyles.sectionTitle,
                   ),
                   const SizedBox(height: AppDimens.space12),
                   Row(
@@ -244,7 +244,7 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
 
             // Description Card
             Container(
-              padding: const EdgeInsets.all(AppDimens.space20),
+              padding: const EdgeInsets.all(AppDimens.space16),
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(AppDimens.radiusCard),
@@ -255,7 +255,7 @@ class RewardDetailsView extends GetView<RewardDetailsController> {
                 children: <Widget>[
                   const Text(
                     'عن المكافأة',
-                    style: AppTextStyles.label,
+                    style: AppTextStyles.cardTitle,
                   ),
                   const SizedBox(height: AppDimens.space8),
                   Text(

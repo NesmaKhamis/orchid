@@ -308,7 +308,7 @@ class _DetailsSection extends StatelessWidget {
             children: <Widget>[
               Icon(icon, color: AppColors.primary, size: 22),
               const SizedBox(width: AppDimens.space8),
-              Expanded(child: Text(title, style: AppTextStyles.title)),
+              Expanded(child: Text(title, style: AppTextStyles.cardTitle)),
             ],
           ),
           const SizedBox(height: AppDimens.space16),

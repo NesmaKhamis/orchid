@@ -30,9 +30,14 @@ class WorkshopListView extends GetView<WorkshopListController> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           // Fixed Top: TabHeader
-          const TabHeader(
-            title: 'ورش الدعم النفسي والاجتماعي',
-            trailing: AppBackButton(),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimens.screenHorizontalPadding,
+            ),
+            child: const TabHeader(
+              title: 'ورش الدعم النفسي والاجتماعي',
+              trailing: AppBackButton(),
+            ),
           ),
 
           // Fixed Top: AppSegmentedTabs (2 buttons)
@@ -179,7 +184,7 @@ class WorkshopCard extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           workshop.title,
-                          style: AppTextStyles.title,
+                          style: AppTextStyles.cardTitle,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),

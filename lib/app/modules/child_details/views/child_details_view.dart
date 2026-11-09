@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
 import '../controllers/child_details_controller.dart';
 
@@ -34,17 +35,12 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
               const SizedBox(height: 14),
               Text(
                 controller.selectedChild.name,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: textDark,
-                ),
+                style: AppTextStyles.sectionTitle.copyWith(color: textDark),
               ),
               const SizedBox(height: 4),
               Text(
                 controller.selectedChild.grade,
-                style: const TextStyle(
-                  fontSize: 14,
+                style: AppTextStyles.body.copyWith(
                   color: primaryPurple,
                   fontWeight: FontWeight.w600,
                 ),
@@ -128,8 +124,7 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 12,
+                  style: AppTextStyles.caption.copyWith(
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
                   ),
@@ -137,10 +132,8 @@ class ChildDetailsView extends GetView<ChildDetailsController> {
                 const SizedBox(height: 4),
                 Text(
                   value,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2D2D2D),
+                  style: AppTextStyles.cardTitle.copyWith(
+                    color: const Color(0xFF2D2D2D),
                   ),
                 ),
               ],
