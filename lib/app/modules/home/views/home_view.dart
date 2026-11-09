@@ -316,26 +316,31 @@ class HomeView extends GetView<HomeController> {
   Widget _buildInvitationMoodContent() {
     return Row(
       key: const ValueKey<String>('mood_invitation'),
-      children: const <Widget>[
-        AnimatedOrchid(size: 52, autoStart: true),
-        SizedBox(width: AppDimens.space16),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          width: AppDimens.buttonHeight,
+          height: AppDimens.buttonHeight,
+          decoration: const BoxDecoration(
+            color: AppColors.lavender,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.favorite_rounded,
+            color: AppColors.primary,
+            size: 26,
+          ),
+        ),
+        const SizedBox(width: AppDimens.space16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            mainAxisSize: MainAxisSize.min,
+            children: const <Widget>[
               Text(
-                'مزاج اليوم',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: AppDimens.space4),
-              Text(
-                'كيف قلبك اليوم؟',
+                'كيف حالك اليوم؟',
                 style: AppTextStyles.title,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: AppDimens.space4),
@@ -345,13 +350,14 @@ class HomeView extends GetView<HomeController> {
                   fontSize: 12,
                   color: AppColors.textSubtitle,
                 ),
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ),
-        Icon(
+        const SizedBox(width: AppDimens.space8),
+        const Icon(
           Icons.arrow_forward_ios_rounded,
           size: 16,
           color: AppColors.primary,
@@ -365,75 +371,27 @@ class HomeView extends GetView<HomeController> {
       key: ValueKey<String>(
         'mood_recorded_${record.id}_${record.feeling.name}',
       ),
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Stack(
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                shape: BoxShape.circle,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: AppColors.success.withValues(alpha: 0.15),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                record.feeling.emoji,
-                style: const TextStyle(fontSize: 26),
-              ),
-            ),
-            PositionedDirectional(
-              bottom: -2,
-              end: -2,
-              child: Container(
-                padding: const EdgeInsets.all(AppDimens.space4 / 2),
-                decoration: const BoxDecoration(
-                  color: AppColors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.check_circle_rounded,
-                  color: AppColors.success,
-                  size: 16,
-                ),
-              ),
-            ),
-          ],
+        Container(
+          width: AppDimens.buttonHeight,
+          height: AppDimens.buttonHeight,
+          decoration: const BoxDecoration(
+            color: AppColors.softMint,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(
+            Icons.check_circle_rounded,
+            color: AppColors.success,
+            size: 26,
+          ),
         ),
         const SizedBox(width: AppDimens.space16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  const Icon(
-                    Icons.check_circle_rounded,
-                    size: 14,
-                    color: AppColors.success,
-                  ),
-                  const SizedBox(width: AppDimens.space4),
-                  Flexible(
-                    child: Text(
-                      'مزاج اليوم • تم التسجيل',
-                      style: AppTextStyles.caption.copyWith(
-                        color: AppColors.success,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppDimens.space4),
               Text(
                 'أشعر بـ ${record.feeling.label}',
                 style: AppTextStyles.title.copyWith(
@@ -449,7 +407,7 @@ class HomeView extends GetView<HomeController> {
                   color: AppColors.textDark.withValues(alpha: 0.75),
                   fontWeight: FontWeight.w500,
                 ),
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
